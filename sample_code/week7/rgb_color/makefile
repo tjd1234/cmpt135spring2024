@@ -1,13 +1,6 @@
-####################################################################
-#
-# Makefile for CMPT 135 Spring 2024, SFU Surrey.
-#
-#####################################################################
 
 # Set the C++ compiler options:
-#   -std=c++17 compiles using the C++17 standard (or at least as 
-#    much as is implemented by the compiler, e.g. for g++ see
-#    http://gcc.gnu.org/projects/cxx0x.html)
+#   -std=c++17 compiles using the C++17 standard
 #   -Wall turns on all warnings
 #   -Wextra turns on even more warnings
 #   -Werror causes warnings to be errors 
@@ -17,3 +10,8 @@
 #   -Wnon-virtual-dtor warns about non-virtual destructors
 #   -g puts debugging info into the executables (makes them larger)
 CPPFLAGS = -std=c++17 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virtual-dtor -g
+
+color_test:
+	g++ -c $(CPPFLAGS) RGB_color.cpp
+	g++ -c $(CPPFLAGS) color_test.cpp
+	g++ $(CPPFLAGS) -o color_test color_test.o RGB_color.o
