@@ -21,6 +21,7 @@ If the for some reason none of the choices above work for you, then:
 ### Week 1
 - Course overview
 - [[C++ Review|Reviewing C++]]
+- [Sample code](https://github.com/tjd1234/cmpt135spring2024/tree/main/sample_code)
 - [Sample code for week 1](https://github.com/tjd1234/cmpt135spring2023/tree/main/lectures/week1) (including the [word count example](https://github.com/tjd1234/cmpt135spring2023/tree/main/lectures/week1/wordcount) and [checking long lines](https://github.com/tjd1234/cmpt135spring2023/blob/main/lectures/week1/wordcount/line_check.cpp))
 
 ### Week 2

@@ -173,6 +173,9 @@
   },
   "active": "d238d3398b041da6",
   "lastOpenFiles": [
+    "attachments/test.h",
+    "attachments/hello_world.cpp",
+    "attachments/cmpt_error.h",
     "the max function.md",
     "generic course makefile.md",
     "CMPT 135.md",
@@ -197,7 +200,6 @@
     "Common Pointer Problems.md",
     "Memory leaks.md",
     "testing code.md",
-    "Calling a function.md",
-    "C++ Review.md"
+    "Calling a function.md"
   ]
 }
