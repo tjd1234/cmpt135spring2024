@@ -2,7 +2,7 @@
 ## A Bit if History: Donald Knuth and the Art of Computer Programming
 ![[Donald-Ervin-Knuth.jpg]]
 
-[Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth) is a renowned computer scientist whose most famous work is a series of books called [The Art of Computer Programming](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming). In 1962, he wrote a 7-book outline for it, and as of 2023 has not quite finished volume 4.
+[Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth) is a renowned computer scientist whose most famous work is a series of books called [The Art of Computer Programming](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming). In 1962, he wrote a 7-book outline for it, and as of 2024 has not quite finished volume 4.
 
 In these books he gives detailed mathematical analyses of many important algorithms. In Volume 1 (published in 1967), finding the max value among a list of numbers was one of the example problems that Knuth examined. While the algorithm is simple, determining its performance has unexpected depth.
 
@@ -239,7 +239,7 @@ Here's an informal argument about the average number of times `mi = i` is called
 
 The probability that the 1st element is the largest of the first 1 is $\frac{1}{1}$. The probability that the 2nd element is the largest of the first 2 is $\frac{1}{2}$. The probability that the 3rd element is the largest of the first 3 is $\frac{1}{3}$. In general, the probability that the *n*th element is the largest of the first $n$ is $\frac{1}{n}$.
 
-This means that the there is a $\frac{1}{i}$ chance that element at location $i$ will call `mi = i`. Assuming these probabilities are independent, the total expected number of times `mi = i` is called is $H_n = \frac{1}{1} + \frac{1}{2} + \frac{1}{3} + \ldots + \frac{1}{n}$.  This expression is called the *n*th [harmonic number](https://en.wikipedia.org/wiki/Harmonic_number). $H_n$ grows very slowly, e.g. $H_{1 \text{billion}}$ the billionth harmonic number) is only about 21 (!).
+This means that the there is a $\frac{1}{i}$ chance that element at location $i$ will call `mi = i`. Assuming these probabilities are independent, the total expected number of times `mi = i` is called is $H_n = \frac{1}{1} + \frac{1}{2} + \frac{1}{3} + \ldots + \frac{1}{n}$.  This expression is called the *n*th [harmonic number](https://en.wikipedia.org/wiki/Harmonic_number). $H_n$ grows very slowly, e.g. $H_{1 \text{billion}}$ is the billionth harmonic number) is only about 21 (!).
 
 So, if you call the max function on a vector with a billion entries, you would expect `mi = i` to be called about 21 times.
 
@@ -251,7 +251,7 @@ So, if you call the max function on a vector with a billion entries, you would e
    int max(const vector<int>& v, int begin, int end)
    ```
 4. In your own words, explain the *seed* for the `rand()` random number generator. How is it set? What happens if you set it to the same value every time? How can you make different random numbers each run of a program?
-5. What is $H_6$, i.e. the sixth harmonic number?
+5. What is the definition of $H_n$, i.e. the nth Harmonic number?
 6. Suppose vector `v` has 5000 `int`s in some unknown order. What is the:
 	1. minimum number of times that `mi = i` could be called? Under what conditions would that happen?
 	2. maximum number of times that `mi = i` could be called? Under what conditions would that happen?

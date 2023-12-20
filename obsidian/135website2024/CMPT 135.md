@@ -16,7 +16,7 @@ If the for some reason none of the choices above work for you, then:
 **Ncurses** is a library that gives you more control over the cursor on the screen, and it might be used in some examples or assignments. Here are some instructions for [[setting up ncurses on Ubuntu Linux]].
 
 ## Lecture Notes 
-**The timing of each topic is approximate, and may change a little as we go**. The examples used in some weeks may also change.
+**The timing of each topic is approximate, and may change as we go**. The examples used in some weeks may also change.
 
 ### Week 1
 - Course overview

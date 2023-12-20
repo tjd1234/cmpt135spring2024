@@ -173,8 +173,10 @@
   },
   "active": "d238d3398b041da6",
   "lastOpenFiles": [
-    "pointers and memory management.md",
+    "the max function.md",
+    "generic course makefile.md",
     "CMPT 135.md",
+    "pointers and memory management.md",
     "320 Email Steve Pearce Nov 2023.md",
     "setting up ncurses on Ubuntu Linux.md",
     "Using VS Code to Run C++.md",
@@ -196,8 +198,6 @@
     "Memory leaks.md",
     "testing code.md",
     "Calling a function.md",
-    "C++ Review.md",
-    "Using Templates.md",
-    "Easy and Hard Problems.md"
+    "C++ Review.md"
   ]
 }

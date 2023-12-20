@@ -19,7 +19,7 @@ You **don't** need to run this command on CSIL lab computers: those programs sho
 Download copies of these files to your computer:
 
 - [hello_world.cpp]: A sample program to test that you've got your environment up and running. See below for how to compile and run it.
-- [[course makefile|makefile]]: This stores all the compiler options we are using with g++ in this course. Put a copy of [[course makefile|makefile]] in every folder you compile C++ files in.
+- [[generic course makefile|makefile]]: This stores all the compiler options we are using with g++ in this course. Put a copy of [[generic course makefile|makefile]] in every folder you compile C++ files in.
 - [[cmpt_error.h]]: Contains the helper function `cmpt::error("...")` that intentionally crashes a program with a (hopefully!) helpful error message. See [[hello_world.cpp]] for an example of how to use it.
 - [[cmpt_trace.h]]: Contains the `Trace` helper class that prints a message when a function is called and when it returns. It is especially helpful for understanding recursive functions. See the comments in [[cmpt_trace.h]] for an example of how to use it.
 
@@ -60,7 +60,7 @@ To create a C++ program in this course, you'll need  a text editor (to edit the 
 
 Next, save a copy of these files from above into the same folder:
 - [[hello_world.cpp]], a simple C++ program that asks for your age.
-- [[course makefile|makefile]], which has the options for how we will call the compiler. **Important**It must be named exactly `makefile`, and must be in the same folder as [[hello_world.cpp]]. 
+- [[generic course makefile|makefile]], which has the options for how we will call the compiler. **Important**It must be named exactly `makefile`, and must be in the same folder as [[hello_world.cpp]]. 
 - [[cmpt_error.h]], helper files that contains the `error` function for stopping your program when an error is recognized.
 
 To check that you're in the correct folder with the right files, use `cat` to print the contents of `hello_world.cpp`:
