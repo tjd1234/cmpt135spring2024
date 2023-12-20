@@ -22,7 +22,6 @@ If the for some reason none of the choices above work for you, then:
 - Course overview
 - [[C++ Review|Reviewing C++]]
 - [Sample code](https://github.com/tjd1234/cmpt135spring2024/tree/main/sample_code)
-- [Sample code for week 1](https://github.com/tjd1234/cmpt135spring2023/tree/main/lectures/week1) (including the [word count example](https://github.com/tjd1234/cmpt135spring2023/tree/main/lectures/week1/wordcount) and [checking long lines](https://github.com/tjd1234/cmpt135spring2023/blob/main/lectures/week1/wordcount/line_check.cpp))
 
 ### Week 2
 - [[Calling a function]]
@@ -51,32 +50,32 @@ If the for some reason none of the choices above work for you, then:
 
 --------------------------
 
-**Reading week (Feb 19 - 23)**: no lectures or labs
+Week 8: **Reading week (Feb 19 - 23)**: no lectures or labs
 
 --------------------------
 
-### Week 8
+### Week 9
 - Midterm practice
 - Midterm!
 - [[Recursion]]
 
-### Week 9
+### Week 10
 - Midterm review
 - [[Recursion]]
 
-### Week 10
+### Week 11
 - [[Calculating large powers]]
 - [[The max function]]
 - [[linear search|Algorithms and linear search]]
 
-### Week 11
+### Week 12
 - [[Basic sorting]]
 - [[basic sorting#Binary Search|Binary search]]
 - [[O-notation]]
 
-### Week  12
+### Week  13
 - [[Easy and Hard Problems]]
 - [[Using Templates]]
 
-### Week  13
+### Week  14
 - final exam review
