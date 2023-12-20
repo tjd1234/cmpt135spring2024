@@ -20,42 +20,19 @@
             }
           },
           {
-            "id": "6dec80421343f62e",
+            "id": "e1fcdb353a4cda87",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Setting up a Linux a virtual machine.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "ed7a00808d701173",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "WSL Windows Subsystem for Linux.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "c0548133407e0c91",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Getting Your C++ Environment Up and Running.md",
+                "file": "How function calls work.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -101,8 +78,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -122,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "CMPT 135.md",
+                "file": "How function calls work.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -150,12 +126,11 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "CMPT 135.md"
+                "file": "How function calls work.md"
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -171,21 +146,25 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "d238d3398b041da6",
+  "active": "e1fcdb353a4cda87",
   "lastOpenFiles": [
+    "memory leak.md",
+    "Memory leaks.md",
+    "Using VS Code to Run C++.md",
+    "CMPT 135.md",
+    "Setting up a Linux a virtual machine.md",
+    "Lecture Schedule.md",
+    "How function calls work.md",
     "attachments/test.h",
     "attachments/hello_world.cpp",
     "attachments/cmpt_error.h",
     "the max function.md",
     "generic course makefile.md",
-    "CMPT 135.md",
     "pointers and memory management.md",
     "320 Email Steve Pearce Nov 2023.md",
     "setting up ncurses on Ubuntu Linux.md",
-    "Using VS Code to Run C++.md",
     "WSL Windows Subsystem for Linux.md",
     "Getting Your C++ Environment Up and Running.md",
-    "Setting up a Linux a virtual machine.md",
     "header file.md",
     "recursion.md",
     "introduction to inheritance.md",
@@ -197,9 +176,6 @@
     "date_class.cpp.md",
     "date_struct.cpp.md",
     "function-oriented dynamic array.md",
-    "Common Pointer Problems.md",
-    "Memory leaks.md",
-    "testing code.md",
-    "Calling a function.md"
+    "Common Pointer Problems.md"
   ]
 }

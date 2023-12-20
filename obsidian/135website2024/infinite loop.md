@@ -23,7 +23,7 @@ for(int i = 0; i > 0; i++) {          // not an infinite loop in practice
 }
 ```
 
-Similarly, recursive functions that are infinite in theory can be finite in practice because every function call uses a bit of memory (see [[Calling a function]]):
+Similarly, recursive functions that are infinite in theory can be finite in practice because every function call uses a bit of memory (see [[How function calls work]]):
 ```cpp
 void f() {
 	cout << "runs out of memory eventually";

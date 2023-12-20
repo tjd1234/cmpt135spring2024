@@ -12,7 +12,7 @@ void a()
 }
 ```
 
-In *theory*, `a()` runs forever because it keeps calling itself. But, in *practice*, it *probably* stops due to an "out of memory" run-time error. In practice, every call to `a()` uses a little bit of memory to store the address of where the program should continue running from after `a()` finishes (see [[calling a function]]).
+In *theory*, `a()` runs forever because it keeps calling itself. But, in *practice*, it *probably* stops due to an "out of memory" run-time error. In practice, every call to `a()` uses a little bit of memory to store the address of where the program should continue running from after `a()` finishes (see [[How function calls work]]).
 
 However, it is possible that `a()` could *actually* run forever if your C++ compiler uses a performance optimization trick called [[tail call elimination]]. [[tail call elimination|Tail call elimination]] can rewrite `a()` as a loop, in which case `a()` really would run forever.
 

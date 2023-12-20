@@ -221,7 +221,7 @@ T fun_name(T1 param_1, T2 param_2, ..., Tn param_n)
 
 This function is called `fun_name`, and it takes `n` input parameters of types `T1`, `T2`, ..., `Tn`. It returns one value of type `T`, and the function must end with a return statement of the form `return expr`. `expr` evaluates to a value of type `T`. 
 
-The details of [[Calling a function|calling a function]] are important. For instance, they help us better understand [[recursion]].
+The details of [[How function calls work|calling a function]] are important. For instance, they help us better understand [[recursion]].
 
 ### Passing Parameters to Functions
 We will consider two types of parameter passing in this course: [[pass by value]], and [[pass by reference]]. When parameters are **passed by value**, a *copy* of them is passed to the function, e.g.:

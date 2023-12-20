@@ -4,78 +4,80 @@ This site has the lecture notes for **CMPT 135 in Spring 2024 at SFU Surrey**. [
 CMPT 135 uses modern C++ in Linux/Unix, and you should try to set up Linux on your own computer:
 
 - If you're using **Windows**, I recommend you follow these instructions: [[Using VS Code to Run C++]].
-- If you have a **Mac**, you can use the Terminal that comes with it and install the necessary software for this course (`g++`, `make`, and `valgrind`) using package managers like [MacPorts](https://ports.macports.org/) or [Homebrew](https://brew.sh/). Macs don't directly support Linux, but instead support a version of Unix that is probably close-enough for this course. You could also try [installing a virtual machine on Mac](https://www.macworld.com/article/668848/best-virtual-machine-software-for-mac.html) that runs Ubuntu.
+- If you have a **Mac**, you can use the Terminal that comes with it and install the necessary software for this course (`g++`, `make`, and `valgrind`) using a package manager such as [MacPorts](https://ports.macports.org/) or [Homebrew](https://brew.sh/).  You could also try [installing a virtual machine on Mac](https://www.macworld.com/article/668848/best-virtual-machine-software-for-mac.html) that runs Ubuntu.
 
-Please make the effort to get C++ running on your own computer. It might take a bit of work the first time, but it's worth it. 
+> Please make the effort to get C++ running on your own computer. It might take a bit of work the first time, but it's something that all software developers should be able to do.
 
-If the for some reason none of the choices above work for you, then:
-- Try [[Setting up a Linux a virtual machine]].
-- Try running C++ on the website [repl.it][https://replit.com/].
-- Use the computers in CSIL.
+If for some reason none of the choices above work for you, then you could:
+- try [[Setting up a Linux a virtual machine]]
+- try running C++ on the website [repl.it][https://replit.com/]
+- use the computers in CSIL
 
 **Ncurses** is a library that gives you more control over the cursor on the screen, and it might be used in some examples or assignments. Here are some instructions for [[setting up ncurses on Ubuntu Linux]].
 
 ## Lecture Notes 
-**The timing of each topic is approximate, and may change as we go**. The examples used in some weeks may also change.
+**The timing of each topic is approximate, and may change as we go**. [The example code used in the lectures is usually available here](https://github.com/tjd1234/cmpt135spring2024/tree/main/sample_code).
 
 ### Week 1
-- Course overview
-- [[C++ Review|Reviewing C++]]
-- [Sample code](https://github.com/tjd1234/cmpt135spring2024/tree/main/sample_code)
-
+Lecture 1: Course overview and [[C++ Review]]
+Lecture 2: [[C++ Review]]
+Lecture 3: [[How function calls work]]
 ### Week 2
-- [[Calling a function]]
-- [[Testing code]]
-
+Lecture 4: [[Testing code]]
+Lecture 5: [[Testing code]]
+Lecture 6: [[Pointers and memory management]]
 ### Week 3
-- [[Pointers and memory management]]
-
+Lecture 7: [[Pointers and memory management]]
+Lecture 8: [[Pointers and memory management]]
+Lecture 9: [[Pointers and memory management]]
 ### Week 4
-- [[Common Pointer Problems]]
+Lecture 10: [[Common Pointer Problems]]
+Lecture 11: [[Object-oriented programming]]
 - Example: [[function-oriented dynamic array]]
-- [[Object-oriented programming]]
-
+Lecture 12: [[Object-oriented programming]]
 ### Week 5
-- [[Object-oriented programming]]
+Lecture 13: [[Object-oriented programming]]
+Lecture 14: [[Object-oriented programming]]
+Lecture 15: [[Object-oriented programming]]
 - [[Implementing a dynamic array with objects]]
 - [[double_list_plus.cpp|A dynamic array with some C++-specific features]]
-
 ### Week 6
-- [[Introduction to inheritance|Inheritance]]
-
-### Week 7
-- [[Separate compilation]], and [[splitting int_vec]] into a `.h` and `.cpp` file.
-- [[namespaces|Namespaces]]
-- [[Introduction to Exceptions|Exceptions]]
+Lecture 16: [[Introduction to inheritance|Inheritance and polymorphism]]
+Lecture 17: [[Introduction to inheritance|Inheritance and polymorphism]]
+Lecture 18: [[Separate compilation]], and [[splitting int_vec]] into a `.h` and `.cpp` file.
 
 --------------------------
 
-Week 8: **Reading week (Feb 19 - 23)**: no lectures or labs
+**Week 7: Reading week (Feb 19 - 23)**, no lectures or labs
 
 --------------------------
-
+### Week 8
+Lecture 19: midterm review
+*Midterm!*
+Lecture 20: [[namespaces|Namespaces]]
 ### Week 9
-- Midterm practice
-- Midterm!
-- [[Recursion]]
-
+Lecture 21: [[Introduction to Exceptions|Exceptions]]
+Lecture 22: [[Recursion]]
+Lecture 23: [[Recursion]]
 ### Week 10
-- Midterm review
-- [[Recursion]]
-
+Lecture 24: [[Calculating large powers]]
+Lecture 25: [[The max function]]
+Lecture 26: [[linear search|Algorithms and linear search]]
 ### Week 11
-- [[Calculating large powers]]
-- [[The max function]]
-- [[linear search|Algorithms and linear search]]
-
+Lecture 27: [[Basic sorting]]
+Lecture 28: [[basic sorting#Binary Search|Binary search]]
+Lecture 29: [[O-notation]]
 ### Week 12
-- [[Basic sorting]]
-- [[basic sorting#Binary Search|Binary search]]
-- [[O-notation]]
-
+Lecture 30: [[O-notation]]
+Lecture 31: [[Easy and Hard Problems]]
+*Good Friday* (no lectures or labs)
 ### Week  13
-- [[Easy and Hard Problems]]
-- [[Using Templates]]
-
+*Easter Monday* (no lectures or labs)
+Lecture 32: [[Using Templates]]
+Lecture 33: [[Using Templates]]
 ### Week  14
-- final exam review
+Lecture 34 (tentative)
+- other C++ features, e.g. regular expressions, smart pointers, move semantics, ...
+Lecture 35 (tentative)
+- other C++ features, e.g. regular expressions, smart pointers, move semantics, ...
+Lecture 36: final exam review

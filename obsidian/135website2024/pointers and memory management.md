@@ -56,7 +56,7 @@ As mentioned above, the memory of a running C++ program can be thought of as one
 ![[threeMemoryRegions.png]]
 [[Static memory]] has a fixed size that is known at compile-time, and it never gets bigger or smaller. Global variables and constants are stored in static memory.
 
-[[Stack memory]] stores local variables and function parameters. Stack memory is *automatically* allocated and de-allocated as needed. When a function is called, its parameters and local variables are put onto stack memory, and when the function ends its parameters and variables are automatically removed (see [[calling a function]]).
+[[Stack memory]] stores local variables and function parameters. Stack memory is *automatically* allocated and de-allocated as needed. When a function is called, its parameters and local variables are put onto stack memory, and when the function ends its parameters and variables are automatically removed (see [[How function calls work]]).
 
 [[Free store memory|Free store (heap) memory]] is all the other memory.  In contrast to [[stack memory]] it is *not* automatically managed in C++ (although many other programming languages do manage it automatically using a [[garbage collection|garbage collector]]). Instead, a C++ programmer must manually allocate memory on the free store using `new`, and de-allocate it using `delete`/`delete[]`.
 
