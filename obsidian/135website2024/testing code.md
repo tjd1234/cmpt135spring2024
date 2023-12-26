@@ -1,7 +1,9 @@
 ## Introduction
-How do you know if a function works correctly? In practice, the most common way of doing this is to give the function an input and then to verify that it returns the correct output for that input. We call this **testing**.
+How do you know if a function works correctly? 
 
-For example, the `quote(s)` function returns a copy of `s` in ""-marks:
+In practice, the most common approach is to give the function some inputs and then to verify that it returns the correct outputs for those inputs. We call this **testing**.
+
+For example, `quote(s)` returns a copy of a string in ""-marks:
 
 ```cpp
 string quote(const string& s) 
@@ -30,10 +32,10 @@ void test_quote_if_style()
 }
 ```
 
-A feature of this kind of testing is that it's flexible. In our example we print a message, but you could print a more detailed message, or save the results in a file, or do anything else you like.
+This kind of testing is simple and flexible. In our example we print a simple error message, but you could print a much more detailed message, or save the results in a file, or do anything else you like.
 
 ## Assert-style Tests
-Another way is like this:
+Here's another style of simple testing:
 
 ```cpp
 #include <cassert>     // assert is from here
@@ -48,16 +50,16 @@ void test_quote_assert_style()
 ```
 
 `assert(bool_expr)` is a standard C++ *macro* that works as follows:
-- if `bool_expr` evaluates to `false`, then we say the assert *failed*. When an assert fails the program immediately crashes with a message saying the line number of the failed assert.
 - If `bool_expr` evaluates to `true`, then we say the assert *succeeded*, and *nothing* is done.
+- if `bool_expr` evaluates to `false`, then we say the assert *failed*, and the program immediately crashes with a message with the line number of the failed assert.
 
-Since a failed assert will crash the program, the "all quote tests passed" message at the end of the function will only be printed when, in fact, all the asserts succeeded.
+Since a failed assert will crash the program, the "all quote tests passed" message at the end of the function is printed just when all the asserts succeed.
 
-The assert-style testing is clearly shorter than the if-style tests, and so it is preferred by many programmers. One advantage of if-style tests is that you can make more elaborate failure methods, or even print messages upon success.
+The assert-style testing is shorter than the if-style tests, and it provides the liner number of the failed assert It is preferred by many programmers. 
 
-> **Note** `assert` is a [[macro]], *not* a function. In C++, when you call a function it first evaluates the arguments given to the function, and then passes those values to the function body. A macro passes the argument to the function *unevaluated*, and this is why `assert` is able to show the exact input in its print-out when it fails. If `assert` were a function, it would only be able to print `false`.
+> **Note** `assert` is a [[macro]], *not* a function. In C++, the difference between a macro and a function that when you call a function it first evaluates its arguments, and then passes those evaluated values to the function body. A macro, on the other hand, passes its arguments to the function *unevaluated*, which is why `assert` can show the exact input in its print-out when it fails. If `assert` were written as a function, it would only be able to print `false` when it fails.
 >
-> In general, you should avoid macros in C++ since they don't follow the same rules as functions (e.g. they can't do type-checking on the arguments) and can have subtle bugs. `assert` is a special case because we want to see the exact expression when the assertion fails. 
+> In general, you should avoid macros in C++ since they don't follow the same rules as functions (e.g. they can't do type-checking on the arguments) and can have subtle bugs.
 
 ## Table-style Testing
 Another way to test `quote` is like this:
@@ -84,7 +86,11 @@ void test_quote_table_style() {
 }
 ```
 
-Table-style testing is a little more work to set-up than the other kinds of testing we've seen, but an advantage is that it is easy to add new tests cases.
+The idea if table-style testing is to put all the input/output pairs into a "table", e.g. vector or an array, and then call the function being tested on those pairs. Table-style testing makes it easy to add and remove test cases, and to write customized error messages.
+
+Table-style testing is a little more work to set-up than the other kinds of testing we've seen, but it in practice it is often worth the effort.
+
+Finally, take a look at [[Testing with ChatGPT]] for an interesting example of how to test code nearly automatically using a large language model such as ChatGPT.
 
 ## Testing Terminology
 

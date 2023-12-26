@@ -22,7 +22,6 @@ int h(int a)
 }
 ```
 
-
 ## The Call Stack
 When a C++ program runs, it designates a portion of its memory called the [[stack memory|call stack]]. The [[stack memory|call stack]] stores information related to functions: parameters, local variables, the function return value, and the address of where to return to when the function ends.
 

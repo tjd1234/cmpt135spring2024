@@ -4,35 +4,34 @@
     "type": "split",
     "children": [
       {
-        "id": "ecbed6e0278f0f63",
+        "id": "ddf9bf14bd5010fb",
         "type": "tabs",
         "children": [
           {
-            "id": "d238d3398b041da6",
+            "id": "c673e220917d49fa",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CMPT 135.md",
+                "file": "testing code.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "e1fcdb353a4cda87",
+            "id": "ea72a4c73ee9effb",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "How function calls work.md",
+                "file": "Testing with ChatGPT.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -98,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "How function calls work.md",
+                "file": "testing code.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "How function calls work.md"
+                "file": "testing code.md"
               }
             }
           }
@@ -146,15 +145,19 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e1fcdb353a4cda87",
+  "active": "c673e220917d49fa",
   "lastOpenFiles": [
+    "Testing with ChatGPT.md",
+    "testing code.md",
+    "recursion.md",
+    "infinite loop.md",
+    "CMPT 135.md",
+    "How function calls work.md",
     "memory leak.md",
     "Memory leaks.md",
     "Using VS Code to Run C++.md",
-    "CMPT 135.md",
     "Setting up a Linux a virtual machine.md",
     "Lecture Schedule.md",
-    "How function calls work.md",
     "attachments/test.h",
     "attachments/hello_world.cpp",
     "attachments/cmpt_error.h",
@@ -166,16 +169,12 @@
     "WSL Windows Subsystem for Linux.md",
     "Getting Your C++ Environment Up and Running.md",
     "header file.md",
-    "recursion.md",
     "introduction to inheritance.md",
     "double_list_plus.cpp.md",
     "Implementing a dynamic array with objects.md",
     "object-oriented programming.md",
     "date_class_readonly.cpp.md",
     "date_class_set_get.cpp.md",
-    "date_class.cpp.md",
-    "date_struct.cpp.md",
-    "function-oriented dynamic array.md",
-    "Common Pointer Problems.md"
+    "date_class.cpp.md"
   ]
 }
