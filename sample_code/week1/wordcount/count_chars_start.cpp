@@ -23,7 +23,7 @@
 //    Computers that are quantum?
 //    I want'em!
 //
-// The < causes to the program to read from the file poem.txt instead of from the 
+// The < causes to the program to read from the file poem.txt instead of from the
 // keyboard. This is useful trick to remember!
 //
 
@@ -31,10 +31,11 @@
 
 using namespace std;
 
-
-int main() {
+int main()
+{
     char c;
-    while (cin.get(c)) {
+    while (cin.get(c))
+    {
         cout << c;
     } // while
 } // main

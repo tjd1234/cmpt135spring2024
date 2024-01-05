@@ -20,10 +20,11 @@ using namespace std;
 // global variables to hold the counts
 int num_chars = 0;
 int num_lines = 0;
-int num_tabs  = 0;
+int num_tabs = 0;
 int num_words = 0;
 
-int main() {
+int main()
+{
     //
     // To count the number of words in the file, we use the trick of counting
     // the number of whitespace characters *between* words. The first time we
@@ -39,26 +40,35 @@ int main() {
     bool first_whitespace = true;
 
     char c;
-    while (cin.get(c)) {
+    while (cin.get(c))
+    {
         num_chars++;
-        switch (c) {
-            case '\n': num_lines++;
-                       if (first_whitespace) num_words++;
-                       first_whitespace = false;
-                       break;
-            case '\t': num_tabs++;
-                       if (first_whitespace) num_words++;
-                       first_whitespace = false;
-                       break;
-            case ' ' : if (first_whitespace) num_words++;
-                       first_whitespace = false;
-                       break;
-            default  : first_whitespace = true;
+        switch (c)
+        {
+        case '\n':
+            num_lines++;
+            if (first_whitespace)
+                num_words++;
+            first_whitespace = false;
+            break;
+        case '\t':
+            num_tabs++;
+            if (first_whitespace)
+                num_words++;
+            first_whitespace = false;
+            break;
+        case ' ':
+            if (first_whitespace)
+                num_words++;
+            first_whitespace = false;
+            break;
+        default:
+            first_whitespace = true;
         } // switch
-    } // while
+    }     // while
 
     cout << "#chars: " << num_chars << "\n";
     cout << "#lines: " << num_lines << "\n";
-    cout << "#tabs : " << num_tabs  << "\n";
+    cout << "#tabs : " << num_tabs << "\n";
     cout << "#words: " << num_words << "\n";
 }

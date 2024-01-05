@@ -17,13 +17,14 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
     //
     // initialize the count variables
     //
     int num_chars = 0;
     int num_lines = 0;
-    int num_tabs  = 0;
+    int num_tabs = 0;
     int num_words = 0;
 
     //
@@ -45,41 +46,50 @@ int main() {
     // process the input one character at a time
     //
     char c;
-    while (cin.get(c)) {
+    while (cin.get(c))
+    {
         num_chars++;
-        switch (c) {
-            //
-            // Every time we see a whitespace character we check if it is the
-            // first one in a sequence. If it is, we increment num_words. Then,
-            // whether or not num_words was incremented, we set first_whitespace
-            // to false to indicate that any immediately following whitespace
-            // characters should *not* increment word_count.
-            //
-            case '\n': num_lines++;
-                       if (first_whitespace) num_words++;
-                       first_whitespace = false;
-                       break;
-            case '\t': num_tabs++;
-                       if (first_whitespace) num_words++;
-                       first_whitespace = false;
-                       break;
-            case ' ' : if (first_whitespace) num_words++;
-                       first_whitespace = false;
-                       break;
-            //
-            // Every time we see a non-whitespace character we set
-            // first_whitespace to true, meaning that the next whitespace
-            // character we see should cause word_count to be incremented.
-            //
-            default  : first_whitespace = true;
+        switch (c)
+        {
+        //
+        // Every time we see a whitespace character we check if it is the
+        // first one in a sequence. If it is, we increment num_words. Then,
+        // whether or not num_words was incremented, we set first_whitespace
+        // to false to indicate that any immediately following whitespace
+        // characters should *not* increment word_count.
+        //
+        case '\n':
+            num_lines++;
+            if (first_whitespace)
+                num_words++;
+            first_whitespace = false;
+            break;
+        case '\t':
+            num_tabs++;
+            if (first_whitespace)
+                num_words++;
+            first_whitespace = false;
+            break;
+        case ' ':
+            if (first_whitespace)
+                num_words++;
+            first_whitespace = false;
+            break;
+        //
+        // Every time we see a non-whitespace character we set
+        // first_whitespace to true, meaning that the next whitespace
+        // character we see should cause word_count to be incremented.
+        //
+        default:
+            first_whitespace = true;
         } // switch
-    } // while
+    }     // while
 
     //
     // print the results
     //
     cout << "#chars: " << num_chars << "\n";
     cout << "#lines: " << num_lines << "\n";
-    cout << "#tabs : " << num_tabs  << "\n";
+    cout << "#tabs : " << num_tabs << "\n";
     cout << "#words: " << num_words << "\n";
 }
