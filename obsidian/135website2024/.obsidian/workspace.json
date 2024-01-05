@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "testing code.md",
+                "file": "CMPT 135.md",
                 "mode": "source",
                 "source": false
               }
@@ -60,7 +60,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "editor",
+                "query": "repl.it",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -97,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "testing code.md",
+                "file": "CMPT 135.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "testing code.md"
+                "file": "CMPT 135.md"
               }
             }
           }
@@ -147,11 +147,18 @@
   },
   "active": "c673e220917d49fa",
   "lastOpenFiles": [
+    "[.md",
+    "CMPT 135.md",
+    "using Repl.it.md",
+    "setting up ncurses on Ubuntu Linux.md",
+    "splitting int_vec.md",
     "Testing with ChatGPT.md",
+    "Untitled.md",
+    "makefile.md",
+    "generic course makefile.md",
     "testing code.md",
     "recursion.md",
     "infinite loop.md",
-    "CMPT 135.md",
     "How function calls work.md",
     "memory leak.md",
     "Memory leaks.md",
@@ -162,19 +169,12 @@
     "attachments/hello_world.cpp",
     "attachments/cmpt_error.h",
     "the max function.md",
-    "generic course makefile.md",
     "pointers and memory management.md",
     "320 Email Steve Pearce Nov 2023.md",
-    "setting up ncurses on Ubuntu Linux.md",
     "WSL Windows Subsystem for Linux.md",
     "Getting Your C++ Environment Up and Running.md",
     "header file.md",
     "introduction to inheritance.md",
-    "double_list_plus.cpp.md",
-    "Implementing a dynamic array with objects.md",
-    "object-oriented programming.md",
-    "date_class_readonly.cpp.md",
-    "date_class_set_get.cpp.md",
-    "date_class.cpp.md"
+    "double_list_plus.cpp.md"
   ]
 }

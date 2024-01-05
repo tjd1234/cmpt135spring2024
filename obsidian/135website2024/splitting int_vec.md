@@ -63,7 +63,7 @@ After running this command successfully, the object file `int_vec.o` should be i
 We are using g++ with various options turned on, so the actual g++ command is longer:
 
 ```bash
-$ g++ -std=c++11 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virtual-dtor -g -c int_vec.cpp
+$ g++ -std=c++17 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virtual-dtor -g -c int_vec.cpp
 ```
 
 Don't miss the `-c` near the end!
@@ -104,7 +104,7 @@ Now `int_vec_test.o` should be in the folder.
 As before, the actual g++ command has more options and would look like this:
 
 ```bash
-$ g++ -std=c++11 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virtual-dtor -g -c int_vec3_test.cpp
+$ g++ -std=c++17 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virtual-dtor -g -c int_vec3_test.cpp
 ```
 
 ## Step 4: Link the Object Files to Make an Executable

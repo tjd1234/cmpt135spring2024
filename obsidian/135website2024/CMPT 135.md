@@ -10,8 +10,8 @@ CMPT 135 uses modern C++ in Linux/Unix, and you should try to set up Linux on yo
 
 If for some reason none of the choices above work for you, then you could:
 - try [[Setting up a Linux a virtual machine]]
-- try running C++ on the website [repl.it][https://replit.com/]
 - use the computers in CSIL
+- try running C++ on using a web-based environment [Github Codespaces](https://github.com/features/codespaces) or [repl.it](http://repl.it)
 
 **Ncurses** is a library that gives you more control over the cursor on the screen, and it might be used in some examples or assignments. Here are some instructions for [[setting up ncurses on Ubuntu Linux]].
 

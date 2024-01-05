@@ -177,8 +177,8 @@ Also, if you run the same prompt more than once you *don't necessarily* get the 
 ChatGPT seems to know most basic functions quite well. However, it does seem to have trouble with more unusual or less common functions. So check more carefully when you are working with code that you think is original or novel.
 
 ## Practice Questions
-1. Write a function called `quote(const string& s)` that returns a copy of `s` with "-marks around it. Or, if `s` has at least two characters and already beings and ends with a ", then return a copy of  `s` unchanged.
+1. Write a function called `quote(const string& s)` that returns a copy of `s` with "-marks around it. Or, if `s` has at least two characters and already beings and ends with a ", then return a copy of  `s` unchanged. 
    
    Now using techniques like the one above, ask ChatGPT to create code for testing it. Try with the given prompt, and also try to chat with it and make improvements to the program it returns (e.g. does a prompt like "make the output neater" work?).
    
-2. There are other large language models besides ChatGPT. Try re-doing the question above (or the example in the notes) in another llm, such as CoPilot. Keep note of how it compares: Does the output seem better? Does it give results more quickly? Is the interface easier to use? And so on.
+2. There are other large language models (LLMs) besides ChatGPT. Try re-doing the question above (or the example in the notes) in another LLM, such as CoPilot. Keep note of how it compares: Does the output seem better? Does it give results more quickly? Is the interface easier to use? And so on.

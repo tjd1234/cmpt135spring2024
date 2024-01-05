@@ -15,7 +15,7 @@ compiling and linking.
 This makefile sets various flags for the C++ compiler:
 
 ```make
-CPPFLAGS = -std=c++14 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virtual-dtor -g
+CPPFLAGS = -std=c++17 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virtual-dtor -g
 ```
 
 This makefile compiles three different files, and includes a command for cleaning-up the object files and executable:
