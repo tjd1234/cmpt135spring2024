@@ -17,11 +17,12 @@ using namespace std;
 // - Print the ints pv points to.
 // - Print the sum of the ints pv points to.
 // - De-allocate the ints pv points to so there's no memory leak.
-void vector_example1() {
+void vector_example1()
+{
     cout << "vector_example1 ...\n";
 
     // Create an empty vector of int* pointers named pv.
-    vector<int*> pv;
+    vector<int *> pv;
 
     // Create three new ints on the free store, and store pointers to them in
     // in pv.
@@ -30,19 +31,22 @@ void vector_example1() {
     pv.push_back(new int(15));
 
     // Print the ints pv points to.
-    for(int i = 0; i < pv.size(); i++) {
+    for (int i = 0; i < pv.size(); i++)
+    {
         cout << *pv[i] << "\n";
     }
 
     // Print the sum of the ints pv points to.
     int total = 0;
-    for(int i = 0; i < pv.size(); i++) {
+    for (int i = 0; i < pv.size(); i++)
+    {
         total += *pv[i];
     }
     cout << "total: " << total << "\n";
 
     // De-allocate the ints pv points to so there's no memory leak.
-    for(int i = 0; i < pv.size(); i++) {
+    for (int i = 0; i < pv.size(); i++)
+    {
         delete pv[i];
     }
     //
@@ -58,27 +62,30 @@ void vector_example1() {
 // - De-allocate the ints pv points to so there's no memory leak.
 //   **Careful**: it's an error to call delete more than once on the same
 //   pointer!
-void vector_example2() {
+void vector_example2()
+{
     cout << "vector_example2 ...\n";
 
     // Create an empty vector of int* pointers named pv.
-    vector<int*> pv;
+    vector<int *> pv;
 
     // Create a single new int on the free store, and add three pointers to pv
     // that each point to it.
-    int* p = new int(4);
+    int *p = new int(4);
     pv.push_back(p);
     pv.push_back(p);
     pv.push_back(p);
 
     // Print the ints pv points to.
-    for(int i = 0; i < pv.size(); i++) {
+    for (int i = 0; i < pv.size(); i++)
+    {
         cout << *pv[i] << "\n";
     }
 
     // Print the sum of the ints pv points to.
     int total = 0;
-    for(int i = 0; i < pv.size(); i++) {
+    for (int i = 0; i < pv.size(); i++)
+    {
         total += *pv[i];
     }
     cout << "total: " << total << "\n";
@@ -91,7 +98,6 @@ void vector_example2() {
     //
 } // vector_example2
 
-
 // - Create a pointer to a vector<int*> named pv.
 // - Make pv point to an empty vector<int*> allocated on the free store.
 // - Create three new ints on the free store, and store pointers to them in pv.
@@ -99,14 +105,15 @@ void vector_example2() {
 // - Print the sum of the ints pv points to.
 // - De-allocate the ints pv points to so there's no memory leak.
 // - De-allocate the vector<int*> pv points to so there's no memory leak.
-void vector_example3() {
+void vector_example3()
+{
     cout << "vector_example3 ...\n";
 
     // Create a pointer to a vector<int*> named pv.
-    vector<int*>* pv;
+    vector<int *> *pv;
 
     // Make pv point to an empty vector<int*> allocated on the free store.
-    pv = new vector<int*>();
+    pv = new vector<int *>();
 
     // Create three new ints on the free store, and store pointers to them in
     // pv.
@@ -115,7 +122,8 @@ void vector_example3() {
     pv->push_back(new int(15));
 
     // Print the ints pv points to.
-    for(int* p : *pv) {
+    for (int *p : *pv)
+    {
         cout << *p << "\n";
     }
     // for(int i = 0; i < pv->size(); i++) {
@@ -124,7 +132,8 @@ void vector_example3() {
 
     // Print the sum of the ints pv points to.
     int total = 0;
-    for(int* p : *pv) {
+    for (int *p : *pv)
+    {
         total += *p;
     }
     // for(int i = 0; i < pv->size(); i++) {
@@ -133,7 +142,8 @@ void vector_example3() {
     cout << "total: " << total << "\n";
 
     // De-allocate the ints pv points to so there's no memory leak.
-    for(int* p : *pv) {
+    for (int *p : *pv)
+    {
         delete p;
     }
     // for(int i = 0; i < pv->size(); i++) {
@@ -153,7 +163,8 @@ void vector_example3() {
     //
 } // vector_example3
 
-int main() {
+int main()
+{
     vector_example1();
     vector_example2();
     vector_example3();

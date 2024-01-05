@@ -34,7 +34,7 @@ public:
     // return a constant reference to the top element
     // - reference means it is not copied (so it's efficient)
     // - constant means it cannot be modified (so it's safe)
-    const T& peek() const
+    const T &peek() const
     {
         assert(!is_empty());
         return v.back();

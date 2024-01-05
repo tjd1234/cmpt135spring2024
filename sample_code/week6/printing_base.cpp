@@ -96,7 +96,7 @@ public:
 
 void polymorphism_example()
 {
-    Printable* p;
+    Printable *p;
     string s;
     cout << "Do you prefer points or people? ";
     cin >> s;
@@ -133,7 +133,7 @@ void pointer_example2()
     vector<Printable *> v = {new Point{1, 2},
                              new Person{"Max", 2},
                              new Reading{"Black Rock", 41.5}};
-    for (Printable* p : v)
+    for (Printable *p : v)
     {
         p->print();
         cout << "\n";
@@ -146,19 +146,20 @@ void pointer_example2()
     }
 }
 
-void pointer_example3() {
-    Point* p1 = new Point{1, 2};
+void pointer_example3()
+{
+    Point *p1 = new Point{1, 2};
     cout << p1->get_x() << "\n";
     cout << p1->get_y() << "\n";
-    p1->print();   // okay
+    p1->print(); // okay
     cout << "\n";
     p1->println();
 
     cout << "\n";
 
-    Printable* p2 = p1;
+    Printable *p2 = p1;
     // cout << p2->get_x() << "\n"; // error: Printable has no member named 'get_x'
-    p2->print();   // okay
+    p2->print(); // okay
     cout << "\n";
     p2->println(); // okay
 

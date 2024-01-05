@@ -1,53 +1,63 @@
 // int_vec.cpp
 
-#include <iostream>
-#include <vector>
-#include <numeric>
 #include <algorithm>
+#include <iostream>
+#include <numeric>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-class int_vec : public vector<int> {
+class int_vec : public vector<int>
+{
     string name;
+
 public:
     // constructor requires a name
-    int_vec(const string& s)
-    : vector<int>(),  // call default constructor of vector<int>
-      name(s)
-    { }
+    int_vec(const string &s)
+        : vector<int>(), // call default constructor of vector<int>
+          name(s)
+    {
+    }
 
     // name getter
     string get_name() const { return name; }
 
-    int sum() const {
+    int sum() const
+    {
         return std::accumulate(begin(), end(), 0);
     }
 
-    void sort_increasing() {
+    void sort_increasing()
+    {
         std::sort(begin(), end());
     }
 
 }; // class int_vec
 
-void summarize(const vector<int>& v) {
+void summarize(const vector<int> &v)
+{
     cout << "\n";
     cout << "Summary:\n";
-	for(int i = 0; i < v.size(); i++) {
-		cout << "v[" << i << "] = " << v[i] << "\n";
-	}
-	cout << "size: " << v.size() << "\n";
+    for (int i = 0; i < v.size(); i++)
+    {
+        cout << "v[" << i << "] = " << v[i] << "\n";
+    }
+    cout << "size: " << v.size() << "\n";
 }
 
-void fancy_summarize(const int_vec& v) {
+void fancy_summarize(const int_vec &v)
+{
     cout << "\n";
     cout << "Fancy Summary of " << v.get_name() << ":\n";
-	cout << v.get_name() << ":\n";
-	for(int n : v) cout << "   " << n << "\n";
-	cout << "sum = " << v.sum() << "\n";
+    cout << v.get_name() << ":\n";
+    for (int n : v)
+        cout << "   " << n << "\n";
+    cout << "sum = " << v.sum() << "\n";
 }
 
-int main() {
+int main()
+{
     int_vec v("Table 1");
 
     v.push_back(4);
@@ -56,7 +66,8 @@ int main() {
 
     v.sort_increasing();
     cout << v.get_name() << ":\n";
-    for(int n : v) cout << n << "\n";
+    for (int n : v)
+        cout << n << "\n";
     cout << "sum = " << v.sum() << "\n";
 
     summarize(v);

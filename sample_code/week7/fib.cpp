@@ -8,13 +8,17 @@ using namespace std;
 
 // 1 1 2 3 5 8 13
 
-int fib(int n) {
+int fib(int n)
+{
     cmpt::Trace trace("fib(" + to_string(n) + ")");
-    if (n == 0) return 1;       // base case 1
-    if (n == 1) return 1;       // base case 2
-    return fib(n-1) + fib(n-2); // recursive case
+    if (n == 0)
+        return 1; // base case 1
+    if (n == 1)
+        return 1;                   // base case 2
+    return fib(n - 1) + fib(n - 2); // recursive case
 }
 
-int main() {
+int main()
+{
     cout << fib(10) << "\n";
 }

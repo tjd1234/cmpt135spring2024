@@ -1,8 +1,8 @@
 // swap.cpp
 
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -48,22 +48,26 @@ void swap_demo()
     vector<int> v1 = {1};
     vector<int> v2 = {4, 5, 6};
     swap_values(v1, v2);
-    for(int i = 0; i < v1.size(); i++) {
+    for (int i = 0; i < v1.size(); i++)
+    {
         cout << v1[i] << " ";
     }
     cout << "\n";
-    for(int i = 0; i < v2.size(); i++) {
+    for (int i = 0; i < v2.size(); i++)
+    {
         cout << v2[i] << " ";
     }
     cout << "\n";
 }
 
-struct Person {
+struct Person
+{
     string name;
     int age;
-}; 
+};
 
-void person_swap_demo() {
+void person_swap_demo()
+{
     Person p1 = {"Alice", 20};
     Person p2 = {"Bob", 21};
     cout << "p1 = " << p1.name << ", p2 = " << p2.name << "\n";

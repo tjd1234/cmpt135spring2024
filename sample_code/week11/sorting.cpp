@@ -361,7 +361,7 @@ void test_recursive_binary_search()
     vector<int> three = {2, 5, 7};
 
     assert(recursive_binary_search(5, empty) == -1);
-    
+
     assert(recursive_binary_search(5, one) == 0);
     assert(recursive_binary_search(2, one) == -1);
 

@@ -22,18 +22,21 @@ using namespace std;
 
 const double PI = 3.14159265358979323846;
 
-class Circle {
+class Circle
+{
 public:
     int radius;
 
     Circle(int r) : radius(r) {}
 };
 
-double area(const Circle& c) {
+double area(const Circle &c)
+{
     return PI * c.radius * c.radius;
 }
 
-class Ellipse : public Circle {
+class Ellipse : public Circle
+{
 public:
     int radius2;
 
@@ -44,7 +47,8 @@ public:
 //     return PI * e.radius * e.radius2;
 // }
 
-int main() {
+int main()
+{
     cout << "shapes3 ...\n";
     Circle c{5};
     cout << "circle area: " << area(c) << "\n";

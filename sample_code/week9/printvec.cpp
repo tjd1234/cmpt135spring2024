@@ -12,8 +12,10 @@ using namespace std;
 //
 
 // print the elements of v[begin], v[begin+1], ... , v[n - 1]
-void printvec(const vector<int>& v, int begin) {
-    if (begin == v.size()) return;  // base case
+void printvec(const vector<int> &v, int begin)
+{
+    if (begin == v.size())
+        return; // base case
     cout << v[begin] << "\n";
     printvec(v, begin + 1);
 }
@@ -33,16 +35,17 @@ void printvec(const vector<int>& v, int begin) {
 // }
 
 // print the elements of v[0], v[1], ... , v[n - 1]
-void printvec(const vector<int>& v) {
+void printvec(const vector<int> &v)
+{
     printvec(v, 0);
 }
 
 int main()
 {
     vector<int> v = {2, 1, 6, 4, 3};
-    printvec(v);   // 2
-                   // 1
-                   // 6
-                   // 4
-                   // 3
+    printvec(v); // 2
+                 // 1
+                 // 6
+                 // 4
+                 // 3
 }

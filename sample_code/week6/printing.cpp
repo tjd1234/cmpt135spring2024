@@ -8,7 +8,8 @@ using namespace std;
 
 // abstract class: has 1 or more abstract methods
 // abstract base class, ABC
-class Printable {
+class Printable
+{
 public:
     // virtual destructor
     virtual ~Printable() {}
@@ -23,7 +24,7 @@ public:
     }
 };
 
-class Point : public Printable 
+class Point : public Printable
 {
 private:
     double x;
@@ -48,7 +49,7 @@ public:
     }
 }; // class Point
 
-class Person : public Printable 
+class Person : public Printable
 {
     string name;
     int age;
@@ -71,7 +72,7 @@ public:
 
 }; // class Person
 
-class Reading : public Printable 
+class Reading : public Printable
 {
 private:
     string loc;
@@ -97,7 +98,6 @@ public:
         cout << "\n----\n";
     }
 }; // class Reading
-
 
 int main()
 {

@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 /*
 
 // In this comment is another example of a dangling pointer. Fortunately, the
@@ -13,7 +12,7 @@ using namespace std;
 
 // This function has a serious bug: it returns a pointer to a local variable.
 // When the function ends, the local variable is de-allocated, and the pointer
-// is now a dangling pointer. 
+// is now a dangling pointer.
 
 string* exclaim(const string& s) {
     string result = s + "!";
@@ -26,20 +25,20 @@ void exclaim_demo() {
 }
 */
 
-void demo2() {
+void demo2()
+{
     cout << "demo2 ...\n";
-    int* p = new int(25);  // p points to a new int on the free store
-    int* q = p;            // q points to the same thing as p
+    int *p = new int(25); // p points to a new int on the free store
+    int *q = p;           // q points to the same thing as p
 
     // use p and q, no problems
-    cout << " p: " << p  << "\n";
+    cout << " p: " << p << "\n";
     cout << "*p: " << *p << "\n";
 
-    cout << " q: " << q  << "\n";
+    cout << " q: " << q << "\n";
     cout << "*q: " << *q << "\n";
 
-
-    delete p;  // de-allocate p, good
+    delete p; // de-allocate p, good
 
     // At this point p is a dangling pointer, i.e. it is pointing to
     // de-allocated memory. We should not use it in any way for anything,
@@ -58,13 +57,15 @@ void demo2() {
 // passing a pointer as a parameter
 //
 
-void swap1_bad(int a, int b) {
+void swap1_bad(int a, int b)
+{
     int temp = a;
     a = b;
     b = temp;
 }
 
-void swap1_bad_demo() {
+void swap1_bad_demo()
+{
     cout << "swap1_bad_demo ...\n";
     int x = 5;
     int y = 10;
@@ -79,20 +80,22 @@ void swap1_bad_demo() {
     // values are not changed.
 }
 
-void swap2(int* a, int* b) {
+void swap2(int *a, int *b)
+{
     int temp = *a;
     *a = *b;
     *b = temp;
 }
 
-void swap2_demo() {
+void swap2_demo()
+{
     cout << "swap2_demo ...\n";
     int x = 5;
     int y = 10;
     cout << "x: " << x << "\n";
     cout << "y: " << y << "\n";
-    
-    swap2(&x, &y);  // note the &: we must pass the addresses of x and y
+
+    swap2(&x, &y); // note the &: we must pass the addresses of x and y
 
     cout << "x: " << x << "\n";
     cout << "y: " << y << "\n";
@@ -101,21 +104,23 @@ void swap2_demo() {
     // swap2 can actually change the values of x and y.
 }
 
-void swap3(int& a, int& b) {
+void swap3(int &a, int &b)
+{
     int temp = a;
     a = b;
     b = temp;
 }
 
-void swap3_demo() {
+void swap3_demo()
+{
     cout << "swap3_demo ...\n";
     int x = 5;
     int y = 10;
     cout << "x: " << x << "\n";
     cout << "y: " << y << "\n";
-    
-    swap3(x, y);  // no & needed: pass by reference lets us 
-                  // pass x and y directly
+
+    swap3(x, y); // no & needed: pass by reference lets us
+                 // pass x and y directly
 
     cout << "x: " << x << "\n";
     cout << "y: " << y << "\n";
@@ -123,7 +128,8 @@ void swap3_demo() {
     // x and y are swapped!
 }
 
-int main() {
+int main()
+{
     demo2();
     // swap1_bad_demo();
     // swap2_demo();

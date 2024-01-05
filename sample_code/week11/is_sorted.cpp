@@ -6,7 +6,7 @@
 //
 // Use file redirection to read, e.g.:
 //
-//   > ./is_sorted < words.txt 
+//   > ./is_sorted < words.txt
 //   The words are in sorted order.
 //
 

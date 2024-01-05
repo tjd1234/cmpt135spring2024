@@ -51,8 +51,8 @@ int main()
     for (int n = 1; n <= 50; ++n)
     {
         // flush makes the output appear immediately
-        cout << "non-recursive f(" << n << ") = " << flush 
-             << fib2(n) << "\n";          
+        cout << "non-recursive f(" << n << ") = " << flush
+             << fib2(n) << "\n";
         cout << "    recursive f(" << n << ") = " << flush
              << fib(n) << "\n";
     }

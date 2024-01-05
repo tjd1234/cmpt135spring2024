@@ -147,16 +147,16 @@ int linear_search2(vector<int> &v, int x)
         return n - 1;
 
     // at this point we know v[n-1] != x
-    int last = v[n - 1];       // save the last element
-    v[n - 1] = x;              // set the last element to x
-                               
+    int last = v[n - 1]; // save the last element
+    v[n - 1] = x;        // set the last element to x
+
     int i = location_of(v, x); // search for x
-                               
-    v[n - 1] = last;           // put the last element back
-    if (i == n - 1)            // check which x was found
-        return -1; // x is not in v
+
+    v[n - 1] = last; // put the last element back
+    if (i == n - 1)  // check which x was found
+        return -1;   // x is not in v
     else
-        return i; 
+        return i;
 }
 
 void test_linear_search2()

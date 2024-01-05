@@ -4,26 +4,31 @@
 
 using namespace std;
 
-void error(const string& message)
+void error(const string &message)
 {
     throw std::runtime_error(message);
     cout << "This line is never executed!\n";
 }
 
-class Thing {
-    int* arr;
-public:
-    Thing() 
-    : arr(new int[10])
-    { }
+class Thing
+{
+    int *arr;
 
-    ~Thing() {
+public:
+    Thing()
+        : arr(new int[10])
+    {
+    }
+
+    ~Thing()
+    {
         delete[] arr;
         cout << "... Thing destructor called\n";
     }
 }; // class Thing
 
-void error_test() {
+void error_test()
+{
     Thing x;
 
     error("testing 1, 2, 3");
@@ -33,12 +38,16 @@ void error_test() {
     // exception thrown? Or is there a memory leak?
 }
 
-int main() {
-    try {
+int main()
+{
+    try
+    {
         error_test();
-    } catch (...) {
+    }
+    catch (...)
+    {
         cout << "caught an exception\n";
     }
-    
+
     cout << "all done\n";
 }
