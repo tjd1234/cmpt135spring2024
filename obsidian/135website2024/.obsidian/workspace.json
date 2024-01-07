@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "C++ Review.md",
+                "file": "CMPT 135.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "C++ Review.md",
+                "file": "CMPT 135.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,7 +113,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "C++ Review.md"
+                "file": "CMPT 135.md"
               }
             }
           }
@@ -135,6 +135,7 @@
   },
   "active": "c673e220917d49fa",
   "lastOpenFiles": [
+    "C++ Review.md",
     "CMPT 135.md",
     "Testing with ChatGPT.md",
     "[.md",
@@ -162,7 +163,6 @@
     "WSL Windows Subsystem for Linux.md",
     "Getting Your C++ Environment Up and Running.md",
     "header file.md",
-    "introduction to inheritance.md",
-    "double_list_plus.cpp.md"
+    "introduction to inheritance.md"
   ]
 }

@@ -48,7 +48,8 @@ Lecture 18: [[Separate compilation]], and [[splitting int_vec]] into a `.h` and 
 
 --------------------------
 
-**Week 7: Reading week (Feb 19 - 23)**, no lectures or labs
+### Week 7: Reading week (Feb 19 - 23)
+no lectures or labs
 
 --------------------------
 ### Week 8
