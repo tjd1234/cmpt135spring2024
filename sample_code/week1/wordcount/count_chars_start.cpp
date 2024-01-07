@@ -23,8 +23,8 @@
 //    Computers that are quantum?
 //    I want'em!
 //
-// The < causes to the program to read from the file poem.txt instead of from the
-// keyboard. This is useful trick to remember!
+// The < causes to the program to read from the file poem.txt instead of from
+// the keyboard. This is useful trick to remember!
 //
 
 #include <iostream>

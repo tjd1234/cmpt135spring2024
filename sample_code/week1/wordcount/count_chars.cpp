@@ -6,7 +6,7 @@
 //
 // The file is read from cin, e.g.:
 //
-//    > ./count_chars1 < austenPride.txt
+//    > ./count_chars < austenPride.txt
 //    #chars: 704158
 //    #lines: 13427
 //    #tabs : 0
@@ -52,38 +52,45 @@ int main()
         switch (c)
         {
         //
-        // Every time we see a whitespace character we check if it is the
-        // first one in a sequence. If it is, we increment num_words. Then,
-        // whether or not num_words was incremented, we set first_whitespace
-        // to false to indicate that any immediately following whitespace
-        // characters should *not* increment word_count.
+        // Every time we see a whitespace character we check if it is the first
+        // one in a sequence of multiple whitespace characters. If it is, we
+        // increment num_words. Then, whether or not num_words was incremented,
+        // we set first_whitespace to false to indicate that any immediately
+        // following whitespace characters should *not* increment word_count.
         //
         case '\n':
             num_lines++;
             if (first_whitespace)
+            {
                 num_words++;
+            }
             first_whitespace = false;
             break;
         case '\t':
             num_tabs++;
             if (first_whitespace)
+            {
                 num_words++;
+            }
             first_whitespace = false;
             break;
         case ' ':
             if (first_whitespace)
+            {
                 num_words++;
+            }
             first_whitespace = false;
             break;
         //
-        // Every time we see a non-whitespace character we set
-        // first_whitespace to true, meaning that the next whitespace
-        // character we see should cause word_count to be incremented.
+        // Every time we see a non-whitespace character we set first_whitespace
+        // to true, meaning that the next whitespace character we see will
+        // increment word_count.
         //
         default:
             first_whitespace = true;
         } // switch
-    }     // while
+
+    } // while
 
     //
     // print the results

@@ -78,6 +78,8 @@ Lecture 33: [[Using Templates]]
 ### Week  14
 Lecture 34 (tentative)
 - other C++ features, e.g. regular expressions, smart pointers, move semantics, ...
+
 Lecture 35 (tentative)
 - other C++ features, e.g. regular expressions, smart pointers, move semantics, ...
+
 Lecture 36: final exam review

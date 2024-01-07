@@ -233,7 +233,8 @@ int f(int n)   // n is passed by value: a copy is made
 	return n + 2;
 }
 
-int main() {
+int main() 
+{
 	int a = 5;
 	cout << f(a) << "\n"; // prints 7
 	cout << a << "\n";    // prints 5 (a is NOT changed)
@@ -268,9 +269,11 @@ int main()
 A common variation of [[pass by reference]] is [[pass by constant reference]]. [[Pass by constant reference]] passes a parameter by reference, but does *not* allow the function to modify it any way. In many cases, [[pass by constant reference]] is the best way to pass parameters because it is efficient and avoids the problem of functions unexpectedly changing variables. For example, string `s` is passed by conference reference:
 
 ```cpp
-int count_spaces(const string& s) {
+int count_spaces(const string& s) 
+{
 	int num_spaces = 0;
-	for(char c : s) {
+	for(char c : s) 
+	{
 		if (c == ' ') num_spaces++;
 	}
 	return num_spaces;
@@ -296,7 +299,8 @@ A variable defined inside a function is called a [[local variable]]. For example
 int count_spaces(const string& s) 
 {
 	int num_spaces = 0;  // local variable
-	for(char c : s) {
+	for(char c : s) 
+	{
 		if (c == ' ') num_spaces++;
 	}
 	return num_spaces;

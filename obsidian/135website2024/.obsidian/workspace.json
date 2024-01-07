@@ -13,19 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CMPT 135.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "ea72a4c73ee9effb",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Testing with ChatGPT.md",
+                "file": "C++ Review.md",
                 "mode": "source",
                 "source": false
               }
@@ -97,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "CMPT 135.md",
+                "file": "C++ Review.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -125,7 +113,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "CMPT 135.md"
+                "file": "C++ Review.md"
               }
             }
           }
@@ -147,12 +135,12 @@
   },
   "active": "c673e220917d49fa",
   "lastOpenFiles": [
-    "[.md",
     "CMPT 135.md",
+    "Testing with ChatGPT.md",
+    "[.md",
     "using Repl.it.md",
     "setting up ncurses on Ubuntu Linux.md",
     "splitting int_vec.md",
-    "Testing with ChatGPT.md",
     "Untitled.md",
     "makefile.md",
     "generic course makefile.md",

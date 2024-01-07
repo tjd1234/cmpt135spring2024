@@ -22,7 +22,7 @@ your own version of `wc` that does this:
    (EOF) character is read in, then `cin.get(c)` returns `false`.
     
    You don't need to use any special file processing in your program. Instead,
-   use file re-direction in the shell to process a file like this:
+   use file re-direction in the terminal like this:
   
    ```bash
    > ./count_chars < austenPride.txt
@@ -54,22 +54,20 @@ Note the following about [count_chars.cpp](count_chars.cpp):
   messy code.
 
 - **It's pretty efficient in both time and memory**. It only reads the file
-  once, and no matter how how much input its scanning it uses the same tiny
-  amount of memory.
+  once, and use a very small amount of memory (it doesn't read the entire file
+  into memory).
 
 - **Counting words is tricky**. The insight of counting the whitespace *between*
   words is not completely obvious, and so that's a good reason to explain it in
-  the code with comments. This tricks works well in practice, but it is not
-  perfect. For example, `hoi polloi` is one English word, but it is counted as
-  two because of the space. And text like `one...two...three` is counted as
-  *one* word because it has no spaces.
+  comments. This tricks works well enough in practice, but it is not perfect.
+  For example, `hoi polloi` is one English word, but it is counted as two
+  because of the space. And text like `one...two...three` is counted as *one*
+  word because it has no spaces.
 
 - **[count_chars_start.cpp](count_chars_start.cpp) is a good starting point for
   writing other character-by-character utilities**. For instance, starting with
   it you could write a program that adds line numbers to the start of each line,
-  or strips-out source code comments, etc. The program
-  [line_check.cpp](line_check.cpp) starts from the file, and is a program that
-  checks if a file has any lines longer than 100 characters.
+  or strips-out source code comments, etc.
 
 
 ## Extra
