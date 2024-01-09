@@ -5,11 +5,13 @@
 
 using namespace std;
 
+const int N = 100;
+
 int main()
 {
     // C-style for-loop
     int total1 = 0;
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < N; i++)
     {
         total1 += i;
     }
@@ -18,7 +20,7 @@ int main()
     // while loop
     int total2 = 0;
     int i = 0;
-    while (i < 100)
+    while (i < N)
     {
         total2 += i;
         i++;
@@ -27,7 +29,7 @@ int main()
 
     // a vector of the numbers 0 to 99
     vector<int> v;
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < N; i++)
     {
         v.push_back(i);
     }
