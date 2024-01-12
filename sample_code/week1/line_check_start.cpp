@@ -31,14 +31,60 @@
 
 using namespace std;
 
-int main()
+int max_length_line = 100;
+
+// int main()
+int main(int argc, char *argv[])
 {
-    int char_count = 0;
+    // cout << "argc: " << argc << endl; // number of arguments
+    // cout << argv[0] << endl;          // program call
+    if (argc == 1)
+    {
+        max_length_line = 100;
+    }
+    else if (argc == 2)
+    {
+        max_length_line = atoi(argv[1]);
+    }
+    else
+    {
+        cout << "Usage: " << argv[0] << " [max_length_line]" << endl;
+        return 1;
+    }
+
+    cout << max_length_line << endl;
+
+    int line_num = 1;
+    int current_line_length = 0;
     char c;
     while (cin.get(c))
     {
-        cout << c;
-        char_count++;
+        switch (c)
+        {
+        case '\n':
+            if (current_line_length > max_length_line)
+            {
+                cout << "Line " << line_num << " is too long\n";
+            }
+            current_line_length = 0;
+            line_num++;
+            break;
+        default:
+            current_line_length++;
+        }
+        // if (c == '\n')
+        // {
+        //     if (current_line_length > max_length_line)
+        //     {
+        //         cout << "Line " << line_num << " is too long\n";
+        //     }
+        //     current_line_length = 0;
+        //     line_num++;
+        // }
+        // else
+        // {
+        //     current_line_length++;
+        // }
     } // while
-    cout << "\nchar count: " << char_count << endl;
+
 } // main
