@@ -1,7 +1,9 @@
 ## Introduction
-How do you know if a program works correctly? 
+How do you know if a program works correctly?
 
-In practice, the most common approach is to give the program some inputs and then to verify that it returns the correct outputs for those inputs. We call this **testing**.
+There are two main approaches:
+- **Inspection**: This means carefully reviewing a program to see if there are any errors or missing details. 
+- **Testing**: Running the program on test input and checking it gives the correct output.
 
 For example, `quote(s)` returns a copy of a string in ""-marks:
 
@@ -12,7 +14,7 @@ string quote(const string& s)
 }
 ```
 
-This function is relatively simple and it's not too hard to see that it's correct, but let's see how we could test it.
+This function is relatively simple and it's not too hard to see by inspection that it's correct. But let's see how we could test it.
 
 To test `quote`, we need some input values and the corresponding correct output values. For example:
 
