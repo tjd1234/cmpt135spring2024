@@ -22,6 +22,8 @@ To test `quote`, we need some input values and the corresponding correct output 
 - `quote("hot soup")` returns `"\"hot soup\""`
 - `quote("")` returns `"\"\""`
 
+Occasionally, it may be possible to prove a program is correct. A proof can be thought of as a detailed and systematic inspection. In practice, it is rarely used since the proofs are usually more complex than the code.
+
 ## If-style tests
 One way to *automatically* test `quote` is with a series of if-statements like this:
 
@@ -44,9 +46,9 @@ void test_quote_if_style()
 	}
 }
 ```
-
 This kind of testing is simple and flexible. We print a short error message, but you could print a much more detailed message, or save the results in a file, or count the number of passed/failed tests, or anything else you like.
 
+> **Note** Occasionally, it may be possible to **prove** a program is correct. A proof can be thought of as a detailed and systematic inspection. In practice, it is rarely used since the proofs are usually more complex than the code.
 ## Assert-style Tests
 Here's another style of simple testing:
 
@@ -108,6 +110,32 @@ The idea of table-style testing is to put all the input/output pairs into a "tab
 
 Table-style testing is a little more work to set-up than the other kinds of testing we've seen, but it in practice it is often worth the effort.
 
+## Property Testing
+Sometimes it is useful to test that  program has a particular property. For example, `quote(s)` has these properties (among others):
+- `quote(s).size() == s.size() + 2`
+- `quote(s)[0] == '"' && quote(s)[n-1] == '"'`
+- `quote("") == "\"\""`
+
+For each property you could then generate some random strings to make sure they hold. For example:
+
+```cpp
+for(int i = 0; i < 100; i++) {
+	string s = random_string();   // you must write random_string()
+	if (quote(s).size() != s.size() + 2) {
+	   cout << "failure\m";
+	}
+}
+```
+In this example, just because we `quote(s)` passes all the test does *not* mean it is correct. It just gives us more confidence that the property `quote(s).size() == s.size() + 2` holds. And if that property holds, it gives us more confidence that the entire function is correct. 
+
+A nice feature of property testing is that, once you have a property, you don't need to create any (input, output) pairs. The inputs can be generated at random, and then checked by calling the function itself.
+
+However, you do need to:
+
+- **Come up with good properties to test**. In practice, many programmers find it interesting and useful to think of function properties. But it can be hard to know how which properties, and how many, are enough to ensure the overall correctness of a function.
+- **Write functions like `random_string()` to generate random data**. The more property testing than you do the easier this gets because can create a library of such functions and re-use them.
+
+## Testing with Large Language Models
 Finally, take a look at [[Testing with ChatGPT]] for an interesting example of how to test code nearly automatically using a large language model (LLM) such as ChatGPT.
 
 ## Testing Terminology
