@@ -1,8 +1,7 @@
-
 C++ pointers are a powerful feature, and it is easy to make mistakes with them. In what follows we discuss some common pointer problems that all programmers need to be on the lookout for.
 
 ## Pointer Addresses are Unpredictable
-Your program should never assume that the value of a pointer is the same from run to run, or even within the same program. For example:
+Your program should *never* assume that the value of a pointer is the same from run to run, or even within the same program. For example:
 
 ```cpp
 void f(const string& msg) 
@@ -13,7 +12,7 @@ void f(const string& msg)
 
     cout << p      // Careful! This prints unpredictable values
          << msg    // because there is no guarantee where in
-         >> "\n";  // memory n is stored.
+         << "\n";  // memory n is stored.
 }
 
 void different_address_demo2() 
@@ -95,7 +94,7 @@ We will see an interesting solution to the problem later in the course: objects 
 
 
 ## Dangling Pointers 2
-Here is another example of a dangling pointer. `exclaim_with_a_bug` is meant to return a pointer to a copy of `s` with an `'!'` on the end, but it has a serious bug:
+Here is another example of a [[dangling pointer]]. `exclaim_with_a_bug` is meant to return a pointer to a copy of `s` with an `'!'` on the end, but it has a serious bug:
 
 ```cpp
 string* exclaim_with_a_bug(const string& s) 
@@ -110,7 +109,7 @@ string* exclaim_with_a_bug(const string& s)
 void dangling_pointer_demo2() 
 {
     string* p = exclaim_with_a_bug("hello");  // ERROR! p is a 
-                                              // dangling pointer
+                                             // dangling pointer
                                               
     cout << *p << "\n";                       // ERROR!
 }
@@ -138,7 +137,7 @@ void memory_leak_demo()
 
 When the function ends, the local variable `p` disappears (it is popped from the [[stack memory|call stack]]), but the value it points to on the free store is still there. This is a [[memory leak]], i.e. the free store memory will stay allocated until the program ends.
 
-[[Memory leak]]s waste memory. Wasted memory might not be a problem in short-running programs, or if only a little bit of memory is wasted, but in long-running programs even a small memory leak can eventually cause the program to slow down, or even crash.
+[[Memory leak]]s waste memory. Wasted memory might not be a problem in short-running programs, or if only a little bit of memory is wasted, but in long-running programs even a small memory leak can add up to cause the program to slow down, or even crash.
 
 [[valgrind]] can catch memory leaks in a running C++ program with nearly perfect accuracy. It is up to the programmer, though, to determine the root cause of the leak, and how best to fix it.
 
@@ -224,7 +223,7 @@ double h(double& b); // b passed by reference
 ```
 
 
-Pass by reference can also be simulated with pointers. For example, suppose we want to write a function that swaps the values of two integers. Pass by value doesn't work:  
+Pass by reference can also be simulated with pointers. For example, suppose we want a function that swaps the values of two integers. Pass by value doesn't work:  
 
 ```cpp
 // a and b are passed by value

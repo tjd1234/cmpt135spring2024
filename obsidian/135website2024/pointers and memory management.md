@@ -1,4 +1,4 @@
-Managing memory is one most important parts of C++ programming. C++ provides a lot of flexibility in how to do it, but it comes at the cost of complexity. 
+Managing memory is one most important parts of C++ programming. C++ memory management is extremely flexible and high-performance, but that comes at the cost of complexity. 
 
 A running C++ program has a relatively simple model of memory. You can think of C++ memory as one long array of [[bytes]]:
 
@@ -54,18 +54,18 @@ cout << x;  // prints c
 As mentioned above, the memory of a running C++ program can be thought of as one long array of bytes. That array is divided into three main [[C++ memory regions|memory regions]]:
 
 ![[threeMemoryRegions.png]]
-[[Static memory]] has a fixed size that is known at compile-time, and it never gets bigger or smaller. Global variables and constants are stored in static memory.
+[[Static memory]] has a fixed size that is known at compile-time, and it never gets bigger or smaller while the program runs. Global variables and constants are stored in static memory.
 
 [[Stack memory]] stores local variables and function parameters. Stack memory is *automatically* allocated and de-allocated as needed. When a function is called, its parameters and local variables are put onto stack memory, and when the function ends its parameters and variables are automatically removed (see [[How function calls work]]).
 
-[[Free store memory|Free store (heap) memory]] is all the other memory.  In contrast to [[stack memory]] it is *not* automatically managed in C++ (although many other programming languages do manage it automatically using a [[garbage collection|garbage collector]]). Instead, a C++ programmer must manually allocate memory on the free store using `new`, and de-allocate it using `delete`/`delete[]`.
+[[Free store memory|Free store (heap) memory]] is all the other memory. In contrast to [[stack memory]] it is *not* automatically managed in C++ (although many other programming languages do manage it automatically using a [[garbage collection|garbage collector]]). Instead, a C++ programmer must manually allocate memory on the free store using `new`, and de-allocate it using `delete`/`delete[]`.
 
 ## The Free Store
 Free store memory is accessed through pointers:
 
 ```cpp
 double* y_addr = new double(6.4);
-// returns a pointer to a newly allocated
+// new double(6.4) returns a pointer to a newly allocated
 // double on the free store
 ```
 
@@ -80,7 +80,7 @@ cout << *y_addr << "\n";  // prints 8.4
 `*` is called the [[dereferencing operator]], or [[dereferencing operator|indirection operator]].
 
 ## De-allocating Free Store Memory
-When you, the programmer, are finished using memory that's on the free store, you must remember to de-allocate it using `delete`:
+When you, the programmer, are finished using memory that you allocated on the free store using `new`, you must remember to de-allocate it using `delete`:
 
 ```cpp
 delete y_addr;
@@ -90,16 +90,16 @@ If you forget to do this, your program has a [[memory leak]].
 
 For long-running programs (such as an operating system, a web browser, a text editor, etc.), [[memory leak|memory leaks]] will eventually eat up all the available memory. A call to `new` might fail because there is not enough memory left.
 
-Experience shows that finding and fixing memory leaks is *very* difficult in general. It is tricky to be 100% sure that you are not de-allocating memory that you still need.
+Experience shows that finding and fixing memory leaks is *very* difficult in general. It is tricky to be 100% sure that you're de-allocating memory that isn't needed.
 
 Many other programming languages *automate* de-allocation using [[garbage collection]]. But C++ does **not** use [[garbage collection]] because [[garbage collection]] has a cost in terms of time and extra memory usage. When a garbage collector runs, it slows the program down (or even causes it to briefly stop) while memory is being cleaned-up. This might be a problem in some applications. For example, airplane flight control software might not be able to tolerate any amount of slow-down --- a pilot does not want controls to lock-up even for a brief moment.
 
-C++ aims for efficiency and flexibility, and so it does **not** provide a garbage collector. Instead, it is up to the programmer to manage all the free store memory they use. C++ does provide some help, such as [[destructor|destructors]] and [[smart pointer|smart pointers]].
+C++ aims for efficiency and flexibility, and so it does **not** provide a garbage collector for the free store. Instead, it is up to the programmer to manually manage all the free store memory they use. C++ does provide some help, such as [[destructor|destructors]] and [[smart pointer|smart pointers]].
 
 ## Example: vectors of pointers
 The following gives practice using pointers. Create the program that is described step-by-step.
 
-> Importantly, use [[valgrind]] to verify that the programs have no memory leaks. [[Valgrind]] finds most memory leaks (and other memory errors) in a running C++ program. Any time you use `new` or `delete` you should test your program with [[valgrind]].
+> Importantly, you should use [[valgrind]] to verify that the programs have no memory leaks. [[Valgrind]] finds most memory leaks (and other memory errors) in a running C++ program. Any time you use `new` or `delete` you should test your program with [[valgrind]].
 
 ### Example 1
 - Create an empty `vector` of `int*` pointers named `pv`.
@@ -136,9 +136,9 @@ See [[vector pointer sample solutions]] for a sample solution.
         
 ```cpp
 int* arr = new int[5]; 
-// arr points to a newly allocated array of
-// 5 ints on the free store; the value of 
-// the ints is unknown
+// new int[5] returns a pointer to a newly allocated array 
+// of 5 ints on the free store; the value of the ints is 
+// unknown
 ```
 
 The `[]`-brackets in `new int[5]` are essential: that's how C++ knows you want to allocate an entire array. If you wrote `new int(5)`, C++ would assume you're allocating a single `int` with an initial value of 5.
@@ -166,7 +166,7 @@ arr[4] = 5;
 You can imagine the array in memory like this:
 
 ![[array1to5.png]]
-Of course, we don't know the exact address values on the top of the array, so we've just made them up for this example.
+Of course, we don't know the exact address values on the top of the array, so they're made up in this example.
 
 Since `arr` is an `int*` (i.e. a pointer to an `int`), for an array it points to the *first* element of the array, i.e. it contains the address of the first element (219 in this case). Then:
 
@@ -175,9 +175,9 @@ Since `arr` is an `int*` (i.e. a pointer to an `int`), for an array it points to
 - `arr + 3` is 220, the fourth element of the array
 - etc.
 
-Unfortunately, C++ arrays **don't** stop you from accessing elements *before* or *after* the array. For example, `arr - 1` is address 218, which is an `int`-size chunk of memory that appears just before the start of the array. In general, you have no idea what memory value might be before the array, or even if you are allowed to access it. Similarly, `arr + 5` is address 224, which is the `int`-size chunk of memory immediately after the last element of the array.
+Unfortunately, C++ **doesn't** stop you from accessing elements *before* or *after* the array. For example, `arr - 1` is address 218, which is an `int`-size chunk of memory that appears just before the start of the array. In general, you have no idea what memory value might be before the array, or even if you are allowed to access it. Similarly, `arr + 5` is address 224, which is the `int`-size chunk of memory immediately after the last element of the array.
 
-C++ lets you do [[pointer arithmetic]], i.e. you can add and subtract values to pointers. While [[pointer arithmetic]] is useful for accessing array values, it is perhaps *too* powerful: from a single pointer you can potentially read/write *any* memory location on your computer, which can lead to both errors and security risks (an unethical/careless programmer could use pointers to access regions of memory they shouldn't be able to access).
+While [[pointer arithmetic]] is useful for accessing array values, it is perhaps *too* powerful: from a single pointer you can potentially read/write *any* memory location on your computer, which can lead to both errors and security risks. For example, an unethical/careless programmer could use pointers to access regions of memory they shouldn't be able to access.
 
 As another example of using pointers, here are three different ways to print the contents of `arr`:
 
