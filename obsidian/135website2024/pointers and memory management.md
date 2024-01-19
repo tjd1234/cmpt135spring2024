@@ -1,5 +1,6 @@
 Managing memory is one most important parts of C++ programming. C++ memory management is extremely flexible and high-performance, but that comes at the cost of complexity. 
 
+## Basic Pointers
 A running C++ program has a relatively simple model of memory. You can think of C++ memory as one long array of [[bytes]]:
 
 ![[memoryArray.png]]
