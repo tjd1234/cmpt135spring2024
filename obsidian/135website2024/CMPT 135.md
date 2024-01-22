@@ -15,6 +15,13 @@ If for some reason none of the choices above work for you, then you could:
 
 **Ncurses** is a library that gives you more control over the cursor on the screen, and it might be used in some examples or assignments. Here are some instructions for [[setting up ncurses on Ubuntu Linux]].
 
+## Assignments
+See Canvas for assignment due dates and submission.
+- [Assignment 1](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a1)
+- [Assignment 2](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a2)
+- Assignment 3
+- Assignment 4
+- Assignment 5
 ## Lecture Notes 
 **The timing of each topic is approximate, and may change as we go**. [The example code used in the lectures is usually available here](https://github.com/tjd1234/cmpt135spring2024/tree/main/sample_code).
 
