@@ -46,11 +46,11 @@ Modify your program from Question 1 to allow a maximum line length to be passed
 as a command-line parameter:
 
 ```
-❯ ./line_check_a1 100 < sample_lines.txt
+❯ ./line_check_a2 100 < sample_lines.txt
 Line 4 is too long: 101 characters
 Line 6 is too long: 110 characters
 
-❯ ./line_check_a1 200 < sample_lines.txt
+❯ ./line_check_a2 200 < sample_lines.txt
 No lines are too long.
 ```
 
@@ -58,7 +58,7 @@ The parameter is optional. If no parameter is given, then use a line length of
 100:
 
 ```
-❯ ./line_check_a1 < sample_lines.txt
+❯ ./line_check_a2 < sample_lines.txt
 Line 4 is too long: 101 characters
 Line 6 is too long: 110 characters
 ```
