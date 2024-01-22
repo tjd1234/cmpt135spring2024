@@ -205,12 +205,16 @@ to check whether `input_file.fail()` returns `true` or `false` (where
 Put your program for this question in [mysort.cpp](mysort.cpp), and make sure it
 compiles with the [makefile](makefile).
 
+Please use the C++ sort functions in `std` to sort the lines. Those sort
+functions are both very fast and almost certainly correct. It would be hard to
+write your own sorting function that is better.
+
 Hints:
 - If `s` and `t` are C++ `string` variables, then `s < t` is `true` just when
   `s` comes before `t` alphabetically.
-- If you first sort the lines alphabetically, then you can use
-  `std::stable_sort` to sort the lines by length while keeping lines of the same
-  length in alphabetical order.
+- If you first sort the lines alphabetically (e.g. using `std::sort`), then you
+  can use `std::stable_sort` to sort the lines by length while keeping lines of
+  the same length in alphabetical order.
 - The `diff` command tests if two files are the same. For example, the command
   `diff out.txt sorted_data.txt` prints all the differences of the files
   `out.txt` and `sorted_data.txt` (and prints nothing if they are identical).
