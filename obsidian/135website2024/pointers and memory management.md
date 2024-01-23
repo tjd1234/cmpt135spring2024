@@ -327,7 +327,7 @@ We need to give `std::sort` two input pointers: one that points to the first ele
 
 Note that `std::sort(a.arr, a.arr + a.size - 1)` would be wrong: it misses the last element of the array, i.e. the element at `a.arr[a.size - 1]`.
 
-See [[sort_example_cpp]]  for some code showing everything working together.
+See [[sort_example_cpp]] for some code showing everything working together.
 
 ## Practice Questions
 1. What is the [[address-of operator]] and the [[dereferencing operator]]? In your own words, describe what they do, and given an example of how they can be used.
