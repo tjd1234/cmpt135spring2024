@@ -1,4 +1,8 @@
-This program shows how to create a dynamic array (like a C++ vector) without using object-oriented programming. While it has the same essential functionality as an object-oriented version, it requires *manual de-allocation*, i.e. the programmer must write a line of code to de-allocate the array when they're done with it. This one seemingly simple fact makes this function-oriented array quite error-prone. It is up to the programmer to make sure it is de-allocated at just the right time: not too soon (resulting in [[[dangling pointer|dangling pointers]], and not too late (resulting in a [[memory leak]]).
+This program shows how to create a dynamic array (like a C++ vector) *without* using object-oriented programming. 
+
+While it has the same essential functionality as an object-oriented version, it requires *manual de-allocation*, i.e. the programmer must write a line of code to de-allocate the array when they're done with it. 
+
+This one seemingly simple fact makes this function-oriented array quite error-prone. It is up to the programmer to make sure it is de-allocated at just the right time: not too soon (resulting in [[dangling pointer|dangling pointers]]), and not too late (resulting in a [[memory leak]]).
 
 ```cpp
 // double_list.cpp

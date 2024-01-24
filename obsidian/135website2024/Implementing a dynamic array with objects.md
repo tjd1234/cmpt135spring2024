@@ -1,10 +1,10 @@
-A regular array in C++ has a fixed size that never changes. This makes it difficult to use in situations where you don't know how long the array needs to be. 
+A regular array in C++ has a fixed size that never changes. This makes it difficult to use when you don't know how long the array needs to be. 
 
-C++'s `vector<T>` is an example of polished and feature-rich [[dynamic array]] .  In these notes we'll walk through the creation of a simplified version called `double_list` that stores `double`s.
-
-
+C++'s `vector<T>` is an example of polished and feature-rich [[dynamic array]]. In these notes we'll walk through the creation of a simplified version called `double_list` that stores `double`s.
 ## The Basic Idea
-The essential idea for implementing a [[dynamic array]] is to create an object that manages an *underlying array* that is partitioned into two parts: the *used part*, and the *unused part*. The user only "sees" values in the used part, and the unused part is extra space that is used when the the size increases. If there's no space left in the unused part, then the underlying array is re-created at twice the size. Re-creating the entire array is an expensive operation, but if it is done the right way it does not need to happen too often.
+The essential idea for implementing a [[dynamic array]] is to create an object that manages an *underlying array* that is partitioned into two parts: the *used part*, and the *unused part*. 
+
+The user only "sees" values in the *used* part, and the unused part is extra space that is used when the the size increases. If there's no space left in the unused part, then the underlying array is re-created at twice the size. Re-creating the entire array is an expensive operation, but if it is done the right way it does not need to happen too often.
 
 Our [[dynamic array]] class will be called `double_list`:
 
@@ -21,17 +21,16 @@ public:
 ```
 
 The three variables work as follows:
-
 - `arr` points to the underlying array.
 - `capacity` is the size of `arr`.
 - `size` is the number of elements in the `double_list` from the users point of view. It's always the case that `size <= capacity`.
 
 A `class` is the same as a `struct`, except the items in it are *private* by default (they're public by default in a `struct`). We've explicitly written `public:` and `private:` labels to make it clear which items are public and which are private.
 
-In general, *any* code anywhere in a C++ program can read or write *public* items. In contrast, only code in `double_list` can read or write *private* `double_list` items. This is useful because it stops other code from accidentally, or on purpose, modifying `double_list` in ways we don't want. For example, the user of a `double_list` should *not* be allowed to change `capacity` directly. They might set it to a negative value, or some value other then the size of `arr`.
+In general, *any* code anywhere in a C++ program can read or write *public* members. In contrast, only code in `double_list` can read or write *private* `double_list` members. This is useful because it stops other code from accidentally, or on purpose, modifying `double_list` in ways we don't want. For example, the user of a `double_list` should *not* be allowed to change `capacity` directly. They might set it to a negative value, or some value other then the size of `arr`.
 
 ## Getters and Setters
-We want allow *some* access to the variables. It's okay for the user of a `double_list` to *read* its size, and so we provide a [[method]] that returns the size: 
+We want allow *some* access to the variables. It's okay for the user of a `double_list` to *read* its size, and so we provide a [[getter]] that returns the size:
 
 ```cpp
 class double_list 
@@ -51,11 +50,11 @@ public:
 
 `get_size` is public, so any code can call it. 
 
-Importantly, we do *not* provide a [[setter]] for `size`. A `size` setter doesn't make sense for this particular class: the user should *not* be able to change the size whenever they want. It should only be changed by `double_list` in the appropriate circumstances.
+Importantly, we do *not* provide a [[setter]] for `size`. A `size` setter doesn't make sense for this particular class: the user should *not* be able to change the size whenever they want. The size is only changed by `double_list` when new values are added.
 
-This idea of making data private is called [[information hiding]]. We intentionally hide details of the implementation so that the programmer doesn't have to worry about them, and can't mess them up. Experience has shown that [[information hiding]] is a useful technique for building large and complex programs.
+The idea of intentionally making data private is called [[information hiding]]. We intentionally hide details of the implementation so that the programmer doesn't have to worry about them, and can't mess them up. Experience has shown that [[information hiding]] is a useful technique when building large and complex programs.
 
-There is no [[getter]] or [[setter]] for `arr`. Instead, we provide [[getter|getters]] and [[setter|setters]] to access its individual elements:
+There is no [[getter]] or [[setter]] for the `arr` pointer. Instead, we provide [[getter|getters]] and [[setter|setters]] to access its individual elements:
 
 ```cpp
 int get(int i) const 
@@ -73,12 +72,12 @@ void set(int i, int x)
 }
 ```
 
-Both `set` and `get` do **bounds checking**: they check that the index variable `i` is within the bounds of the array. This is something that C++ arrays (and vectors) do *not* do, i.e. C++ arrays let you access elements outside of their bounds. This is always an error, and so our setters will help catch such mistakes.
+Both `set` and `get` do **bounds checking**: they check that the index variable `i` is within the bounds of the array. This is something that C++ arrays (and vectors) do *not* do, i.e. C++ arrays let you access elements outside of their bounds. Out-of-bounds indexes are always an error, and so our setters will help catch such mistakes.
 
-> A down side of bounds-checking is that it can noticeably slow your program down if it does a lot of sets/gets.
+> A down side of bounds-checking is that it can slow your program down if it does a lot of sets/gets.
 
 ## Constructors
-To create a new `double_list` we need to assign sensible values to `capacity`, `arr`, and `size`. The usual way to do this in a class is inside a [[constructor]]. A [[constructor|constructors]] job is to create a new object with properly initialized variables.
+To create a new `double_list` we need to assign initial values to `capacity`, `arr`, and `size`. In a class, we'll use a [[constructor]] to create a new object with properly initialized variables.
 
 Importantly, there's no way to create a C++ object *without* calling a constructor, and so immediately after we construct an `double_list` object it's variables are guaranteed to have sensible values:
 
@@ -112,16 +111,16 @@ public:
 };
 ```
 
-The constructor uses an [[initialization list|initializer list]] to set the capacity and size. [[initialization list|Initializer lists]] only work with constructors, and their purpose is to give values to member variables *before* calling any code on them. This can help prevent errors.
+The constructor uses an [[initialization list|initializer list]] to set the capacity and size. [[initialization list|Initializer lists]] only work with constructors, and their purpose is to give values to member variables *before* calling any code on them.
 
 The body of this particular constructor does three things:
 - It checks if `n` is less than 0. If so, it immediately throws an exception using `cmpt::error`.
 - It allocates a new array of size `capacity` on the free store. `capacity` was initialized to `2 * n + 1` in the initializer list. This makes the underlying array about twice the size it needs to be, which allows it to grow to twice its size before any re-allocation of the array is need. The `+ 1` is to ensure that `capacity` is not 0 in the case when `n == 0`.
-- It sets the elements from index location 0  to `size - 1` to be 0. If we don't do this, then those values are undefined, and could be any `int`s. Setting the array values to a known default value helps prevent and catch errors.
+- It sets the elements from index location 0  to `size - 1` to be 0. If we don't do this, then those values are undefined, and could be any `int`s. Setting the array values to a sensible default value helps prevent and catch errors.
 
 Constructors *always* have the same name as the class, and they *never* have an explicit return type listed (not even `void`).
 
-Next, lets add a [[copy constructor]]. A copy constructor makes new `double_list` by copying an existing `double_list`:
+Next, lets add a [[copy constructor]]. A copy constructor makes a new `double_list` by copying an existing `double_list`:
 
 ```cpp
 // Copy constructor: makes a copy of another double_list. The copy 
@@ -141,14 +140,14 @@ double_list(const double_list& other)
 
 This [[copy constructor]] makes a brand new array and then copies the elements of `other` into it.
 
-These constructors now let us write code like this:
+These two constructors now let us write code like this:
 
 ```cpp
 double_list a(5);  // size 5 double_list initialized to all 0s
 double_list b(a);  // b is a copy of a (using a new underlying array)
 ```
 
-Now lets add a [[default constructor]]. A [[default constructor]] is a constructor that takes no parameters:
+Now lets add a [[default constructor]]. A [[default constructor]] takes no parameters:
 
 ```cpp
 // Default constructor: takes no input and makes an array of 
@@ -163,7 +162,7 @@ double_list()
 ## Destructors
 The current version of `double_list` as a major flaw: it has a [[memory leak]]. That's because the constructors allocate memory using `new`, but that memory isn't de-allocated anywhere.
 
-The best place to de-allocate `arr` is in a [[destructor]]. A [[destructor]] is a special method that is *automatically* called when the object is de-allocated. There is no way for a programmer to manually call a destructor, and so they can *never* forget to call it, *never* call it more than once, or *never* call it at the wrong time. This makes it nearly a perfect way to de-allocate `arr`.
+The best place to de-allocate `arr` is in a [[destructor]]. A [[destructor]] is a special method that is *automatically* called when the object is de-allocated. There is no way for a programmer to manually call a destructor, and so they can *never* forget to call it, *never* call it more than once, and *never* call it at the wrong time. This makes it nearly a perfect way to de-allocate `arr`.
 
 Since the [[destructor]] is called just when the `double_list` is de-allocated, `arr` will be automatically deleted as soon as the `double_list` is deleted:
 
@@ -217,7 +216,7 @@ public:
 
 Notice it's declared to be a [[const method]] because `print` does not change any values in the `double_list`.
 
-`append_right` adds an element to the end of an `double_list` (like `push_back` for a `vector<T>`):
+`append_right` adds an element to the right end of an `double_list` (like `push_back` for `vector<T>`):
 
 ```cpp
 class double_list 
@@ -258,7 +257,7 @@ public:
 };
 ```
 
-`append_right` first checks if there are any unused locations in the underlying array. If not, it makes a new array that is twice the sizeof the old one, copying the elements from the old array into it. This re-sizing and copying is expensive: it significant extra time and memory. In practice, however, it doesn't occur too often, and it turns out to be a reasonably efficient strategy for most situations.
+`append_right` first checks if there are any unused locations in the underlying array. If not, it makes a new array that is twice the size of the old one, copying the elements from the old array into it. This re-sizing and copying is expensive: it significant extra time and memory. In practice, however, because we double the underlying array each time, it doesn't occur too often,. It turns out to be a reasonably efficient strategy for many programming applications.
 
 ## Summing and Sorting
 Finally, summing the numbers in an array is a common operation, so lets make that easy by adding a method that returns the sum of the numbers in an `double_list`. We want it to work like this:
@@ -335,7 +334,7 @@ public:
 };
 ```
 
-`std::sort` is C++'s standard sorting algorithm. It takes two inputs: a pointer to the first element of the array, and a pointer to one past the last element, and then efficiently re-arranges the array items into ascending sorted order.
+`std::sort` is C++'s standard sorting algorithm. It takes two inputs: a pointer to the first element of the array, and a pointer to *one past* the last element, and then efficiently re-arranges the array items into ascending sorted order.
 
 The `sort_descending` method sorts the items in reverse order, i.e. from biggest to smallest. It first sorts them in ascending order, then uses `std::reverse` to reverse the elements into descending order. Like `std::sort`, `std:reverse` takes a pointer to the first element of the array, and a pointer to one past the last element, and efficiently reverses the elements in that range. 
 

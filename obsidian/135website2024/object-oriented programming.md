@@ -1,20 +1,14 @@
 ---
 aliases: OOP
 ---
-In these notes we will refer to the following programs that implement calendar dates in different ways:
-
-- [[date_struct.cpp]]
-- [[date_class.cpp]]
-- [[date_class_set_get.cpp]]
-- [[date_class_readonly.cpp]]
-
 ## Overview of Object-oriented Programming
-[[Object-oriented programming]], or [[object-oriented programming|OOP]] for short, is a popular style of programming that encourages programmers to combine data, and operations on that data, together into "objects". For example, graphical windowing systems are often implemented using object oriented programming. A window is as an object that contains data (its dimensions, its background color, the files/folders in it, etc.), and also operations (like opening/closing, scrolling, moving items, etc.). In the code that makes the windows they are treated as individual values, or objects, that contain both their data and operations.
+[[Object-oriented programming]], or [[object-oriented programming|OOP]] for short, is a popular style of programming that encourages programmers to combine data, and operations on that data, together into "objects". In many cases, real-world programming problems can be thought of as a set of interacting objects.
 
-C++'s approach to object-oriented programming  consist of two main concepts:
-- **Objects**, which are *values* that exist at *run time*. Objects contain data and operations on that data. Objects can be passed, returned, modified, copied, and so on.
+For example, graphical window interfaces are often implemented using object oriented programming: a window is as an object that contains data (its location/dimensions/title, the files/folders in it, etc.), and also operations (like opening/closing, scrolling, moving items, etc.). [[object-oriented programming|OOP]] code groups that data that a window consists of with the operations on that data. In general, objects contain both their data and operations grouped as a single big value.
+
+C++'s approach to object-oriented programming consists of two main concepts:
+- **Objects**, which are *values* that exist at *run time*. Objects contain data and operations on that data. Objects can be treated like regular values: they can be passed, returned, modified, copied, and so on.
 - **Classes**, which exist at *compile time*. A class is like a blue print for creating objects, and the class for an object is considered to be the object's type. A class tells you what data and operations an object will contain, including how to create and destroy the object.
-
 ## Basic Terms: Classes and Structs
 `struct`s and `class`-es in C++ are almost the same. Both can contain data, and both can contain operations (called [[method|methods]]) that operate on that data. The data and operations are called the [[members]] of the `struct` or `class`.
 
@@ -28,16 +22,16 @@ struct Person
 
     string to_string() const   // to_string is a method of Person
     {
-        return name + " " + std::to_string(age);
+        return name + " " + std::to_string(age);  // note std::
     }
 };
 ```
 
-`Person` is a `struct` with 3 members: `name`, `age`, and `to_string`. `name` and `age` are variables, and `to_string` is a [[method]]. The `const` on the header line of `to_string` means that it will *not* modify a `Person` object when called.
+`Person` is a `struct` with 3 members: `name`, `age`, and `to_string`. `name` and `age` are variables, and `to_string` is a [[method]]. The `const` on the header line of `to_string` means that when you call `to_string` on a `Person` object then the object will *not* not be modified.
 
 > **Note** We must write `std::to_string`, with `std::` at the front. Otherwise, it would recursively call the `to_string` method and never end.
 
-Here is `Person` written as an equivalent `class`:
+We can also write `Person` as an equivalent `class`:
 
 ```cpp
 class Person 
@@ -52,50 +46,51 @@ public:
 };
 ```
 
-The only difference is that the first line of the `class` is `public:`, which tells the C++ compiler that all the members that follow can be read/written by *any* code with access to a `Person` object. *By default*, the members of a `struct` are public, while, by default, members of a `class` are private.
+The only difference is that the first line of the `class` is `public:`, which tells the C++ compiler that all the members that follow can be read/written by *any* code with access to a `Person` object. *By default*, the members of a `struct` are public, while, by default, members of a `class` are private. 
 
-If you remove `public:` from the `class`, then all the members will be **private**, which means they  *cannot* be accessed by code outside of the `class`/`struct` (they can only be accessed by other members within that `class`/`struct`).
+If you remove `public:` from the `class`, then all the members will be **private**, which means they  *cannot* be accessed by code outside of the `class`/`struct`. They can only be accessed by other members within that `class`/`struct`.
 
 ## Example: Dates
+In what follows, lets see different ways of representing a date in a C++ program. We start with a non-object-oriented approach, and then work up to a more and more object-oriented version.
 ### Date as a Struct
-Take a look at [[date_struct.cpp]]. It implements a date as a `struct` containing only variables, and provides a few helper functions.
+Take a look at [[date_struct.cpp]]. It implements a date as a `struct` containing only variables, and provides a few helper functions
+
+![[date_struct.cpp]]
 
 ### Date with Public Member Variables
-[[date_class.cpp]] is similar to [[date_struct.cpp]], but uses some object-oriented features. In particular:
+[[date_class.cpp]] is similar to [[date_struct.cpp]], but uses some object-oriented features. 
 
-- `Date` uses a `class` instead of a `struct`. The first line of `Date` is `public:`, which means that all the code in `Date` can be accessed by *any* code in the program.
-  
-- `Date` uses [[method|methods]] instead of functions. A method is essentially a function that is part of a class, and a method can directly access any variables or methods in `Date`. `is_valid()`, `print()`, and `println()` are all methods because they are declared *inside* of `Date`.
-  
-- `is_valid()`, `print()`, and `println()` are all [[const method|const methods]], i.e. when they are called they *never* modify any variables in their `Date` object (they just read them, never write them).
+![[date_class.cpp]]
 
-  A method is declared `const` by putting the keyword `const` after the header and before the body.
+`Date` uses a `class` instead of a `struct`. The first line of `Date` is `public:`, which means that all the code in `Date` can be accessed by *any* code in the program.
 
-  In practice, [[const method|const methods]] are very common and useful and make you programs easier to understand. 
-  
-  Sometimes [[const method|const methods]] are called [[const method|non-mutating methods]]. A method that is *not* `const`, i.e. a method that when called might modify a value in the object, is called a [[mutating method]].
-  
-- `Date` has a [[constructor]], i.e. a special [[method]] whose job is to initialize the `Date` variables:
-  
-  ```cpp
-  // constructor: assigns values to member variables
-  Date(int d, int m, int y)
-  : day(d), month(m), year(y)  // initializater list
-  { }
-  ```
-  
-   Notice that the name of the [[constructor]] is `Date`, which is the same name as the class. [[constructor|Constructors]] *always* have the same name as their class.
+`Date` uses [[method|methods]] instead of functions: `is_valid()`, `print()`, and `println()` are all methods because they are declared *inside* of `Date`. A method is essentially a function that is part of a class, and a method can directly access any variables or methods in `Date`.
 
-   [[constructor|Constructors]] *never* have an explicitly listed return type (not even `void`): they always construct an object of the type of the class.
+`is_valid()`, `print()`, and `println()` are all [[const method|const methods]], i.e. when they are called they *don't* modify any variables in their `Date` object (they just read them, never write them). Note that:
+- A method is declared `const` by putting the keyword `const` after the header and before the body. In practice, [[const method|const methods]] are very common and useful and make you programs easier to understand. 
+- Sometimes [[const method|const methods]] are called [[const method|non-mutating methods]]. A method that is *not* `const`, i.e. a method that when called might modify a value in the object, is called a [[mutating method]].
+  
+`Date` has a [[constructor]]. A [[constructor]] is special [[method]] whose job is to make a new `Date` object and initialize its variables:
 
-   This [[constructor]] uses an [[initialization list|initializer list]] to assign initial values to the members of `Date`. Initializer lists can only be used with constructors. You should always use them if you can: they ensure that the variables of the class/struct are initialized *before* they are used, which can prevent bugs. They also allow you to initialize values that don't work with the [[assignment operator]], `operator=`.
+```cpp
+// constructor: assigns values to member variables
+Date(int d, int m, int y)
+: day(d), month(m), year(y)  // initializater list
+{ }
+```
+  
+The *name* of the [[constructor]] is `Date`, which is the same name as the class. [[constructor|Constructors]] *always* have the same name as their class.
 
-   In this particular example the constructor body is empty, but in general you can put whatever code you need into a constructor.
+[[constructor|Constructors]] *never* have an explicitly listed return type (not even `void`): they always construct an object of the type of the class.
+
+This [[constructor]] uses an [[initialization list|initializer list]] to assign initial values to the members of `Date`. Initializer lists can only be used with constructors, and you should always use them if you can: they ensure that the variables of the class/struct are initialized *before* they are used, which helps prevent bugs. They also allow you to initialize values that don't work with the [[assignment operator]], `operator=`.
+
+In this particular example the constructor body is empty, but in general you can put whatever code you need into a constructor.
 
 ### Date with Private Member Variables
-A common pattern in object-oriented programming is to make the member variables of a class *private*, and to provide public methods for accessing those variables in a controlled way. A method that *returns* the value of a member variable is called a [[getter]], and a method that *assigns* a value to a member variable is called a [[setter]].
+A common pattern in object-oriented programming is to make the member variables of a class *private*, and to provide public [[setter|setter method]]s for reading those variables, and [[getter|getter method]]s for writing those variables. By using [[setter|setter method]]s and [[getter|getter method]]s the programmer can control exactly how the data of an object can be accessed.
 
-[[date_class_set_get.cpp]] adds setters and getters to `Date`. The `Date` class now looks like this:
+[[date_class_set_get.cpp]] adds setters and getters to `Date`:
 
 ```cpp
 class Date 
@@ -132,11 +127,11 @@ public:
 }; // class Date
 ```
 
-In addition to adding getters and setters, we've also made the member variables private: `day`, `month`, and `year` are declared in the private section of the class, and so they can only be accessed by code within `Date`.
+In addition to adding getters and setters, we've also made the member variables private: `day`, `month`, and `year` are declared in the `private:` section of the class, and so they can only be directly accessed by code within `Date`.
 
 To allow code outside of `Date` to access `day`, `month`, and `year`, we add setters and getters. For example, for `month`, we add the [[getter|getter method]] `get_month()` that returns the value of `month`, and the [[setter|setter method]] `set_month(int m)` that assigns `m` to `month`. The *variables* are private, but the methods are *public*, and so we can read/write the variables through the methods.
 
-The way we've written the [[getter|getters]] and [[setter|setters]] gives us *total* access to the member variables, and so it's not much different than if we'd made them public. But an advantage of this approach is that we can make  methods to do whatever we like. For instance, we could add error-checking to `set_month`:
+The way we've written the [[getter|getters]] and [[setter|setters]] gives us *total* access to the member variables, and so it's not much different than if we'd made them public. But an advantage of [[getter|getters]] and [[setter|setters]] is that we can make methods to do whatever we like. For instance, we could add error-checking to `set_month`:
 
 ```cpp
 void set_month(int m) 
@@ -212,7 +207,7 @@ void point1()
 
 The `Point` class declares `set_to_origin` to be a [[friend function]], which means `set_to_origin` is allowed to read/write private variables in its parameter `p`.
 
-Generally, you should avoid `friend` functions, since they allow objects to be changed in more ways, and that can makes your programs harder to understand, which makes it easier for bugs to occur and hide. It's usually better to write a method instead of a `friend`.
+> **Rule of Thumb** Generally, *avoid* `friend` functions. The problem is they allow objects to be changed in more ways, and that can make your code harder to understand and harder to use correctly. It's usually better to write a method instead of a `friend`.
 
 ### A Read-only Date Class
 Another common object-oriented pattern is to *not use [[setter|setters]]*: make the `Date` class *read-only*. This simplifies the `Date` class and makes it easier to use correctly.
@@ -255,10 +250,10 @@ public:
 Every member of this class is either private or const: once you construct a `Date` object, there's no way to change it. If you want a new date, then you must construct another one using the `Date` [[constructor]], or a helper method such as `next_year()`.
 
 
-> A common example of immutable objects occurs in languages such as Python and Java, where their *string* objects have no setters of any kind. Python and Java strings are immutable, i.e. once you create a string in those languages you cannot modify them in way. In contrast the C++ `string` *does* allow you to modify strings.
+> **Aside** A common example of immutable objects occurs in languages such as Python and Java, where their *string* objects have no setters of any kind. Python and Java strings are immutable, i.e. once you create a string in those languages you cannot modify them in way. In contrast the C++ `string` *does* allow you to modify strings.
 
 ## Other Kinds of Constructors
-A `class`/`struct` can have more than one [[constructor]], and some [[constructor|constructors]] have special names. For example, consider this `Point` class:
+A `class`/`struct` can have more than one [[constructor]]. For example, consider this `Point` class:
 
 ```cpp
 struct Point 
@@ -286,25 +281,24 @@ struct Point
 // ...
 ```
 
-`Point` has three different [[constructor|constructors]]. In addition to a [[constructor]] that
-takes an `x` and `y` value as input, it has a:
-- [[Default constructor]], i.e. a constructor that has no input parameters. In this particular example, the default constructor does nothing since the member variables `x` and `y` are initialized using [[member initialization]].
-- [[Copy constructor]], i.e. a constructor that takes another `Point` as input and makes a copy of it. Notice that the [[copy constructor]] in this example uses [[constructor delegation]].
+`Point` has three different [[constructor|constructors]]:
+- A [[default constructor]] is a constructor with no input parameters. In this particular example, the body of the default constructor does nothing since the member variables `x` and `y` can be initialized using [[member initialization]].
+- A [[constructor]] that takes an `x` and `y` value as input.
+- A [[copy constructor]] is a constructor that takes another `Point` as input and makes a copy of it. The [[copy constructor]] in this example uses [[constructor delegation]].
 
 [[default constructor|Default constructors]] and [[copy constructor|copy constructors]] follow some special rules in C++. For example:
-- If your class doesn't define a [[default constructor]] or [[copy constructor]], then C++ *automatically* creates an *implicit* default constructor that does nothing, and an *implicit* [[copy constructor]] that copies the member variables in the class.
+- If your class *doesn't* define a [[default constructor]] or [[copy constructor]], then C++ *automatically* creates an *implicit* default constructor that does nothing, and an *implicit* [[copy constructor]] that copies the member variables in the class.
 - Many standard functions and containers, such as `vector<T>`, require that the `class`/`struct` `T` has, at least, a [[default constructor]] and a [[copy constructor]].
-
 ## Destructors
 A [[destructor]] is a special method in a `class`/`struct` that is *automatically* called when its object is de-allocated. A programmer *cannot* call a [[destructor]] manually: [[destructor|destructors]] are always called automatically when the object is de-allocated.
 
-While a class can have as many constructors as it needs, a class has exactly *one* [[destructor]]. The name of a [[destructor]] is *always* the name of the class with a `~` at the start. [[destructor|Destructors]] *never* have input parameters. For example, for a class called `Printer`, it's destructor would be `~Printer()`.
+While a class can have as many *constructors* as it needs, a class has exactly *one* [[destructor]]. The name of a [[destructor]] is *always* the name of the class with a `~` at the start. [[destructor|Destructors]] *never* have input parameters. For example, for a class called `Printer`, it's destructor would be called `~Printer()`.
 
-[[destructor|Destructors]] and [[constructor|constructors]] go together: when you create an object you must call a [[constructor]] for it, and when the object is deleted, it's [[destructor]] is automatically called.
+[[destructor|Destructors]] and [[constructor|constructors]] go together: when you create an object you must call a [[constructor]] to allocate it, and when the object is deleted, it's [[destructor]] is automatically called to de-allocate it.
 
-Inside a [[destructor]] you put any code you want to run when the object is deleted. Typically, this involves "clean up" code, e.g. code that calls `delete`/`delete[]` on variables that were `new`-ed in the [[constructor]]. Together, [[constructor|constructors]] and [[destructor|destructors]] are a good to manage [[free store memory]]: the [[constructor]] calls `new`, and the [[destructor]] always remembers to call `delete`/`delete[]`.
+A [[destructor]] contains code you want to run when the object is deleted. Typically, this is "clean up" code, e.g. code that calls `delete`/`delete[]` on variables that were `new`-ed in the [[constructor]]. Together, [[constructor|constructors]] and [[destructor|destructors]] are a good to manage [[free store memory]]: the [[constructor]] calls `new`, and the [[destructor]] always remembers to call `delete`/`delete[]`. This helps prevent [[memory leak]]s and [[dangling pointer|dangling pointers]].
 
-An important fact about [[destructor]]s is that they *can't* be called explicitly by the programmer. This prevents the programmer from accidentally de-allocating variables in an object before the program is finished using them.
+As mentioned at the start, an important fact about [[destructor]]s is that they *can't* be called explicitly by the programmer. This prevents the programmer from calling them at the wrong time, or forgetting to call them at all. 
 
 Here's an example of a class with a [[destructor]]:
 
@@ -345,7 +339,7 @@ struct Point
 The [[destructor]] is called `~Point()`, and all it does is print a message every time a `Point` object is deleted. Such a destructor could be useful for debugging.
 
 ## The this Pointer
-For every object, C++ automatically adds a special private pointer called `this` that points to the object. It's a called the object's [[this pointer]].
+For every object a program creates, C++ automatically adds a special private pointer called `this` that points to the object itself. It's a called the object's [[this pointer]].
 
 Here's an example of how you could use `this` in the `Point` class from above: 
 
@@ -366,6 +360,8 @@ struct Point
 ```
 
 The `print` method is accessing `x` and `y` through the `this` pointer using the standard pointer `->` notation. In this particular cases there's no need to use `this` (we could just write `x` and `y`), but later we will see situations where `this` is essential.
+
+`this` is the essential difference between a [[method]] and function. A [[method]] has access to its `this` pointer, while there is no `this` pointer for functions.
 
 ## Practice Questions
 1. In your own words, explain the difference between a 

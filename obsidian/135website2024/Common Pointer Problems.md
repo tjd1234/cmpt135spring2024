@@ -313,7 +313,7 @@ void swap3_demo()
 }
 ```
 
-**Rule of Thumb**: Use pass-by-reference instead of pointers whenever possible.
+> **Rule of Thumb**: Use pass-by-reference instead of pointers whenever possible.
 
 ## Practice Questions
 1. Why do the values of pointers usually change from run to run of a program?
@@ -329,4 +329,3 @@ void swap3_demo()
 11. Explain the difference between [[pass by value]] and [[pass by reference]].
 12. Explain how [[pass by reference]] can be simulated using pointers and [[pass by value]].
 13. In C++, why is [[pass by reference]] generally preferred over passing by pointers?
-
