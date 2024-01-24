@@ -1,4 +1,4 @@
-This the next version of `double_list.cpp` at the bottom of [[Implementing a dynamic array with objects]].
+This is a version of `double_list.cpp` (see [[Implementing a dynamic array with objects]]).
 
 ```cpp
 // double_list_plus.cpp
@@ -9,10 +9,9 @@ This the next version of `double_list.cpp` at the bottom of [[Implementing a dyn
 // - A to_string() method for nicer and more flexible printing.
 // - Overloaded operator<< for easier printing with cout.
 // - Overloaded operator[] for getting and setting individual values,
-//   e.g. it lets us write a[i] = 5 and cout << a[i]
-// - An assignment operator. If a and b are double_lists, then you can
-//   assign b
-//   to a by writing a = b.
+//   e.g. to write a[i] = 5 and cout << a[i]
+// - An assignment operator=. If a and b are double_lists, then you can
+//   assign b to a by writing a = b.
 // - operator== for comparing two double_lists, e.g. a == b true just 
 //   when a and b have the same values.
 //
@@ -116,21 +115,25 @@ public:
         return arr[i];
     }
 
-    // Overloaded operator[]: lst[i] returns a reference to the value at index
-    // location i of the underlying array. It must be a reference to a double to
-    // allow the value to be changed. If the return type was a plain double,
-    // then it would return a copy of the value, and the value in the array
-    // would not be changed.
+    // Overloaded operator[]: lst[i] returns a reference to the value 
+    // at index location i of the underlying array. It must be a 
+    // reference to a double to allow the value to be changed. If the 
+    // return type was a plain double, then it would return a copy of the 
+    // value, and the value in the array would not be changed.
     double& operator[](int i) {
-        if (i < 0 || i >= size) cmpt::error("operator[]: index out of bounds");
+        if (i < 0 || i >= size) {
+            cmpt::error("operator[]: index out of bounds");
+        }
         return arr[i];
     }
 
-    // This version of operator[] is const, which allows us to use [] with a
-    // constant double list. It returns a double (not a reference to a double),
-    // and so doesn't modify the underlying array.
+    // This version of operator[] is const, which allows us to use []
+    // with a constant double list. It returns a double (not a reference 
+    // to a double), and so doesn't modify the underlying array.
     double operator[](int i) const {
-        if (i < 0 || i >= size) cmpt::error("operator[]: index out of bounds");
+        if (i < 0 || i >= size) {
+            cmpt::error("operator[]: index out of bounds");
+        }
         return arr[i];
     }
     
@@ -155,11 +158,11 @@ public:
         }
     }
 
-    // assignment operator: makes this double_list a copy of other; this is
-    // essentially the same as replace_with_copy_of, but it lets you write a = b
-    // instead of a.replace_with_copy_of(b); and it returns a reference to this,
-    // which is standard C++ behaviour and allows you to chain assignments, e.g.
-    // a = b = c.
+    // assignment operator: makes this double_list a copy of other; 
+    // this is essentially the same as replace_with_copy_of, but it lets 
+    // you write a = b instead of a.replace_with_copy_of(b); and it 
+    // returns a reference to this, which is standard C++ behaviour and 
+    // allows you to chain assignments, e.g. a = b = c.
     double_list& operator=(const double_list& other) 
     {
         replace_with_copy_of(other);
@@ -179,7 +182,8 @@ public:
         }
     }
 
-    // comma-separated list of values as a string, wrapped in curly braces
+    // comma-separated list of values as a string, wrapped in 
+    // curly braces
     string to_string() const 
     {
         string result = "{";
@@ -203,8 +207,8 @@ public:
         return result;
     }
 
-    // sort all elements in this list in ascending order, i.e. smallest to
-    // biggest
+    // sort all elements in this list in ascending order, 
+    // i.e. smallest to biggest
     void sort_ascending() 
     {
         std::sort(arr, arr + size);

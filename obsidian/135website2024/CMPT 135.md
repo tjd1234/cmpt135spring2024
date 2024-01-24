@@ -54,14 +54,13 @@ Lecture 17: [[Introduction to inheritance|Inheritance and polymorphism]]
 Lecture 18: [[Separate compilation]], and [[splitting int_vec]] into a `.h` and `.cpp` file.
 
 --------------------------
-
 ### Week 7: Reading week (Feb 19 - 23)
 no lectures or labs
 
 --------------------------
 ### Week 8
 Lecture 19: midterm review
-*Midterm!*
+**Midterm!**
 Lecture 20: [[namespaces|Namespaces]]
 ### Week 9
 Lecture 21: [[Introduction to Exceptions|Exceptions]]
@@ -86,8 +85,6 @@ Lecture 33: [[Using Templates]]
 ### Week  14
 Lecture 34 (tentative)
 - other C++ features, e.g. regular expressions, smart pointers, move semantics, ...
-
 Lecture 35 (tentative)
 - other C++ features, e.g. regular expressions, smart pointers, move semantics, ...
-
 Lecture 36: final exam review
