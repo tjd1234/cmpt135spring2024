@@ -64,14 +64,12 @@ void dangling_pointer_demo1()
                            // memory it points to is de-allocated and
                            // should not be used in any way
 
-  
 
     *p = 42;               // ERROR! The memory p points to is not
                            // allocated, so this is not allowed. While it
                            // *may* appear to work correctly (the next
                            // cout line may print 42), it writes to memory
                            // we are not allowed to write to.
-
   
 
     cout << "*p: " << *p   // ERROR! Prints 42 for me. But that doesn't
