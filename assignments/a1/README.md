@@ -179,9 +179,9 @@ Usage: ./mysort input_file.txt [-r|-s]
   -r: sort in reverse order
   -s: sort in increasing order of string length
 
-❯ ./mysort_sol names.txt -s -s
+❯ ./mysort names.txt -s -s
 Error: invalid number of arguments
-Usage: ./mysort_sol input_file.txt [-r|-s]
+Usage: ./mysort input_file.txt [-r|-s]
   -r: sort in reverse order
   -s: sort in increasing order of string length
 
@@ -191,7 +191,7 @@ Usage: ./mysort input_file.txt [-r|-s]
   -r: sort in reverse order
   -s: sort in increasing order of string length
 
-❯ ./mysort_sol blurb
+❯ ./mysort blurb
 Error: unable to open file "blurb"
 Usage: ./mysort input_file.txt [-r|-s]
   -r: sort in reverse order
