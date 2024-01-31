@@ -39,8 +39,7 @@ Lecture 8: [[Pointers and memory management]]
 Lecture 9: [[Pointers and memory management]]
 ### Week 4
 Lecture 10: [[Common Pointer Problems]]
-Lecture 11: [[Object-oriented programming]]
-- Example: [[function-oriented dynamic array]]
+Lecture 11: [[Object-oriented programming]]; example of [[function-oriented dynamic array]]
 Lecture 12: [[Object-oriented programming]]
 ### Week 5
 Lecture 13: [[Object-oriented programming]]
