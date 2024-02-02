@@ -107,6 +107,12 @@ bool same_array(int *a, int m, int *b, int n)
     return true;
 }
 
+// a function that quotes a string
+string quote(const string& s)
+{
+    return "\"" + s + "\"";
+}
+
 void copy_array_test()
 {
     cout << "Calling copy_array_test ...\n";
