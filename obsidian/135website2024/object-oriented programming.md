@@ -380,7 +380,11 @@ The `print` method is accessing `x` and `y` through the `this` pointer using the
    - why using [[const method]]s is a good idea
    - what [[getter|getters]] and [[setter|setters]] are
 3. As noted in the comments for [[date_struct.cpp]], `is_valid(const Date& d)` sometimes returns the wrong answer. How would you fix so that it works correctly for more (ideally all!) dates?
-4. Implement the following for `Date` in [[date_class_readonly.cpp]]. Implement them as *functions* outside the class (and *not* methods inside the class):
+4. In [[date_class_readonly.cpp]], efficiently implement these two [[getter|getters]]:
+	- `get_short_month_name()` that returns a string for the month of the date. The returned strings are "Jan", "Feb", "Mar", ... , "Dec".
+	- `get_long_month_name()` that returns a string for the month of the date. The returned strings are "January", "February", "March", ... , "December".
+	 See [[Date class with month names|here]] for sample solution code.
+5. Implement the following for `Date` in [[date_class_readonly.cpp]]. Implement them as *functions* outside the class (and *not* methods inside the class):
    - `operator==(const Date& a, const Date& b)` returns `true` just when `a`
      and `b` are the same date, and `false` otherwise
    - `operator!=(const Date& a, const Date& b)` returns `true` just when `a`
