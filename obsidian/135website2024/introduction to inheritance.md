@@ -56,14 +56,14 @@ The line `class int_vec : public vector<int>` tells C++ we want all the members 
 ### A Note on public Inheritance
 We are using [[public inheritance]] when we write ``: public vector<int>``
 
-The `public` qualifier means that the `public` members of `vector<int>` remain `public` when inherited, and the `private` members remain `private`. In `public`-style inheritance, the visibility of member variables and methods in the class being inherited stay the same.
+The `public` qualifier means that the `public` members of `vector<int>` remain `public` when inherited, and the `private` members remain `private`. 
 
-C++ also allows `: protected vector<int>`, which inherits all member variables and methods in `vector<int>` so that they are `protected` in `int_vec`. A `protected` member is essentially one that is accessible just in its class and any class that inherits from it.
+C++ also allows `: protected vector<int>`, which inherits all members of `vector<int>` so that they are `protected` in `int_vec`. A `protected` member is essentially one that is accessible just in its class and any class that inherits from it. We are not using `protected` in this course.
 
-C++ also allows `: private vector<int>` inheritance, which inherits all member variables or methods in `vector<int>` so that they are `private` in `int_vec`.
+C++ also allows `: private vector<int>` inheritance, which inherits all members of `vector<int>` so that they are all `private` in `int_vec`.
 
-**In this course, inheritance will always mean** `public`-style inheritance,
-e.g. `: public vector<int>`.
+**In this course, inheritance will always mean** `public`-style inheritance, e.g. 
+`: public vector<int>`.
 
 ### Step 2: Adding the sum() Method
 We can add new methods to `int_vec`, e.g.:
@@ -249,7 +249,7 @@ int main()
 }
 ```
 
-First, notice how the constructor calls the [[default constructor]] of `vector<int>()` in its [[initialization list]]. This is important! We must call the constructor for `vector<int>` to ensure that its variables are initialized properly. We don't know what variables a `vector<int>` has, so the only way we can properly initialize them is to call the `vector<int>` constructor.
+First, notice how the constructor calls the [[default constructor]] of `vector<int>()` in its [[initialization list]]. This is important! We must call the constructor for `vector<int>` to ensure that its variables are initialized properly. We don't know what variables a `vector<int>` has, so the only way we can properly initialize it is to call the `vector<int>` constructor.
 
 After the `vector<int>` constructor finishes, we then initialize `name`.
 
@@ -1055,7 +1055,7 @@ It's wise to keep this principle in mind any time you use inheritance. Violating
 
 ## C++ and OOP
 C++ was the first popular mainstream language to support OOP. While earlier languages pioneered it, notably [Simula 67](https://en.wikipedia.org/wiki/Simula) and [SmallTalk](https://en.wikipedia.org/wiki/Smalltalk), they haven't had the widespread influence of C++. Most modern programming languages support OOP in some form, although usually with some different rules. For example:
-- [The Java language](https://en.wikipedia.org/wiki/Java_(programming_language)) renames `->` to `.` and directly supports [[interface inheritance]] with is `interface` construct. 
+- [The Java language](https://en.wikipedia.org/wiki/Java_(programming_language)) renames `->` to `.` and directly supports [[interface inheritance]] with its `interface` construct. 
 - [The Ruby language](https://en.wikipedia.org/wiki/Ruby_(programming_language)) allows you to add methods to existing classes that you didn't write.
 - [The Go language](https://en.wikipedia.org/wiki/Go_(programming_language)) only has [[interface inheritance]], and methods are not defined inside classes.
 
