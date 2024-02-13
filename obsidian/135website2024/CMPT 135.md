@@ -19,7 +19,7 @@ If for some reason none of the choices above work for you, then you could:
 See Canvas for assignment due dates and submission.
 - [Assignment 1](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a1)
 - [Assignment 2](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a2)
-- Assignment 3
+- [Assignment 3](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a3)
 - Assignment 4
 - Assignment 5
 ## Lecture Notes 
