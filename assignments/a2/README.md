@@ -155,7 +155,7 @@ and `private` whenever possible.
       `str_vec` with `{cat, dog, owl}`, then `a.join(", ")` returns 
       `{"cat, dog, owl"}`. Or `a.join(" ")` returns `{"cat dog owl"}`. Notice 
       that there is *no* separator after the last string.
-      ``
+      
       If `sep` is the empty string, then the strings are concatenated together
       with no separator, e.g. `a.to_str("")` returns `{"catdogowl"}`.
 
