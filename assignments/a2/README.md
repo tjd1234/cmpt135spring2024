@@ -152,19 +152,19 @@ and `private` whenever possible.
 
    - `join(const string& sep)`: returns a `string` representation of the
       `str_vec` with each word separated by `sep`. For example, if `a` is a
-      `str_vec` with `{cat, dog, owl}`, then `a.join(", ")` returns 
-      `{"cat, dog, owl"}`. Or `a.join(" ")` returns `{"cat dog owl"}`. Notice 
-      that there is *no* separator after the last string.
+      `str_vec` with `{"cat", "dog", "owl"}`, then `a.join(", ")` returns the
+      string `{"cat", "dog", "owl"}`, and `a.join(" ")` returns 
+      `{"cat" "dog" "owl"}`. Notice that there is *no* separator after the last string.
       
       If `sep` is the empty string, then the strings are concatenated together
       with no separator, e.g. `a.to_str("")` returns `{"catdogowl"}`.
 
-      If the `int_vec` itself is empty, then `join` should return the empty
-      string.
+      If the `int_vec` itself is empty, then `join` returns the empty string.
 
-   - `to_str()`: returns a `string` representation of the `str_vec`. Each
-      string is printed in ""-quotes, and wrapped in {}-braces as shown in the
-      example below.
+   - `to_str()`: returns a `string` representation of the `str_vec`. Each string
+      is printed in ""-quotes, separated by commas, and wrapped in {}-braces as
+      shown in the example below. If the `int_vec` itself is empty, then
+      `to_str()` returns the empty string.
 
    - `print()`: a `void` method that prints the string representation of the
      `str_vec` to `cout` *without* a `\n` at the end.
@@ -179,18 +179,18 @@ and `private` whenever possible.
    ```cpp
    str_vec arr(3, "cat");
 
-   cout << arr.join(", ") << '\n';  // prints {"cat, cat, cat"}
-   cout << arr.join("--")  << '\n';  // prints {"cat--cat--cat"}
+   cout << arr.join(", ") << '\n';  // {"cat", "cat", "cat"}
+   cout << arr.join("--")  << '\n';  // {"cat"--"cat"--"cat"}
 
-   string s = arr.to_str(); // s is the string {"cat", "cat", "cat"}
+   string s = arr.to_str(); // s is: {"cat", "cat", "cat"}
 
    arr.print();    // prints {"cat", "cat", "cat"} on cout (no \n at end)
    arr.println();  // prints {"cat", "cat", "cat"} on cout (\n at end)
    ```
 
    For this question you only need to make test functions for `join` and
-   `to_str()`. For this assignment, it's okay if you check the results of
-   `print` and `println` manually.
+   `to_str()`. It's okay if you check the results of `print` and `println`
+   manually.
 
 8. Implement these methods:
 
