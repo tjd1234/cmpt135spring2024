@@ -159,6 +159,9 @@ and `private` whenever possible.
       If `sep` is the empty string, then the strings are concatenated together
       with no separator, e.g. `a.to_str("")` returns `{"catdogowl"}`.
 
+      If the `int_vec` itself is empty, then `join` should return the empty
+      string.
+
    - `to_str()`: returns a `string` representation of the `str_vec`. Each
       string is printed in ""-quotes, and wrapped in {}-braces as shown in the
       example below.
@@ -242,9 +245,9 @@ and `private` whenever possible.
 
    arr.append(arr);          // {"apple", "orange", "pear", "banana",
                              //  "apple", "orange", "pear", "banana"}
-  ```
+   ```
 
-  Write two test functions, once for each version of `append`.
+   Write two test functions, once for each version of `append`.
 
 10. Implement the `void` mutating method `pluralize_all()` that *pluralizes*
     all the strings in `str_vec` using these rules:
@@ -312,28 +315,28 @@ and `private` whenever possible.
 
     - `operator==(a, b)` is a `bool` function that returns `true` if the
       `str_vec` `a` and the `str_vec` `b` have the same elements in the same
-      order, and `false` otherwise
+      order, and `false` otherwise;
 
     - `operator!=(a, b)` is a `bool` function that returns `true` if the
       `str_vec` `a` and the `str_vec` `b` *don't* have the same elements in
       the same order, and `false` otherwise
 
-   Example:
+    Example:
 
-   ```cpp
-   str_vec a(3, "cat"); 
-   str_vec b(3, "cat");
+    ```cpp
+    str_vec a(3, "cat"); 
+    str_vec b(3, "cat");
 
-   if (a == b) cout << "same\n";       // prints "same"
-   if (a != b) cout << "different\n";  // prints nothing
+    if (a == b) cout << "same\n";       // prints "same"
+    if (a != b) cout << "different\n";  // prints nothing
 
-   a.set(0, "feline");
+    a.set(0, "feline");
 
-   if (a == b) cout << "same\n";       // prints nothing
-   if (a != b) cout << "different\n";  // prints "different"
-   ```
+    if (a == b) cout << "same\n";       // prints nothing
+    if (a != b) cout << "different\n";  // prints "different"
+    ```
 
-   Write test functions for both `operator==` and `operator!=`.
+    Write test functions for both `operator==` and `operator!=`.
 
 15. Implement a mutating method `sort()` that re-arranges the elements of a
     `str_vec` into alphabetical order.
