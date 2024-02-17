@@ -50,7 +50,7 @@ Lecture 15: [[Object-oriented programming]]
 ### Week 6
 Lecture 16: [[Introduction to inheritance|Inheritance and polymorphism]]
 Lecture 17: [[Introduction to inheritance|Inheritance and polymorphism]]
-Lecture 18: [[Separate compilation]], and [[splitting int_vec]] into a `.h` and `.cpp` file.
+Lecture 18: [[Introduction to inheritance|Inheritance and polymorphism]]
 
 --------------------------
 ### Week 7: Reading week (Feb 19 - 23)
@@ -60,7 +60,7 @@ no lectures or labs
 ### Week 8
 Lecture 19: midterm review
 **Midterm!**
-Lecture 20: [[namespaces|Namespaces]]
+Lecture 20: [[Separate compilation]], and [[splitting int_vec]] into a `.h` and `.cpp` file; [[namespaces|Namespaces]]
 ### Week 9
 Lecture 21: [[Introduction to Exceptions|Exceptions]]
 Lecture 22: [[Recursion]]
