@@ -22,8 +22,9 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-#include "cmpt_error.h" // These are the only permitted includes!
-#include <algorithm>    // Don't include anything else.
+#include "Chatbot.h"    // These are the only permitted includes!
+#include "cmpt_error.h" // Don't include anything else.
+#include <algorithm>
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
