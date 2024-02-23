@@ -5,16 +5,12 @@
 [Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth) is a renowned computer scientist whose most famous work is a series of books called [The Art of Computer Programming](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming). In 1962, he wrote a 7-book outline for it, and as of 2024 has not quite finished volume 4.
 
 In these books he gives detailed mathematical analyses of many important algorithms. In Volume 1 (published in 1967), finding the max value among a list of numbers was one of the example problems that Knuth examined. While the algorithm is simple, determining its performance has unexpected depth.
-
 ## Finding the Max
-Finding the maximum value among a list of numbers is a common and practical problem. The basic algorithm that solves it isn't complicated, but, as we will see, there's a surprising detail in its running-time.
-
-The problem can be stated precisely as follows:
+Finding the maximum value among a list of numbers is a common and practical problem. The problem can be stated precisely as follows:
 
 > **The Max of a List**: Given values $v_0, v_1, \ldots, v_{n-1}$ with $n > 0$, find $i$ such that $v_i \geq v_j$ for all $j$ in $0, 1, \ldots , n-1$. In other words, find the largest value among $v_0, v_1, \ldots, v_{n-1}$.
 
 Notice that this definition allows for the possibility that the max occurs 2 or more times. Also, we assume *nothing* about the order of the elements: $v_0, v_1, \ldots, v_{n-1}$ could be in *any* order at all.
-
 ## Basic Solution
 The basic algorithm for solving this problem checks each element of the list to see if it's bigger than the values that have been checked earlier:
 
@@ -49,9 +45,9 @@ So we say the number of comparisons it does is proportional to $n$, i.e. it's *l
 ## Can Fewer Comparisons be Done?
 Is there a max-finding algorithm that can do fewer than $n-1$ comparisons?
 
-In general, *no*, there's no such algorithm. After setting $v_0$ to be the initial max value, we must check each of the remaining $n-1$ values to see which is the biggest. If skip even one of those values, that value might be the max; so at least $n-1$ comparisons are needed.
+In general, *no*, there's no such algorithm. After setting $v_0$ to be the initial max value, we must check each of the remaining $n-1$ values to see which is the biggest. If we skip even one of those values, then that value might be the max; so at least $n-1$ comparisons are needed.
 
-The max can be found more quickly in some special cases. For example, if $v_0, \ldots, v_{n-1}$ were in ascending sorted order, then $v_{n-1}$ is the max element. But, in our statement of the max problem above, we explicitly said we are *not* assuming anything about the order of the elements, and so, in general, we can't assume the values are sorted.
+The max can be found more quickly in some special cases. For example, if we know that $v_0, \ldots, v_{n-1}$ are in ascending sorted order, then $v_{n-1}$ is the max element. But, in our statement of the max problem above, we explicitly said we are *not* assuming anything about the order of the elements, and so, in general, we can't assume the values are sorted.
 
 ## A C++ Implementation
 The implementation of the max algorithm is fairly straightforward. Notice that we require at least one element in the vector `v`.
@@ -81,7 +77,7 @@ int max_for(const vector<int>& v) {
 ```
 
 ## A Recursive Max
-We can implement this max algorithm recursively using these two cases:
+We can implement the max algorithm recursively using these two cases:
 
 - **Base case**: if `v` has 1 element, return the that 1 element
 - **Recursive case**: otherwise, return the max of the first element and the max of the rest of `v`
@@ -177,7 +173,7 @@ vector<int> rand_vec(int n) {
 }
 ```
 
-`rand()` is from `<cmath>`, and it generates [[pseudo-random number|pseudo-random numbers]]. To make it truly unpredictable, we can set an initial seed for the based on the current time:
+`rand()` is from `<cmath>`, and it generates [[pseudo-random number|pseudo-random numbers]]. To make it unpredictable, we can set an initial seed based on the current time:
 
 ```cpp
 // srand sets the seed for rand()
@@ -185,7 +181,7 @@ vector<int> rand_vec(int n) {
 srand(time(NULL));
 ```
 
-If you *don't* set a seed, or the same value every time, then the random numbers will be the *same* each time you run the program. Having the same random numbers each time can be helpful for debugging.
+> If you *don't* set a seed, or use the same seed value every time, then the random numbers will be the *same* each time you run the program. Having the same random numbers each time can be helpful for debugging.
 
 Now this version of max counts the number of times the line `mi = i` runs:
 
@@ -234,15 +230,6 @@ These results are based on random data, so if you were to repeat these trials yo
 
 What's surprising about these numbers is how *small* they are, even with very large vectors. They suggest that for large amounts of randomly-ordered data `mi = i` is executed very few times. This is not obvious from the algorithm!
 
-## An Estimate of the Correct Answer
-Here's an informal argument about the average number of times `mi = i` is called on randomly ordered data. 
-
-The probability that the 1st element is the largest of the first 1 is $\frac{1}{1}$. The probability that the 2nd element is the largest of the first 2 is $\frac{1}{2}$. The probability that the 3rd element is the largest of the first 3 is $\frac{1}{3}$. In general, the probability that the *n*th element is the largest of the first $n$ is $\frac{1}{n}$.
-
-This means that the there is a $\frac{1}{i}$ chance that element at location $i$ will call `mi = i`. Assuming these probabilities are independent, the total expected number of times `mi = i` is called is $H_n = \frac{1}{1} + \frac{1}{2} + \frac{1}{3} + \ldots + \frac{1}{n}$.  This expression is called the *n*th [harmonic number](https://en.wikipedia.org/wiki/Harmonic_number). $H_n$ grows very slowly, e.g. $H_{1 \text{billion}}$ is the billionth harmonic number) is only about 21 (!).
-
-So, if you call the max function on a vector with a billion entries, you would expect `mi = i` to be called about 21 times.
-
 ## Practice Questions
 1. Give a definition for the *min* of a list, in the same style as the definition for the max of a list.
 2. Suppose you have a list of $n$ elements in some unknown order. About how many comparisons would you expect to do to calculate *both* the min and max item? What is the answer when written in [[O-notation]]?
@@ -251,8 +238,7 @@ So, if you call the max function on a vector with a billion entries, you would e
    int max(const vector<int>& v, int begin, int end)
    ```
 4. In your own words, explain the *seed* for the `rand()` random number generator. How is it set? What happens if you set it to the same value every time? How can you make different random numbers each run of a program?
-5. What is the definition of $H_n$, i.e. the nth Harmonic number?
-6. Suppose vector `v` has 5000 `int`s in some unknown order. What is the:
+5. Suppose vector `v` has 5000 `int`s in some unknown order. What is the:
 	1. minimum number of times that `mi = i` could be called? Under what conditions would that happen?
 	2. maximum number of times that `mi = i` could be called? Under what conditions would that happen?
 	3. average number of times that `mi = i` could be called?

@@ -1,13 +1,13 @@
 In this note, we'll see how to break up a big program into smaller pieces that can be compiled independently of each other.
 
-See also [[splitting int_vec]] for another example of separate compilation.
+See also [[splitting int_vec]] for an example of separate compilation.
 
 ## The General Idea
-Suppose you're creating an interactive paint program. It has a class for menus, a class for brushes, a class for colors, and so on. It might have hundreds of classes.
+Suppose you're creating an interactive paint program. It has a class for menus, class for brushes, a class for colors, and so on. It might have hundreds of classes.
 
-Putting all those classes into a single `.cpp` file is *possible*, but not a good idea. If you change just one line of code then you must re-compile the *entire* program. Compiling a giant file takes substantial time, which slows down development. 
+Putting all those classes into a single `.cpp` file is *possible*, but probably not a good idea. If you change just one line of code then you must re-compile the *entire* program. Compiling a giant file takes substantial time, which slows down development. 
 
-Another issue is projects with multiple programmers. How can multiple programmers edit and compile a single file at the same time? How can they be sure they're not overwriting someone else's code? What happens when two programmers make *different* changes to the same line of code? These are difficult issues that make using a single file practically impossible with multiple programmers.
+Another issue is projects with multiple programmers. How can multiple programmers edit and compile a single file at the same time? How can they be sure they're not overwriting someone else's code? What happens when two programmers make *different* changes to the same line of code? These are tricky issues that make using a single file practically impossible with multiple programmers.
 
 To solve these problems, we can divide large programs into multiple files. We put groups of related classes and functions into their own files. This lets us compile each `.cpp` file individually, and different programmers can agree to work on different files to help avoid conflicts. 
 
@@ -16,7 +16,7 @@ To solve these problems, we can divide large programs into multiple files. We pu
 ## Definitions and Declarations
 To split a C++ program into multiple files, we must distinguish between **definitions** and **declarations**. Variables, functions, methods, classes, structs, etc. can *declared*.
 
-When you *declare* something, you give it a name and associated type information, but you don't give it a value/implementation. When you *define* something, you give a value or implementation.
+When you *declare* something, you give it a name and associated type information, but you don't give it a value/implementation. When you *define* something, you give it a value or implementation.
 
 For example, here is a *declaration* and *definition* of a function that squares a number:
 
@@ -39,7 +39,9 @@ public:
 }
 ```
 
-It turns out that all definitions are also declarations. But declarations are *not* definitions.
+Importantly, **all definitions are also declarations**. But declarations are *not* definitions.
+
+> **Rule** In C++, definitions are also declarations. However, declarations are not always definitions.
 
 You can *declare* a variable like this:
 
@@ -47,9 +49,9 @@ You can *declare* a variable like this:
 extern int n;  // declaration of n 
 ```
 
-However, this is fairly rare and we won't declare variables in this course.
+However, we won't declare variables in this course.
 
-### The Single Definition Rule
+## The Single Definition Rule
 C++ follows this rule:
 
 > **Single definition rule** 
@@ -83,61 +85,15 @@ int f(int a, int b) {  // compiler error: re-definition of f
 }
 ```
 
-The single definition rule can be hard to follow when using multiple files. You must be careful to ensure that every variable, function, class, etc. is defined exactly once.
+The single definition rule can be hard to follow when using multiple files. You must be careful to ensure that every variable, function, class, etc. is defined *exactly once*.
 
-To help with this, there is a standard format for splitting C++ file into files. Each file is split into a `.h` [[header file]] containing (mostly) *declarations*, and a `.cpp` implementation file containing the corresponding *definitions*.
+To help with this, there is a standard format for splitting C++ programs into multiple files. Essentially, each part of a program is split into two files
+- a `.h` [[header file]] containing (mostly) *declarations*
+- a `.cpp` implementation file containing the corresponding *definitions*
 
-For functions, declarations are just the header of the function without a body, e.g.:
-
-```cpp
-int f(int a, int b);   // ok: declaration of f
-
-int f(int a, int b) {  // ok: definition of f
-	return 2*a + b;
-}
-```
-
-It's okay for a C++ program to have multiple *declarations* of a variable, function, or a class/struct. They must have:
-- **exactly one definition**
-- **one, or more, declarations**
-
-> **Fact** In C++, definitions are also declarations. However, declarations are not always definitions.
-
-This is an important distinction! In general, *definitions* go in `.cpp` files, and *declarations* go in `.h` files.
-
-So, for example, this code is allowed in C++:
-
-```cpp
-int f(int a, int b);   // ok: declaration of f
-int f(int a, int b);   // ok: declaration of f
-
-int f(int a, int b) {  // ok: definition of f
-	return 2*a + b;
-}
-
-int f(int a, int b);   // ok: declaration of f
-```
-
-But code like this is will *not* compile:
-
-```cpp
-int f(int a, int b);   // ok: declaration of f
-
-int f(int a, int b) {  // ok: definition of f
-	return 2*a + b;
-}
-
-int f(int a, int b);   // ok: declaration of f
-
-int f(int a, int b) {  // compiler error: re-definition of f
-	return 2*a + b;
-}
-```
-
-### Classes
-The story is similar for classes. For instance, the class `RGB_color` (for storing colors) would be split into the [[header file]] `RGB_color.h` containing a declaration of `RGB_color`, and a corresponding `.cpp` implementation file contains its definition. Other code that wants to use `RGB_color` must include the `.h` header using `#include "RGB_color"`.
-
-For example, here is a *definition* of the `RGB_color` class, and definitions of all the methods in it:
+Here we will focus on splitting classes/structs into header files and implementation files.
+## Splitting Classes into Headers and Implementations
+Consider the class `RGB_color` that stores colors. One way of implementing it is to put all this code into a single file:
 
 ```cpp
 class RGB_color {   // definition of RGB_color
@@ -172,9 +128,9 @@ public:
 }; // class RGB_color
 ```
 
-You can tell it's a definition because the methods *inside* the class have bodies. 
+You can tell it's a definition because the methods inside the class have bodies. 
 
-In contrast, here is a *definition* of `RGB_color` with its methods *declared* but *not defined*:
+But there is another way to define `RGB_color` where we *define* the *class*, but only *declare* the *methods*:
 
 ```cpp
 class RGB_color {   // definition of RGB_color 
@@ -195,14 +151,16 @@ public:
 }; // class RGB_color
 ```
 
-None of the methods have bodies, just headers. This is enough to be able to correctly call `RGB_color` objects. Note that the private variables are included inside the class.
+None of the methods have bodies, just headers. This is enough for the compiler to check that an `RGB_color` object is called correctly. Note that the private variables are included inside the class.
 
-You can put the *definitions* the methods of `RGB_color` afterwards like this:
+WE can now put the *definitions* the *methods* of `RGB_color` afterwards like this:
 
 ```cpp
 class RGB_color {
 	// ...
 }; 
+
+/////////////////////////////////////////////////////////////////
 
 RGB_color::RGB_color() // default constructor
 { }  // member initialization is used to set red, green, blue
@@ -230,11 +188,17 @@ void RGB_color::invert() {
 }
 ```
 
-Note that `RGB_color::` is at the front of all the method names: this is how C++ knows they belong to `RGB_color`.
+It's necessary to put `RGB_color::` at the front of all the method names so C++ knows they belong to `RGB_color`.
 
-When putting `RGB_color` its own files, you should put *declarations* in `RGB_color.h`, and *definitions* in `RGB_color.cpp`. Code that *uses* `RBG_color` must `#include` the `.h` file, e.g.:
+While we can put all this code in a single file, we can also split it into two files. The line of `//` characters shows where the split occurs:
+- The class definition above the line goes in `RGB_color.h`
+- The method definitions below the line goes in `RGB_color.h`
+
+Code that *uses* `RBG_color` must `#include` the `.h` file. For example, suppose we have a program named `paint.cpp` that uses `RGB_color`. We must include `RGB_color.h` like this:
 
 ```cpp
+// paint.cpp
+
 #include "RGB_color.h"
 #include <iostream>
 
@@ -252,7 +216,7 @@ int main() {
 }
 ```
 
-Compared to most other modern programming languages, this is a lot of work just to get separately compiled files. But it works, and has stood the test of time.
+Compared to most other modern programming languages, this is a lot of work just to get separately compiled files. But it does work, and has stood the test of time.
 
 > **Note** C++20  added **modules** to C++, which will hopefully simplify and improve how separate compilation works. However, modules are not yet widely available in C++ compilers.
 
@@ -260,15 +224,15 @@ Compared to most other modern programming languages, this is a lot of work just 
 In what follows we show how to convert a file with a class into a separately compileable file. All the code discussed below is in [here](https://github.com/tjd1234/cmpt135spring2023/tree/main/separate_compilation/rgb_color).
 
 ### Version 1: All In One File
-In [[RGB_color_allInOne.cpp]], everything is in one file. The class and function definitions, as well as the `main()` function appear in the same file. 
+In [[RGB_color_allInOne.cpp]], all the code, including the `main()` function, is in one file.
 
-To run this code, type this command (make sure the course makefile is in the same folder):
+To run this code, first type this command (make sure the course makefile is in the same folder):
 
 ```bash
 > make RGB_color_allInOne
 ```
 
-This creates an executable file named `RGB_color_allInOne` that run like
+This creates an executable file named `RGB_color_allInOne` that runs like
 this:
 
 ```bash
@@ -278,7 +242,7 @@ this:
 The good thing about this approach is that it is simple. However, it doesn't *scale*: if your program gets bigger, or more programmers get involved, then putting all the code into one file is impractical and inefficient.
 
 ### Version 2: All in One File: Methods Outside the Class
-[[RGB_color_split.cpp]] stills puts *everything* into a single `.cpp` file, but with one important change: the bodies of the methods in `RGB_color` are defined *outside* the class instead of inside the class. In [[RGB_color_split.cpp]] the `RGB_Color` class looks like this:
+[[RGB_color_split.cpp]] stills puts *everything* into a single `.cpp` file, but with one important change: the bodies of the methods in `RGB_color` are defined *outside* the class instead of inside the class. In [[RGB_color_split.cpp]] the `RGB_Color` class comes first, followed by the method definitions:
 
 ```cpp
 class RGB_color {
@@ -298,15 +262,13 @@ public:
 }; // class RGB_color
 ```
 
-The step is preparation for the step that follows, where we put the class and function headers (declarations) into one file, and their implementations (definitions) into another.
-
-To run this code, type this command:
+To run this code, first type this command:
 
 ```bash
 > make RGB_color_split
 ```
 
-This creates an executable file named `RGB_color_allInOne` that run like this:
+This creates an executable file named `RGB_color_allInOne` that runs like this:
 
 ```bash
 > ./RGB_color_split
@@ -316,15 +278,15 @@ This creates an executable file named `RGB_color_allInOne` that run like this:
 See [[RGB_color.h]], [[RGB_color.cpp]], and [[color_test.cpp]].
 
 This version re-arranges the contents of [[RGB_color_split.cpp]] into three separate files:
-- [[RGB_color.h]] contains the class and functions headers (i.e. the declarations). Notice that [[include guards]] are used to with this file to prevent multiple inclusion.
+- [[RGB_color.h]] contains the class and functions headers (i.e. the declarations). Notice that [[include guards]] are used to prevent multiple including the definition of the `RGB_color` more than once (which would be an error, i.e. it violates the single definition rule).
 - [[RGB_color.cpp]] contains the implementations (i.e. the definitions) of the class and functions that appear in [[RGB_color.h]]. Notice that this files includes [[RGB_color.h]]. It does *not* contain a `main()` function.
 - [[color_test.cpp]] contains the `main()` function, and includes [[RGB_color.h]].
 
 Now we have two `.cpp` files, and both of them need to be compiled using `g++ -c`:
 
 ```bash
-> g++ -c RGB_color.cpp
-> g++ -c color_test.cpp
+> g++ -c RGB_color.cpp   // creates RGB_color.o
+> g++ -c color_test.cpp  // creates color_test.o
 ```
 
 After these files are compiled, the files `RGB_color.o` and `color_test.o` should exist.
@@ -372,7 +334,7 @@ dist((200, 100, 55), (55, 155, 200)) ...
 dist((200, 100, 55), (55, 155, 200)) = 212.309
 ```
 
-> **Note** The `make` command has many more details that we won't go into here. For example, the rules can be set up so that `.cpp` files are only re-compiled if they have changed since their last compilation. This can greatly speed-up compiling and linking large programs.
+> **Note** The `make` command is an entire language and has many more details that we won't go into here. For example, the rules can be set up so that `.cpp` files are only re-compiled if they have changed since their last compilation. This can greatly speed-up compiling and linking large programs.
 
 This diagram shows how all the files relate:
 

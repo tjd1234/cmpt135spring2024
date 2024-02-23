@@ -2,7 +2,7 @@
 **O-notation**, also known as **asymptotic notation**, or **order notation**, is a mathematical tool that is useful when discussing [[algorithm]] performance. It is commonly used both in the theoretical analysis of [[algorithm|algorithms]], and in practical programming for estimating running-times.
 
 ## Algorithms and Input
-To analyze [[algorithm|algorithms]] mathematically, we make a number of simplifying assumptions. We assume that an [[algorithm]] $A$ takes an input of size $n$. Typically, this input is a sequence, such as an array or vector or string, with $n$ elements.  We  assume $A$ runs for a *finite* amount of time, i.e. that it eventually stops and returns a result.
+To analyze [[algorithm|algorithms]] mathematically, we will make a number of simplifying assumptions. First, we assume that an [[algorithm]] $A$ takes an input of size $n$. Typically, this input is a sequence, such as an array or vector or string, with $n$ elements.  We assume $A$ runs for a *finite* amount of time, i.e. that it eventually stops and returns a result.
 
 For example, [[linear search]] takes $n$ elements and a target value $x$ as input, and returns the index location of an element that equals $x$; if $x$ is not in the list, -1 is returned:
 
@@ -18,33 +18,32 @@ We've written this algorithm in [[pseudocode]] instead of C++ to make it more re
 ## Measuring Running Time
 Since we are interested in how quickly [[algorithm|algorithms]] run, you might think that we would use real time --- such as seconds or microseconds --- to measure performance. We certainly judge real-world software as being fast or slow by how much time it takes.
 
-But real time is difficult to measure for programs because different computers run at different speeds. To fairly compare two programs, we have to make sure they are run in the same conditions, i.e. on *exactly* the same computer, with *exactly* the same software, etc. We have to ensure no other software is running, e.g. if you check your email or watch a video while a program is running you might get inaccurate timings.
+But real time is difficult to measure for programs because different computers run at different speeds, and may be doing other things at the same time (e.g. playing a video, receiving email, etc). To fairly compare two programs, we'd have to make sure they are run in the same conditions, i.e. on *exactly* the same computer, with *exactly* the same software, etc. That is easier said than done.
 
 ## Key Operations
-So, to avoid these problems, computer scientists estimate an [[algorithm]]'s running time by measuring the *work* it does. And this work is estimated by *counting* how many times it executes a chosen [[key operation]]. A [[key operation]] is typically the most frequently executed instruction in an [[algorithm]]. The main advantage of this approach is that it is independent of hardware and software details, and it can even be applied to [[algorithm|algorithms]] written in [[pseudocode]] on paper.
+So, to avoid these problems, computer scientists will often estimate an [[algorithm]]'s running time by measuring the *work* it does. And this work is estimated by *counting* how many times it executes a chosen [[key operation]]. A [[key operation]] is typically the most frequently executed instruction in an [[algorithm]]. The main advantage of this approach is that it is independent of hardware and software details, and it can even be applied to [[algorithm|algorithms]] written in [[pseudocode]] on paper.
 
-It's very important to choose a sensible [[key operation]] that reflects the work the algorithm does. It should give us a pretty good estimate of the algorithms running time. For example, in [[linear search]] above, there are a couple of reasonable choices for the [[key operation]]:
+It's important to choose a sensible [[key operation]] that reflects the work the algorithm does. It should give us a pretty good estimate of the algorithms running time. For example, in [[linear search]] above, there are a couple of reasonable choices for the [[key operation]]:
 
-- Item comparison using $=$.
-- Item accesses, i.e. a call to $a_i$ corresponds accessing an element
-  of an array or vector.
-- Variable assignments using $\leftarrow$.
+- item comparison using $=$
+- item accesses, i.e. a call to $a_i$ corresponds accessing an element of an array or vector
+- variable assignments using $\leftarrow$
 
-Traditionally, item **comparisons**, i.e. calls to $=$ or $\leq$, are the [[key operation]] for sorting and searching algorithms.
+Usually, item **comparisons**, i.e. calls to $=$ or $\leq$, are the [[key operation]] for sorting and searching algorithms.
 
 An example of a **bad** choice of [[key operation]] for linear search would be the number of times `return` is called. `return` is called exactly once, no matter how big $n$ is. This is not helpful because the running-time of linear search gets longer when $n$ is big, but the number of times `return` is called never changes.
 
 ## Algorithm Running Time
 We will refer to the key instruction count in an [[algorithm]] as its **running time**. Keep in mind that even though we call this *time*, it is not actual time --- it is just a count of how many times the key instruction is executed.
 
-Care must be taken when comparing the running times of [[algorithm|algorithms]] with different key operations. For example, comparing two strings may take longer than comparing two integers, and so 1000 string comparisons may take longer than 1000 integer comparisons. It's like comparing money: if you have $1000 Canadian and $1000 American, it's imprecise to say that you have $2000 in total.
+Care must be taken when comparing the running times of [[algorithm|algorithms]] with different key operations. For example, comparing two strings may take longer than comparing two integers, and so 1000 string comparisons may take longer than 1000 integer comparisons. It's like comparing money: if you have $1000 Canadian and $1000 American, it's incorrect to say that you have $2000 in total.
 
 We should also be clear if we are talking about the **best case**, **average case**, or **worst case** running time. In practice, the average case and worst case running times are usually the most useful.
 
 ## O-Notation
-Getting precise instruction counts of even simple [[algorithm|algorithms]] is often difficult, and the mathematical expressions can be complicated. Simple [[key operation|key operations]], such as comparisons or additions, can be done so quickly on most computers that there is often little practical difference between [[algorithm|algorithms]] that do $5n + 1000$ or $n$ operations.
+Getting precise instruction counts of even simple [[algorithm|algorithms]] is often difficult, and the mathematical expressions can be complicated. Simple [[key operation|key operations]], such as comparisons or additions, can be done so quickly on most computers that there is often little practical difference between [[algorithm|algorithms]] that do, say, $5n + 1000$ or $n$ operations.
 
-For these reasons we often describe algorithm instruction counts using *approximations*. **O-notation** (also known as **big O-notation**, **order notation**, or **asymptotic notation**) is a mathematically respectable way of approximating expressions.
+For these reasons we often simplify algorithm instruction counts using *approximations*. **O-notation** (also known as **big O-notation**, **order notation**, or **asymptotic notation**) is a mathematically respectable way of approximating expressions.
 
 Roughly, O-notation says that the **order** of a mathematical expression is its biggest term. Constants and low-order terms can be ignored. For example, we say that the expression $2n$ is in $O(n)$, and that $25n^7 -4n^3 + 20$ is in $O(n^7)$.
 
@@ -52,13 +51,18 @@ Intuitively, $O(n)$ is the *set* of all mathematical expressions of a single var
 
 The expression $45n - 80$ is in both $O(n)$ and in $O(n^3)$. We say that $O(n)$ is **tighter** than $O(n^3)$.  In practice, we usually want to know the *tightest* O-notation description for an expression since saying something like "$2n$ is $O(n^{3})$" is true but unhelpful.
 
-It's easy to determine the high-order term of polynomials. For example, all of these expressions are in $O(n^2)$: $n^2$, $n^2+100$, $n^2-100$, $2n^2+n$, $\frac{1}{2}n^2 - 500n + 700$. If you say that a particular [[algorithm]] runs in $O(n^2)$ time, then that means the [[key operation]] count can be described by some expression from $O(n^2)$ (but we don't know which one).
+It's easy to determine the high-order term of polynomials. For example, all of these expressions are in $O(n^2)$: 
+- $n^2$, $n^2+100$
+- $n^2-100$, $2n^2+n$
+- $\frac{1}{2}n^2 - 500n + 700$.
+
+If you say that a particular [[algorithm]] runs in $O(n^2)$ time, then that means the [[key operation]] count can be described by some expression from $O(n^2)$ (but we don't know which one).
 
 Here is a more precise definition of O-notation:
 
 > **Definition of O-notation.** [[Algorithm]] $A$ is order $f(n)$, written $O(f(n))$, if there exist fixed constants $k$ and $n_0$ such that $A$ requires no more than $kf(n)$ key operations to process an input of size $n \geq n_0$.
 
-Using this definition, we can rigorously prove all the basic facts about O-notation. We will not go into the details of such proofs in this course, but instead focus on getting an intuition for the underlying concepts.
+Using this definition, we can rigorously prove all the basic facts about O-notation. We will not go into the details of such proofs in this course, but instead focus on gaining intuition for the underlying concepts.
 
 ## O-notation Applied to Algorithms
 | O-expression  | Name         | Example                   |

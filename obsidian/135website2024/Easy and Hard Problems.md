@@ -26,7 +26,7 @@ Interestingly, there is a large group of important and useful problems that no o
 ## The Traveling Salesman Problem
 **The Traveling Salesman Problem (TSP)** is a famous problem that is easy to state and has many applications.
 
-Here's the problem: given a list of cities on a map (so you know the distance between any two cities), what is the *shortest* (in terms of total length) tour that visits all the cities, starting and ending at the same city?
+Here's the problem: given a list of cities positioned on a map (so you know the distance between any two cities), what is the *shortest* (in terms of total length) tour that visits all the cities, starting and ending at the same city?
 
 For example, suppose the cities are named $c_1, c_2, \ldots, c_n$. If you start at $c_1$, then you might visit $c_4$ next, and then maybe $c_2$, and so on. Eventually you come all the way back to $c_1$.
 
@@ -36,12 +36,12 @@ The "obvious" brute-force solution to the TSP is to generate all possible tours 
 
 The TSP is a well-studied problem, and there are algorithms that can solve instances of it more efficiently than brute-force. But, so far, no one has discovered an algorithm that can solve *every* TSP instance in polynomial time (or less). In other words, it is unknown if the TSP is an easy or hard problem.
 
-Since it has not been proven that a polynomial time algorithm *doesn't* exist for solving the TSP, there is the possibility that one day someone (maybe you!) could find such an algorithm. But beware: most computer scientists and mathematicians believe that no such algorithm exists, and the best that can be done are either approximation algorithms that can get get *close* to the best solution (but can't guarantee it's the best), or algorithms that are fast only in certain special cases.
+Since it has not been proven that a polynomial time algorithm *doesn't* exist for solving the TSP, there is the possibility that one day someone (maybe you!) could find such an algorithm. But beware: the TSP is a well-studied problem, and most computer scientists believe that no such algorithm exists, and that the best that can be done are either approximation algorithms that can get get *close* to the best solution (but can't guarantee it's the best), or algorithms that are fast only in certain special cases.
 
 > **Note** The TSP has a rich history. This [TSP Website](http://www.math.uwaterloo.ca/tsp/) discusses the problem in depth, and has many interesting examples, including lists of the best-known TSP tours for various problems (like visiting the capitals of all US states).
 
 ## NP-Completeness
-The TSP is a member of a class of algorithmic problems known as [[NP-complete problem|NP-complete problems]]. Here are a couple of other [[NP-complete problem|NP-complete problems]].
+The TSP is a member of an unusual set of algorithmic problems known as [[NP-complete problem|NP-complete problems]]. Here are a couple of other [[NP-complete problem|NP-complete problems]].
 
 ## [Logical satisfiability (SAT)](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem)
 
@@ -57,7 +57,7 @@ Given a set of $n$ integers, can you arrange them into two groups such that the 
 
 For example, suppose you and a friend are carrying a bunch of grocery bags from shopping. How can you divide the bags between yourselves so that you each carry the same weight (or as close as possible to the same weight)?
 
-Like SAT, efficient algorithms are known for solving *some* instances of this problem, but in general there is no known algorithm that always runs in less than exponential time for *all* instances. And no one has proven that such an algorithm doesn't exist.
+Like SAT, efficient algorithms are known for solving *some* instances of this problem, but in general there is no known algorithm that always runs in less than exponential time for *all* instances. But no one has proven that such an algorithm doesn't exist.
 
 ## NP-Complete Problems
 [[NP-complete problem|NP-complete problems]] are a subset of hard problems that have an amazing property: if any *one* NP-complete program is easy, then they are *all* easy. In other words, if you can find a worst-case polynomial time algorithm for *one* NP-complete problem, then there must be worst-case polynomial-time algorithms for *all* NP-complete problems.
@@ -66,20 +66,20 @@ You only need to come up with a single polynomial-time algorithm for *one* NP-co
 
 Currently, no one knows if *any* NP-complete problem has a polynomial-time worse-case solution.
 
-Most computer scientists believe that there is *no* NP-complete problem is easy. There are hundreds of NP-complete problems ([take a look at the list given here](https://en.wikipedia.org/wiki/List_of_NP-complete_problems)), many of them well-studied for decades, and it seems unlikely that they could *all* be easy.
+Most computer scientists believe that *no* NP-complete problem is easy. There are hundreds of NP-complete problems ([take a look at the list given here](https://en.wikipedia.org/wiki/List_of_NP-complete_problems)), many of them well-studied for decades, and it seems unlikely that they could *all* be easy.
  
-However, no one has been able to *prove* that NP-complete problems are either all easy or all hard. Many computer scientists consider this to be the most important unsolved problem in all of theoretical computer science. It is often referred to as the **P=NP problem**.
+However, no one has been able to *prove* that NP-complete problems are not easy. Many computer scientists consider this to be the most important unsolved problem in all of theoretical computer science. It is often referred to as the **P=NP problem**.
 
 ## Undecidable Problems
 We know that NP-complete problems can be solved, we just don't know how efficiently. But there are also computational problems for which it has been proved that no algorithm at all *exists* for solving them! Such problems are called **undecidable problems**.
 
-For example, suppose you want to write an **infinite-loop checker**. This is a program that takes the source code of a program as input, and returns "yes" if there's an input for the program that causes it to go into an [[infinite loop]], and "no" otherwise. Such a program could be useful for debugging programs.
+For example, suppose you want to write an **infinite-loop checker**. This is a program that takes the source code of another program as input, and returns "yes" if there's an input for the program that causes it to go into an [[infinite loop]], and "no" otherwise. Such a program could be useful for debugging programs.
 
 It turns out that there is no such a program. It's not just that it would be *hard* to write, or that such a program would run very inefficiently --- it can be proven that such a program *does not exist*.
 
 > [Here is a good short video](https://www.youtube.com/watch?v=92WHN-pAFCs) that demonstrates the essential idea of why an infinite-loop checking program doesn't exist.
 
-This particular example is known as [the halting problem](https://en.wikipedia.org/wiki/Halting_problem), and it was first solved in 1936 by the mathematician [Alan Turing](https://en.wikipedia.org/wiki/Alan_Turing):
+This particular example undecidability is known as [the halting problem](https://en.wikipedia.org/wiki/Halting_problem), and it was first solved in 1936 by the mathematician [Alan Turing](https://en.wikipedia.org/wiki/Alan_Turing):
 
 ![[Alan_Turing.png]]
 

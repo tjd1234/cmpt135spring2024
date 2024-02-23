@@ -1,5 +1,5 @@
 
-Sorting is an important and well-studied topic in computer science. A sorting algorithm re-arranges the elements of a vector (or an array, or string, or similar linear data structure) into [[sorted order]], i.e. from smallest to biggest. For simplicity, in these notes we'll stick to sorting a `vector<int>`.
+Sorting is an important and well-studied topic in computer science. A **sorting algorithm** re-arranges the elements of a vector (or an array, or string, or similar linear data structure) into [[sorted order]], i.e. from smallest to biggest. For simplicity, in these notes we'll stick to sorting a `vector<int>`.
 
 For example, these numbers are in [[sorted order]]:
 
@@ -13,10 +13,10 @@ These are not in [[sorted order]]:
 2, 4, 1, 6, 2, 7, 10   // unsorted
 ```
 
-Notice that finding that min and max value of a sorted list is easy: the first
+Notice that finding the min and max value of a sorted list is easy: the first
 value is the min, and the last value is the max. 
 
-*Hundreds* of different sorting algorithms have been created. Most of them can be described by this specification:
+*Hundreds* of different sorting algorithms have been created. Most of them can be described by this specification (written as a [[contract]]):
 
 ```cpp
 // Pre-condition:
@@ -26,18 +26,15 @@ value is the min, and the last value is the max.
 //    order, i.e. v[0] <= v[1] <= ... <= v[n-1].
 void sort(vector<int>& v)
 ```
-
-In what follows, we will look at two popular sorting algorithms: [[insertion sort]] and [[mergesort]].
-
 ### A Bad Specification of Sorting
-Consider this specification of sorting:
+Consider this *incorrect* specification of sorting:
 
 ```cpp
 // Pre-condition:
 //     none
 // Post-condition:
 //    The elements of v are in ascending sorted order, i.e.
-//    v[0] <= v[1] <= ...
+//    v[0] <= v[1] <= ... <= v[n-1]
 void sort_bad(vector<int>& v)
 ```
 
@@ -57,10 +54,11 @@ void sort_bad_b(vector<int>& v) {
 
 These are clearly not what we mean by sorting, but `sort_bad_a` and `sort_bad_b` both satisfy the specification of `sort_bad`. 
 
-The problem with the specification is that it misses the requirement that the elements must be *re-arranged*, i.e. the elements must be **permuted**. `bad_sort` does nothing to rule out adding, removing, or changing values in the vector.
+The problem with `sort-bad` is that it misses the requirement that the elements must be *re-arranged*, i.e. the elements must be **permuted**. `bad_sort` does nothing to rule out adding, removing, or changing values in the vector.
 
+In what follows, we will look at two popular sorting algorithms: [[insertion sort]] and [[mergesort]].
 ## Linear Insertion Sort
-[[insertion sort|Linear insertions sort]], or just [[insertion sort]], is a simple (but slow!) sorting algorithm that you are probably already familiar with: many people use it to sort their cards when playing card games.
+[[insertion sort|Linear insertions sort]], or just [[insertion sort]], is a simple (but slow!) sorting algorithm that uses an algorithm you are probably already familiar with: many people use it to sort their cards when playing card games.
 
 Here's the idea. Suppose we want to arrange these values into ascending order:
 
@@ -68,18 +66,18 @@ Here's the idea. Suppose we want to arrange these values into ascending order:
 5  6  1  2  4
 ```
 
-Insertion sort divides the list into a *sorted* part and an *unsorted* part:
+Insertion sort divides the list into a *sorted* part and an *unsorted* part. Initially, there only the first element is in the sorted part:
 
 ```
 sorted    unsorted
      5 |  6  1  2  4
 ```
 
-The `|` is an imaginary line that shows where the sorted/unsorted parts begin and end. Initially, only the first element is in the sorted part, and the rest are in the unsorted part.
+The `|` is an imaginary line that shows where the sorted/unsorted parts begin and end.
 
-Insertion sort then repeats the following action until the unsorted part is empty:
+Insertion sort then repeats the following until the unsorted part is empty:
 
-- Take the first element of unsorted and insert it into its correct position in sorted (so that sorted is always in [[sorted order|ascending sorted order]]).
+- Take the first element of unsorted and insert it into its correct position in sorted (so that the sorted part is always in [[sorted order|ascending sorted order]]).
 
 Lets trace this on our sample data:
 
@@ -163,7 +161,7 @@ bool is_sorted(const vector<int>& v) {
 }
 ```
 
-Testing with small arrays (which are a kind of [[extreme value test cases|extreme value test case]]) is often a good way to find bugs, and so we can test `insertion_sort` like this:
+Here is a test function:
 
 ```cpp
 bool insertion_sort_ok(vector<int> v)
@@ -197,7 +195,7 @@ void test_insertion_sort()
 ```
 
 ## The Performance of Linear Insertion Sort
-How fast is insertion sort? Not very, it turns out. To estimate it's performance, note that $n-1$ insertions are needed to sort an $n$-element vector. Each insertion requires doing a [[linear search]] followed by an insertion. Getting an exact count of how many comparisons (the standard measure of sort efficiency) are done is tricky, and so we will answer a simpler question: in the *worst-case*, how many comparisons does insertion sort do?
+How fast is insertion sort? Not very, it turns out. To estimate it's performance, note that it will do at most $n-1$ insertions since each insertion guarantees one more element is in the sorted part. Each insertion requires doing a [[linear search]] to find out where it is inserted. Getting an exact count of how many comparisons (the standard measure of sort efficiency) are done is a little tricky, and so we will answer a simpler question: in the *worst-case*, how many comparisons does insertion sort do?
 
 Suppose that the [[linear search]] part of insertion sort always does the worst-case number of comparisons, i.e. it always searches to the end of the sorted part of the list. If we are sorting 5 numbers, it would go like this:
 
@@ -209,14 +207,14 @@ a b c d | e     3 comparisons to determine where to insert d
 a b c d e |     4 comparisons to determine where to insert e
 ```
 
-In total, $0 + 1 + 2 + 3 + 4 = 10$ comparisons are needed in the worst case (in some cases fewer comparisons might be necessary). In general, in the worst case insertion sort does $0 + 1 + 2 + ... + n - 1 = \frac{n(n-1)}{2}$ comparisons to sort $n$ objects. The expression $\frac{n(n-1)}{2} = \frac{1}{2}n^2 - \frac{1}{2}n$ is *quadratic* (because the power of its highest term is 2). When $n$ is big, the low-order term $\frac{1}{2}n$ doesn't make much difference and can be ignored. So, when $n$ is big, insertion sort does about $n^2$ comparisons.
+In total, $0 + 1 + 2 + 3 + 4 = 10$ comparisons are needed in the worst case (in some cases fewer comparisons might be necessary). In general, in the worst case insertion sort does $0 + 1 + 2 + ... + n - 1 = \frac{n(n-1)}{2}$ comparisons to sort $n$ objects. The expression $\frac{n(n-1)}{2} = \frac{1}{2}n^2 - \frac{1}{2}n$ is *quadratic*. When $n$ is big, the low-order term $\frac{1}{2}n$ doesn't make much difference and so we'll ignore it. Thus, when $n$ is big, insertion sort does on the order of $n^2$ comparisons.
 
 This analysis only considers *comparisons*: it ignores the work done when inserting new elements. So lets consider how many numbers are *moved* by insertion sort. Again, to make the analysis easier, we will only consider the worst case when all of the sorted part of the vector moves up one position. When there are $k$ numbers in the sorted part, the next insertion must move all $k$ of those numbers. As shown above, the sorted part of the vector increases by 1 after every insertion, so the total number of data moves is $1+2+3+\ldots +(n-1) = \frac{n(n-1)}{2}$, which is approximately $n^2$. So, when $n$ is big, insertion sort does about $n^2$ data moves in the worst case.
 
 Whether you count comparisons or data moves (or both), the result is the same: linear insertion sort does about $n^2$ work to sort $n$ items. In practice, this turns out to be quite slow when $n$ is large, and so insertion sort should only be used for sorting a small number of items (maybe a few thousand, depending upon the speed of your computer).
 
 ## Faster Sorting: Mergesort
-There are sorting algorithms that are much faster than insertion sort. Here's a high-level description of one of them, a [[divide-and-conquer]] sorting algorithm called [[mergesort]].
+[[mergesort]] is a sorting algorithm that is much more efficient than [[insertion sort]].
 
 Suppose you want to sort these 8 elements:
 
@@ -224,12 +222,12 @@ Suppose you want to sort these 8 elements:
 4 8 2 1 3 7 6 5
 ```
 
-Using [[mergesort]], you first divide the numbers into a left part and a right part:
+Using [[mergesort]], you first divide the numbers into a left part and a right part, where the parts are equal in size (or as close to equal in size as possible):
 
 ```
         |
   left  |  right
-4 8 2 1 | 3 7 6 5
+4 8 2 1 | 3 7 6 5        split data into equals halves
         |
 ```
 
@@ -238,7 +236,7 @@ Second, *recursively* sort the left part and then recursively sort the right par
 ```
         |
   left  |  right
-1 2 4 8 | 3 5 6 7
+1 2 4 8 | 3 5 6 7      recursivel sort each half
         |
 ```
 
@@ -449,7 +447,7 @@ void mergesort(vector<int> &v)
 }
 ```
 
-> **Note** This version is not as efficient as it could be: it makes many extra copies of the vector being sorted. However it still runs quite quickly, usually *much* faster than insertion sort. 
+> **Note** This version is not as efficient as it could be: it makes many extra copies of the vector being sorted. But even with all this extra work it still runs quite quickly, usually *much* faster than insertion sort.
 
 In the worst case, [[mergesort]] does about $n \log n$ comparisons, which makes it very efficient. This table shows the expected number of comparisons done by [[mergesort]] and [[insertion sort]]: 
 
@@ -466,7 +464,6 @@ For example, to sort one hundred thousand items, [[mergesort]] does about 1.6 mi
 In general, to sort a list of $n$ items, mergesort does about $n\log n$ comparisons. In contrast, insertion sort would do about $n^2$ comparisons.
 
 [[Mergesort]] can been used as the starting point for other sorting algorithms. For example, [timsort](http://en.wikipedia.org/wiki/Timsort) is a popular sorting algorithm that works well on many real-world data sets. It is essentially a variation of [[mergesort]] that runs faster on partially sorted data. [Timsort](http://en.wikipedia.org/wiki/Timsort) is remarkably intricate (see [the source code](http://svn.python.org/projects/python/trunk/Objects/listobject.c)) and consists of hundreds of lines of carefully crafted code.
-
 
 ## Optional Extra: Quicksort
 Another very popular divide-and-conquer sorting algorithm is [[quicksort]]. In practice, it can be more efficient and use less memory than [[mergesort]], although occasionally its performance can degrade if you're unlucky.
@@ -646,7 +643,7 @@ int binary_search_rec(int x, const vector<int>& v) {
 
 The code is similar in length and complexity to the non-recursive version, and so in practice the non-recursive version is generally preferred. But this recursive version is still extremely efficient (*much* faster than any version of linear search).
 
-Binary search has a lot of little details that you must get right, and so it is important to test it carefully:
+Binary search has a lot of little details that are easier to get wrong, and so it is important to test it carefully:
 
 ```cpp
 void binary_search_test() {
@@ -669,7 +666,7 @@ void binary_search_test() {
 
 How fast is [[binary search]]? Blazingly fast, as it turns out: for an n-element vector, it needs to check, at most, $\log_2 n$ different values. So, for instance, on a million-element vector [[binary search]] will never do *at most* 20 comparisons (because $\log_2 1000000 \approx 20$).
 
-While [[binary search]] is extremely efficient for searching large amounts of data, it comes with a price: the vector must be in [[sorted order]]. The problem with sorting is that even the fastest general-purpose sorting algorithms are slower than *linear* search. Thus sorting a vector and then calling [[binary search]] is usually slower than doing [[linear search]]. However, sorting the data once followed by *multiple* binary searches may be faster than lots of linear searches.
+While [[binary search]] is extremely efficient for searching large amounts of data, it comes with a high price: the vector must be in [[sorted order]]. The problem with sorting is that the fastest general-purpose sorting algorithms are slower than *linear* search. Thus sorting a vector and then calling [[binary search]] is usually slower than just calling [[linear search]]. However, sorting the data once followed by *multiple* binary searches may be faster than lots of linear searches.
 
 > **Did you know that you can drive your car a mile without using a drop of gas?** Just start at the top of a mile-long hill and roll down. Of course, the hard part is getting your car up there in the first place! Binary search suffers from a similar problem.
 
@@ -706,7 +703,7 @@ This result shows that [[binary search]] does about $\log_2 n$ comparisons *in t
 | 100000  | 17                |
 | 1000000 | 20                |
 
-> **Fact** The base-2 logarithm $log_2 n$ of a positive integer $n$ is the least number of bits needed to represent $n$ in binary.
+> **Fact** The base-2 logarithm $\log_2 n$ of a positive integer $n$ is the least number of bits needed to represent $n$ in binary.
 
 ## Practice Questions
 1. Given an example of a vector with 5 elements that is in [[sorted order]], and after you reverse it is still in [[sorted order]].

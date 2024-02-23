@@ -2,7 +2,7 @@
 ## A Problem: Sending Information Securely on the Web
 When you send your login password to your bank, what stops hackers from copying it as travels across the internet? Anything you send on the web could be read or copied by many computers you know nothing about.
 
-To protect sensitive information, like a password, you could **encrypt** it. For example, suppose `password.txt` contain password that you want to send to your bank over the web. Before sending it, you could encrypt it:
+To protect sensitive information like a password, you could **encrypt** it. For example, suppose `password.txt` contains a password that you want to send over the web to your bank. Before sending it, you could encrypt it:
 
 ```shell
 ❯ cat password.txt 
@@ -30,17 +30,17 @@ So if an evil hacker gets a copy of your encrypted password, you are probably sa
 
 > **Careful** If you use an easy-to-guess, or very short, encryption key, then a hacker might be able to guess it. Indeed, if your key is a single English word, then it is relatively easy to guess: a hacker could try a dictionary of all English words to see if any work. 
 > 
-> This is why websites often insist that passwords be more than 8 characters long, and include special characters, like digits or punctuations. Such passwords are much harder to guess.
+> This is why many websites insist that passwords be more than 8 characters long, and include special characters, like digits or punctuations. Such passwords are much harder to guess.
 
 But there is a problem: how do you communicate the *encryption key* to the site you are sending it to so that they can decrypt your password? If you are sending `password.txt` to your bank, how does your bank get the encryption key `honeybee`? You have to send them the key somehow, and if you send it unencrypted then hackers could copy it. If you encrypt the key, then that encryption needs its own key: how do you send *that* key? There is no immediately obvious way around this problem.
 
 The [RSA Cryptosystem](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) solves this problem using a clever idea called [public key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography). Basically, the *bank* makes a carefully constructed **public key** that anyone can use to encrypt a message that only the bank can decrypt it. The bank does the decryption with a **private key** that they don’t share with anyone else. To send `password.txt` to the bank, you use the banks public encryption key to encrypt the file.
 
-We won’t go into the mathematical details of [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) other than to point out that one part the [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) algorithms requires calculating a large integer power like this: $a^{65537}$.
+We won’t go into the mathematical details of [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) other than to point out that one part of the [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) algorithms requires calculating a large integer power such as $a^{65537}$.
 
 ## Calculating Large Integer Powers Efficiently
 
-How would you calculate $a^{65537}$ *efficiently*? How multiplications are needed?
+How can you calculate $a^{65537}$ *efficiently*? For our purposes, we will say define efficiency to be the number of multiplications needed to calculate the answer.
 
 ## Some Special Cases
 There are a few simple cases for calculating powers that can be handled individually:
@@ -51,10 +51,12 @@ There are a few simple cases for calculating powers that can be handled individu
 - $a^1$ is $a$ if $a \neq 0$
 - $0^0 = 1$ ([although sometimes it is said to be undefined](https://en.wikipedia.org/wiki/Exponentiation#Zero_to_the_power_of_zero))
 
-In the following discussing we will assume these special cases are all taken care of, and won't worry about them.
+In the following discussing we assume these cases are taken care of, and so won't worry about them any more.
 
 ## The Obvious Approach (Iterative)
-The "obvious" way to calculate $a^n$ is to multiple $a$ by itself $n-1$ times. Here is how to do iteratively i.e. using a loop:
+The "obvious" way to calculate $a^n$ is to multiple $a$ by itself $n-1$ times. For example, to $a^4=a \cdot a \cdot a \cdot a$, and so *three* multiplications are needed.
+
+\Here is how to do iteratively i.e. using a loop:
 
 ```cpp
 // Pre-condition: 
@@ -100,15 +102,9 @@ int power_recur(int a, int n) {
 }
 ```
 
-While the source code is shorter than `power_iter`, it's a little less efficient since each call to `power_recur` uses some time and [[stack memory|call stack]] memory.
-
-## A Note on Testing
-One way to test these power functions is with [[property based testing]], and to test that basic properties of powers hold: 
-- $a^{m+n} = a^m\cdot a^n$. So `power_iter(a, m+n) == power_iter(a, m) * power_iter(a, n)` should  be true for any non-negative `int`s `m` and `n`.
-- $(a^m)^n = a^{mn}$. So `power_iter(power_iter(a, m), n) == power_iter(a, m*n)` should  be true for any non-negative `int`s `m` and `n`.
-
+While the source code is shorter than `power_iter`, it's probably a little less efficient since each call to `power_recur` uses some time and [[stack memory|call stack]] memory.
 ## Performance of the Obvious Approach
-For both the iterative and recursive versions of the obvious approach, we can estimate its performance as follows: 
+For both the iterative and recursive versions of the obvious approach, we can estimate the efficiency as follows: 
 
 - $a^2 = a \cdot a$ does 1 multiplication
 - $a^3 = a \cdot a \cdot a$ does 2 multiplications
@@ -116,7 +112,7 @@ For both the iterative and recursive versions of the obvious approach, we can es
 - ...
 - $a^n = a \cdot a \cdot \ldots a \cdot a$ does $n-1$ multiplications (for $n > 1$).
 
-In general, the obvious approach does $n - 1$ multiplications to calculate $a^n$. The number of multiplications is *proportional* to the running time of the functions. For example, calculating $a^{2n}$ takes about twice as many multiplications as $a^n$.
+In general, the obvious approach does $n - 1$ multiplications to calculate $a^n$. The number of multiplications is *proportional* to the running time of the functions. For instance, calculating $a^{2n}$ takes about twice as many multiplications, and thus about twice the time, as $a^n$.
 
 ## A Faster Algorithm
 The obvious algorithm shows that it is possible to calculate $a^n$ using about $n$ multiplications. But can we do better? Is there an algorithm that does fewer multiplications in general?
@@ -128,17 +124,17 @@ $a^2 \cdot a^2 = a^4$
 
 Only 2 multiplications were needed to get $a^4$. That's one less than the number of multiplications done by the obvious algorithm.
 
-It gets better. For example, $a^4 \cdot a^4 = a^8$, needs only 1 more multiplication for a total of 3 (instead of 7 for the obvious algorithm). $a^8 \cdot a^8 = a^{16}$, needs only 1 more multiplication for a total of 4 (instead of 15 for the obvious algorithm).
+It gets better. For example, $a^4 \cdot a^4 = a^8$, and so to get $a^8$ only 1 more multiplication is needed, for a total of 3 (instead of 7 for the obvious algorithm). Similarly, to get $a^{16}$ we can square $a^8$: $a^8 \cdot a^8 = a^{16}$. This calculates $a^{16}$ using only 4 multiplications (instead of 15 for the obvious algorithm).
 
 These examples show that **repeated squaring** can, at least sometimes, be used to calculate $a^n$ using fewer multiplications than the obvious algorithm.
 
-By repeated squaring we can quickly calculate $a^n$ when $n$ is a power of 2, but what about other values of $n$?
+Repeated squaring lets us quickly calculate $a^n$ when $n$ is a power of 2, but what about other values of $n$?
 
-It turns out we can make this trick work with any positive $n$. The idea is distinguish when $n$ is even, and when $n$ is odd. When $n$ is even, we can use the squaring trick; when it's odd, we can do one extra multiplication and then a squaring.
+It turns out there's a trick to make this work with any positive $n$. The idea is distinguish when $n$ is even, and when $n$ is odd. When $n$ is even, we can use the squaring trick; when it's odd, we can do one extra multiplication and then a squaring.
 
-More precisely, when $n=2k$, to calculate $a^{2k}$, we can square $a^k$ (and recursively calculate $a^k$). When $n=2k+1$, we can't get $a^{2k+1}$ by squaring. However, we can re-arrange it like this: $a^{2k+1} = a \cdot a^{2k}$. So to calculate $a^{2k+1}$ we can square $a^k$ and multiply that by $a$.
+More precisely, when $n=2k$, to calculate $a^{2k}$, we can square $a^k$ (and recursively calculate $a^k$). When $n=2k+1$, we can't get $a^{2k+1}$ by squaring. However, we can re-arrange it like this: $a^{2k+1} = a \cdot a^{2k}$. So to calculate $a^{2k+1}$ we can square $a^k$ to get $a^{2k}$, and then multiply that by $a$.
 
-Mathematically, we could describe this using this recurrence relation (assuming $a$ and $n$ are both non-negative integers):
+Mathematically, we can describe this using this recurrence relation (assuming $a$ and $n$ are both non-negative integers):
 
 $$
 a^n = 
@@ -186,9 +182,8 @@ int power_recur_fast(int a, int n) {
  4 / 2 == 2
  5 / 2 == 2
 ```
-
 ## Counting Multiplications
-How much faster is this "repeated squaring" version than the obvious power algorithm? In other words, how many multiplications does `power_recur_fast` do? It is not obvious from looking at the algorithm, and so lets add some extra code to actually count how many multiplications it does:
+How much faster is the "repeated squaring" version than the obvious power algorithm? In other words, how many multiplications does `power_recur_fast` do? It is not obvious from looking at the algorithm, and so lets add some extra code to actually count how many multiplications it does:
 
 ```cpp
 int mult_count = 0;

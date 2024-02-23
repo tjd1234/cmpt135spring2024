@@ -26,10 +26,11 @@ public:
     void invert();
 }; // class RGB_color
 
+
 //
-// The following are methods defined inside the RGB_color class, and so they all
-// start with RGB_color::
+// definitions of RGB_color classes
 //
+
 
 RGB_color::RGB_color() // default constructor
 { }  // member initialization is used to set red, green, blue

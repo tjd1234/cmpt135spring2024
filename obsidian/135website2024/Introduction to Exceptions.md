@@ -1,11 +1,11 @@
 Recognizing and handling errors is an important topic in real-world programming. There are a number of general approaches to error handling, and here we will consider one of them: *exceptions*.
 
 ## Throwing Exceptions
-In C++, an [[exception]] is an object that represents an error, or something that is significantly unexpected, i.e. something exceptional. There are two main things you can do with exceptions:
+In C++, an [[exception]] is an object that represents an error, i.e. something exceptional. We do two main things with exceptions:
 1. **Throw them**. When an error occurs your code can *throw* an exception. i.e. cause an exception to occur. As explained below, exceptions follow their own flow-of-control rules.
 2. **Catch them**. Your program has the option of *catching* and handling any exception that has been thrown. Uncaught exceptions will cause your program to crash.
 
-`throw` causes an exception. For example:
+`throw` creates a new exception. For example:
 
 ```cpp
 void error(const string& message)
@@ -95,7 +95,7 @@ void error_test4() {
 
 Now there is only one call to `delete` which will be called whether or not a `runtime_error` is thrown in the body of `try`.
 
-This `catch` statement only catches exceptions of type `runtime_error`. Determining all possible exceptions a block of code might throw can be extremely difficult, even impossible. 
+This `catch` statement only catches exceptions of type `runtime_error`. Determining all possible exceptions a block of code might throw can be extremely difficult, even impossible.
 
 If you want to catch *all* exceptions of any type, use `catch (...)`:
 
@@ -158,7 +158,7 @@ void error_test7() {
 
 Now `delete[]` is the only statement outside of the `try` block. What if *it* throws an exception? Fortunately, it never will: the rules of C++ explicitly promise that `delete` and `delete[]` will *never* throw an exception.
 
-[[smart pointer|Smart pointers]] are another way that C++ can handle issues such as this, but we won't be using them in this course.
+[[smart pointer|Smart pointers]] are another way that C++ can handle issues such as this, but we won't cover them here.
 
 ## Exceptions and Destructors
 In the above examples, we were able to clean up memory because we had access to `arr`. But consider this class:
@@ -232,7 +232,7 @@ Using constructors and destructors to manage memory (or other resources) is call
 - put calls to `delete`/`delete[]` in destructors; indeed, any code that
   *must* be run, even if an exception occurs, can be put in the [[destructor]]
 
-It's worth noting that some languages, such as Java and Python, have try/catch blocks with a third construct typically called a **finally** block. In these languages, you put code that must run, even if an exception occurs, inside the **finally** block. C++ has no **finally** block, and uses [[resource acquisition is initialization|RAII]] instead.
+> **Aside** Some languages, such as Java and Python, have try/catch blocks with a third block typically called a **finally** block. In these languages, you put code that must run, even if an exception occurs, inside the **finally** block. C++ has no **finally** block, and uses [[resource acquisition is initialization|RAII]] instead.
 
 ## Exceptions in Constructors and Destructors
 [Using exceptions inside constructors and destructors present some issues](https://isocpp.org/wiki/faq/exceptions#ctor-exceptions). The two essential things to remember are:
@@ -241,8 +241,6 @@ It's worth noting that some languages, such as Java and Python, have try/catch b
 2. It is **almost always bad** for a [[destructor]] to throw an exception that escapes the destructor. Basically, [[destructor|destructors]] should never throw exceptions.
 
 For more details, see [this discussion](https://isocpp.org/wiki/faq/exceptions#ctor-exceptions).
-
-
 ## Example: Parsing
 This function takes a string of the form `"a + b"` as input, and returns the sum of `a` and `b` as an `int`:
 
@@ -331,11 +329,11 @@ void test_safe() {
 }
 ```
 
-An important idea here is that `eval` was initially written *without* worrying about exceptions. Catching the exceptions came later, which lets the programmer separate the code that solves the problem from the error handling code. The error handling code is rather messy, and there is a lot of it. If this had been mixed-in with the main code for `eval`, it would likely have been much less readable.
+An important idea here is that `eval` was initially written *without* worrying about exceptions. Catching the exceptions came later. This lets the programmer separate the code that solves the problem from the code that handles its errors. Error handling code can get messy, and if this had been mixed-in with the main code for `eval`, it would likely have been much less readable.
 
-Notice that the exception thrown by `cmpt::error("eval: + not found")` is not handled properly in `print_safe`. The try/catch block in `print_safe` doesn't explicitly catch the `runtime_error` exception, and so it gets treated as an unknown error.
+Notice that the exception thrown by `cmpt::error("eval: + not found")` is *not* handled properly in `print_safe`. The try/catch block in `print_safe` *doesn't* explicitly catch the `runtime_error` exception, and so it gets treated as an unknown error.
 
-There is at least one other issue with the code in `eval`: how should examples like `eval("2.9 + 2")` be handled? It turns out that `stoi` *truncates* the 2.9, i.e. 2.9 becomes 2. Some programmers might say that's an error because we said that the `eval` function works with `int`s, and so it should throw an error when given a non-`int`. Other programmers might say that converting it to an `int` in this way is fine because, after all, that's what C++ normally does when converting floating point numbers to `int`s. So, in this case, it's up to you, the programmer, to decide if `eval("2.9 + 2")` ought to be an error. If you do decide it is an error, then you need a new version of `stoi` that throws an exception in that case.
+There is at least one other issue with the code in `eval`: how should examples like `eval("2.9 + 2")` be handled? It turns out that `stoi` *truncates* the 2.9, i.e. 2.9 becomes 2. Some programmers might say that's an error because we said that the `eval` function works with `int`s, and so it should throw an error when given a non-`int`. Other programmers might say that converting it to an `int` is fine because, after all, that's what C++ normally does when converting floating point numbers to `int`s. So, in this case, it's up to you, the programmer, to decide if `eval("2.9 + 2")` ought to be an error. If you do decide it is an error, then you need a new version of `stoi` that throws an exception in that case.
 
 ## Exception Propagation
 Consider this class, and the three functions that follow it:

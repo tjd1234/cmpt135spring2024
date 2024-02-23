@@ -1,7 +1,7 @@
 ## Name Collisions
 Xavier and Yang are working together on a large programming project. While they do talk to each other, they don't discuss every line of code they write.
 
-One day Xavier writes this:
+One day Xavier writes this function:
 
 ```cpp
 // kbd_events.cpp
@@ -45,7 +45,7 @@ That works, but now coordinating names becomes one of the many details that the 
 C++ has a better solution: **namespaces**.
 
 ## Using Namespaces
-A manual solution to the problem of naming that doesn't require too much communication is for Xavier and Yang to agree ahead of time to use some kind of naming convention. For example, they might agree that all Xavier's names should begin with `event_`, and all Yang's names should begin with `render_`, e.g.:
+A simple solution to the problem of naming that doesn't require too much communication is for Xavier and Yang to agree ahead of time to use a naming convention. For example, they might agree that all Xavier's names should begin with `event_`, and all Yang's names should begin with `render_`, e.g.:
 
 ```cpp
 // Xavier's names all start with event_
@@ -118,8 +118,6 @@ if (render::is_whitespace(s)) {   // calls is_whitespace in
    // ...
 }
 ```
-
-
 ## using Directives
 While namespaces provide a solution to the problem of name collisions, using `render::` and `even::` everywhere can make the code more cluttered and harder to read. So C++ provides the `using` as a way to access names in a namespace without `::`. For example:
 
@@ -140,7 +138,7 @@ if (render::is_whitespace(s)) {   // calls is_whitespace in render
 
 Calling just `is_whitespace` calls the version in `event`. You can still call the one in `render` by writing `render::is_whitespace`.
 
-There could be a lot of names in the `event` namespace, and the statement `using namespace event` gives you access to all of them. Sometimes, it is better to use particular names, e.g.:
+There could be a lot of names in the `event` namespace, and the statement `using namespace event` gives you access to all of them. Sometimes, however, it is better to use particular names, e.g.:
 
 ```cpp
 using event::is_whitespace;          // provide unqualified access
@@ -167,7 +165,7 @@ using render::is_whitespace;  // compiler error:
                               // is_whitespace already used
 ```
 
-A rule of thumb that some programmers like to follow is to *never* use `using`. The reason is that by always including the namespace name, it ultimately makes the code clearer and easier to understand. Someone reading the code never has to wonder which function is being used.
+A rule of thumb that some programmers like to follow is to *never* use `using`. The reason is that by always including the namespace name the code is easier to read understand. Someone reading the code never has to wonder which function is being used.
 
 See [[choosing good names]] for some general advice on how choose good names for variables, functions, and so on. 
 

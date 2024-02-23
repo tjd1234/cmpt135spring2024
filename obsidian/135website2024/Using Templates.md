@@ -1,4 +1,4 @@
-[[generic function|Template Functions]], also known as [[generic function|generic functions]], are C++ functions where one, or more, of the input or output values have an unspecified type.
+[[generic function|Template Functions]], also known as [[generic function|generic functions]], are C++ functions where  *types* are allowed to vary.
 
 ## A Generic Swap Function
 Here are two implementations of a function for swapping variable values:
@@ -104,7 +104,7 @@ When `min_of(nums)` is called, the `T` in `min_of(const vector<T>& v)` is set to
 
 Notice that `vv` is a vector of vector. C++ defines a standard `operator<` and `operator=` for vectors, and so we can call `min_of` on a `vector<vector<int>>`.
 
-Finally, for the above code to work we also need to define `operator<<`:
+Finally, for the above code to work we also need to define a generic `operator<<`:
 
 ```cpp
 template <typename T>
@@ -122,8 +122,10 @@ ostream &operator<<(ostream &os, const vector<T> &v)
 }
 ```
 
+This requires that the type `T` has `operator<<` defined for it.
+
 ## Class Templates
-A common use of templates is to implement **generic containers**. For example, `vector<T>` is a generic container, and all the methods in it work with almost any type `T`. C++ provides many pre-made generic containers, and you can also write your own. For example, here is an implementation of a generic stack:
+Another use of templates is to implement **generic containers**. For example, `vector<T>` is a generic container, and all the methods in it work with almost any type `T`. C++ provides many pre-made generic containers (such as `vector<T>`), and you can also write your own. For example, here is an implementation of a generic [[stack data structure]]:
 
 ```cpp
 #include <iostream>
