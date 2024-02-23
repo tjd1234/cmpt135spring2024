@@ -1,8 +1,11 @@
 # Assignment 3: Chatbots
 
 > In endless loops of chat and lore,
+>
 > It ponders life, algorithms, and more.
+>
 > A bard in a box, a cybernetic sage,
+>
 > Dancing on the keyboard, a virtual stage.
 >
 > -- ChatGPT, asked to write a poem about chatbots
