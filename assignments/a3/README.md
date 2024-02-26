@@ -163,7 +163,7 @@ Please format the output as in the examples:
 ## Chatbot 2: Random Replies
 
 Implement a chatbot class (that inherits from `Chatbot`) called `Random_bot`
-that chooses a random reply from a vector of given replies.
+that always gives a reply chosen at random from a vector of given replies.
 
 ### A vector<string> of Replies
 
@@ -177,7 +177,8 @@ For example:
 Random_bot cat{"Mittens", {"meow", "purrr", "meeeeow"}};
 ```
 
-Calling `cat.get_from()` returns `"meow"`, `"purrr"`, or `"meeeeow"` at random.
+Calling `cat.get_from()` returns `"meow"`, `"purrr"`, or `"meeeeow"` at random,
+no matter what string you give to it.
 
 ### Replies from a Text File
 
