@@ -38,6 +38,40 @@ public:
         return result;
     }
 
+    // A binary search algorithm is used to find the position of an element in a
+    // sorted array.
+    int binary_search(const int_vec &v, int value)
+    {
+        int low = 0;
+        int high = v.size() - 1;
+        while (low <= high)
+        {
+            int mid = (low + high) / 2;
+            if (v[mid] == value)
+            {
+                return mid;
+            }
+            else if (v[mid] < value)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+    }
+
+    void test_binary_search()
+    {
+        int_vec v("Table 1");
+        v.push_back(2);
+        v.push_back(1);
+        v.push_back(3);
+        v.sort_ascending();
+        cout << "binary_search: " << binary_search(v, 3) << "\n";
+    }
+
     int sum2() const
     {
         int result = 0;

@@ -41,8 +41,8 @@ using namespace std;
 
 int main()
 {
-  cout << "Assignment 3: Chatbots\n";
-  //
-  // ... put code for testing your functions here ...
-  //
+    cout << "Assignment 3: Chatbots\n";
+    //
+    // ... put code for testing your functions here ...
+    //
 }
