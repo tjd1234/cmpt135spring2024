@@ -16,7 +16,9 @@ To solve these problems, we can divide large programs into multiple files. We pu
 ## Definitions and Declarations
 To split a C++ program into multiple files, we must distinguish between **definitions** and **declarations**. Variables, functions, methods, classes, structs, etc. can *declared*.
 
-When you *declare* something, you give it a name and associated type information, but you don't give it a value/implementation. When you *define* something, you give it a value or implementation.
+When you *declare* something, you give it a name and associated type information, but you don't give it a value/implementation. 
+
+When you *define* something, you give it a value or implementation.
 
 For example, here is a *declaration* and *definition* of a function that squares a number:
 
@@ -36,7 +38,7 @@ class Point;    // declaration of Point
 class Point {   // definition of Point
 public:
 	double x, y;
-}
+};
 ```
 
 Importantly, **all definitions are also declarations**. But declarations are *not* definitions.
