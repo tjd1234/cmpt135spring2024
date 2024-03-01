@@ -1,4 +1,7 @@
 scratch
-swap
-min
-stack
+sorting
+shuffle
+is_sorted
+insertion_sort
+mergesort
+binary_search
