@@ -1,6 +1,6 @@
 # Exceptions
 
-Exceptions are a technique for signalling and handling recognizing errors. **Exception handling** involves these things:
+Exceptions are a technique for signaling and handling recognizing errors. **Exception handling** involves these things:
 
 - Exception objects, which are objects designed to represent errors.
 - `throw` statements that raise an exception. When a `throw` statement is executed, the program stops running the current function and start looking for a `catch` block that can handle the exception.
@@ -11,7 +11,7 @@ Exceptions are a technique for signalling and handling recognizing errors. **Exc
 You can *throw* any type of value. Here is an example of throwing a `string`:
 
 ```c++
-void test1()
+void example1()
 {
     cout << "Hello!\n";
 
