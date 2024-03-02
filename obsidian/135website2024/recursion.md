@@ -7,8 +7,8 @@ A function that calls itself, either directly or indirectly, is said to be **rec
 ```cpp
 void a() 
 {
-  cout << "Hello!\n";
-  a();
+    cout << "Hello!\n";
+    a();
 }
 ```
 
@@ -25,8 +25,8 @@ Function `b()` is a variation of `a`:
 ```cpp
 void b(int n) 
 {
-  cout << n << ": hello!\n";
-  b(n + 1);  // n + 1 here, not n
+    cout << n << ": hello!\n";
+    b(n + 1);  // n + 1 here, not n
 }
 ```
 
@@ -35,16 +35,17 @@ void b(int n)
 Having a function run until it crashes isn't very useful. Here's a version that stops when `n` is 10 or bigger:
 
 ```cpp
-void c(int n) 
+void c(int n)
 {
-  if (n >= 10) 
-  {
-    // all done: do nothing
-  } else 
-  {
-    cout << n << ": hello!\n";
-    c(n + 1);
-  }
+    if (n >= 10)
+    {
+        return; // all done: do nothing
+    }
+    else
+    {
+        cout << n << ": hello!\n";
+        c(n + 1);
+    }
 }
 ```
 
@@ -131,13 +132,13 @@ By modifying `say_hello`, we can get this function:
 
 ```cpp
 // prints the numbers from n down to 1
-void count_down(int n) 
+void count_down(int n)
 {
-  if (n > 0) 
-  {
-    cout << n << "\n";
-    count_down(n - 1);  // recursive call comes after printing
-  }
+    if (n > 0)
+    {
+        cout << n << "\n";
+        count_down(n - 1);
+    }
 }
 ```
 
@@ -155,13 +156,13 @@ Here is a solution:
 
 ```cpp
 // prints the numbers from 1 up to n
-void count_up(int n) 
+void count_up(int n)
 {
-  if (n > 0) 
-  {
-    count_up(n - 1);   // recursive calls comes before printing
-    cout << n << "\n";
-  }
+    if (n > 0)
+    {
+        count_up(n - 1);
+        cout << n << "\n";
+    }
 }
 ```
 
@@ -219,15 +220,16 @@ We can implement $S(n)$ directly like this:
 
 ```cpp
 // returns 1 + 2 + ... + n (assuming n >= 0)
-int S(int n) 
+int S(int n)
 {
-  if (n == 0)              // base case
-  {            
-    return 0;
-  } else 
-  {
-    return n + S(n - 1);   // recursive case
-  }
+    if (n == 0) // base case
+    {
+        return 0;
+    }
+    else
+    {
+        return n + S(n - 1); // recursive case
+    }
 }
 ```
 
@@ -255,7 +257,7 @@ S(5) entered ...
 You can see here that `S` gets called exactly 6 times, and that it returns exactly 6 times. The indentation shows which calls go with which returns; notice that `S(5)` is the first to be called but the last to return.
 
 ## Fibonacci Numbers
-Base cases can have multiple rules. For example, the [[Fibonacci numbers|Fibonacci sequence]] is 1, 1, 2, 3, 5, 8, 13, .... The first two numbers of the sequence are 1, and then after that each number is the sum of the two before it. More mathematically, the $n$th  [[Fibonacci numbers|Fibonacci number]] $f(n)$ can be defined with this recurrence relation:
+A function can have multiple base cases. For example, the [[Fibonacci numbers|Fibonacci sequence]] is 1, 1, 2, 3, 5, 8, 13, .... The first two numbers of the sequence are 1, and then after that each number is the sum of the two before it. More mathematically, the $n$th  [[Fibonacci numbers|Fibonacci number]] $f(n)$ can be defined with this recurrence relation:
 
 $$
 \begin{align}
@@ -269,18 +271,20 @@ Converting this definition to C++ is not too hard:
 ```cpp
 // Returns the nth Fibonacci number (assuming n > 0).
 // Uses recursion.
-int f(int n) 
+int f(int n)
 {
-  if (n == 1)                 // base case
-  {               
-    return 1;
-  } else if (n == 2)          // base case
-  {
-    return 1; 
-  } else 
-  {
-    return f(n-1) + f(n-2);   // recursive case
-  }
+    if (n == 1) // base case
+    {
+        return 1;
+    }
+    else if (n == 2) // base case
+    {
+        return 1;
+    }
+    else
+    {
+        return f(n - 1) + f(n - 2); // recursive case
+    }
 }
 ```
 
@@ -330,24 +334,25 @@ A non-recursive function for computing Fibonacci numbers is *much* faster and us
 ```cpp
 // Returns the nth Fibonacci number (assuming n > 0)
 // Doesn't use recursion.
-int f2(int n) 
+int f2(int n)
 {
-  if (n == 1 || n == 2) 
-  {
-    return 1;
-  } else 
-  {
-    int a = 1;
-    int b = 1;
-    int c = 0;
-    for (int i = 2; i < n; ++i) 
-    {
-      c = a + b;
-      a = b;
-      b = c;
-    }
-    return c;
-  }
+    if (n == 1 || n == 2)
+    {
+        return 1;
+    }
+    else
+    {
+        int a = 1;
+        int b = 1;
+        int c = 0;
+        for (int i = 2; i < n; ++i)
+        {
+            c = a + b;
+            a = b;
+            b = c;
+        }
+        return c;
+    }
 }
 ```
 
@@ -533,17 +538,18 @@ Here are a few more examples of using recursion:
 ## Practice Questions
 Implement the following using recursion (and no loops, or library functions that do the hard part). For some questions, you may want to create a helper function with extra parameters. 
 
-1. The product of the integers from 1 to `n`, i.e. the factorial function `n! = 1 * 2 * ... * n`, for `n >= 0`. By definition, `0! = 1`.
-2. The sum of the first n squares, i.e. `1^2 + 2^2 + \ldots + n^2`, for `n >= 0`.
-3. Print the numbers from n down to 1 on `cout`, one number per line. Assume 
+1. Write a recursive function `say(word, n)` that prints the `string` `word` on the screen `n` times, one word per line.
+2. The product of the integers from 1 to `n`, i.e. the factorial function `n! = 1 * 2 * ... * n`, for `n >= 0`. By definition, `0! = 1`.
+3. The sum of the first n squares, i.e. `1^2 + 2^2 + \ldots + n^2`, for `n >= 0`.
+4. Print the numbers from n down to 1 on `cout`, one number per line. Assume 
     `n >= 1`.
 5. Print the numbers from 1 up to n on `cout`, one number per line. Assume
     `n >= 1`. 
-5. The sum of just the positive numbers in a vector. For example, the sum of the positive numbers in `{1, -3, -2, 6}` is 7.
-6. The number of times `x` occurs in a vector. For example, in `{5, 2, 1, 5, 5}`, 5 occurs three times.
-7. Print the elements of a `vector<int>`, one number per line.
-8. Find the biggest number in a `vector<int>`.
-9. Expand the [[recursive acronym]] YOPY = Your Own Personal YOPY some given number of times (as in the example in [[recursive acronym|recursive acronyms]]).
+6. The sum of just the positive numbers in a vector. For example, the sum of the positive numbers in `{1, -3, -2, 6}` is 7.
+7. The number of times `x` occurs in a vector. For example, in `{5, 2, 1, 5, 5}`, 5 occurs three times.
+8. Print the elements of a `vector<int>`, one number per line.
+9. Find the biggest number in a `vector<int>`.
+10. Expand the [[recursive acronym]] YOPY = Your Own Personal YOPY some given number of times (as in the example in [[recursive acronym|recursive acronyms]]).
 
 ## Sample Solutions to Practice Questions
 1. The product of the integers from 1 to `n`, i.e. the factorial function `n! = 1 * 2 * ... * n`, for`n >= 0`. By definition, `0! = 1`.
