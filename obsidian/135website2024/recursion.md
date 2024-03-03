@@ -2,7 +2,8 @@
 aliases: Recursion
 ---
 
-A function that calls itself, either directly or indirectly, is said to be **recursive**. For example, this function `a` is recursive:
+## Counting-loops with Recursion
+A function that calls itself, either directly or indirectly, is said to be **recursive**. For example, function `a` is recursive:
 
 ```cpp
 void a() 
@@ -12,7 +13,11 @@ void a()
 }
 ```
 
-In *theory*, `a()` runs forever because it keeps calling itself. But, in *practice*, it *probably* stops due to an "out of memory" run-time error. In practice, every call to `a()` uses a little bit of memory to store the address of where the program should continue running from after `a()` finishes (see [[How function calls work]]).
+In *theory*, `a()` runs forever because it keeps calling itself. But, in *practice*, it *probably* stops due to an "out of memory" run-time error. In practice, every call to `a()` is pushed onto the call stack:
+
+![[a_call_stack.png]]
+
+Each call to `a()` uses some memory, and so if you keep calling `a()` the call stack will run out of memory and crash the program. See [[How function calls work]] for a reminder of how function calls work.
 
 However, it is possible that `a()` could *actually* run forever if your C++ compiler uses a performance optimization trick called [[tail call elimination]]. [[tail call elimination|Tail call elimination]] can rewrite `a()` as a loop, in which case `a()` really would run forever.
 
@@ -32,7 +37,11 @@ void b(int n)
 
 `b` prints how many times it's called. Notice that if the second line of `b` was `b(n)` instead of `b(n+1)`, then the value of `n` would never change.
 
-Having a function run until it crashes isn't very useful. Here's a version that stops when `n` is 10 or bigger:
+Just like function `a`, `b` will eventually crash the program due to using up all the memory on the call stack:
+
+![[b_call_stack.png]]
+
+Having a function run until it crashes isn't very useful. So here's a version that stops when `n` is 10 or bigger:
 
 ```cpp
 void c(int n)
