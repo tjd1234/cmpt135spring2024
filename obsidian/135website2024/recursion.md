@@ -392,7 +392,7 @@ Tracing `f` shows a more elaborate pattern of entry/exit messages:
 ```
 
 This is one of the problems with recursive functions: they can make a *lot* of
-function calls which, and that eats up a lot of time and memory.
+function calls, and that eats up a lot of time and memory.
 
 There are 9 calls to `f` here, many of them dumbly re-calculating values that have already been calculated.
 
