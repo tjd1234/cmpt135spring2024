@@ -179,6 +179,64 @@ The key difference between `count_up` and `count_down` is *when* the recursive c
 
 > **Note** Of course, in practice, for-loops or while-loops are the best way to implement any of these functions. But our goal here is to understand recursion, and so it is best to start with simple --- if impractical --- functions.
 
+## Recursion vs Loops for Counting
+
+If you want to repeat a block of code fixed number of times, you could do it with a for-loop:
+
+```cpp
+void count_down_for(n) {
+   for(int i = 0; i < n; i++) {
+      cout << n - i << endl;
+   }
+}
+```
+
+Or recursively:
+
+```cpp
+void count_down_recursive(int n) {
+   if (n > 0) {
+      cout << n << endl;
+      count_down_recursive(n - 1);
+   }
+}
+```
+
+Which is better? They both have pros and cons:
+- For-loop
+	- Pros
+		- Uses the small amount of memory, no matter how big `n` is. It is efficient in both time and memory.
+		- Use a for-loop, which is a familiar and common C++ construct. All the loop control information is on one line.
+		- The number of lines of code is short
+	 - Cons
+		 - The for-loop header is complex.
+		 - It introduces a new variable `i`.
+	
+- Recursion
+	- Pros
+		- Only uses `n`. No other variables are needed.
+		- It prints `n`, which is simpler than `n-i`.
+		- Every line, in isolation, is simple and straightforward. No single line is as complex as the for-loop header.
+	- Cons
+		- It is inefficient: it uses an amount of memory that is proportional to `n`. The bigger `n` is, the more memory it uses, and it will crash with a [[stack overflow]] error if `n` is too big.
+		- It is tricky. Many programmers might not be immediately certain that it prints the numbers from `n` *down* to 1, or even that stops at the correct value.
+		- Loop control information is spread across the function: the stopping condition `(n > 0)` is at the top of the function, and the decrement `n-1` is at the bottom.
+
+In practice, the for-loop version is the winner in most cases. The main problem with the recursive solution is that it needlessly uses extra memory and time. While it may be more readable (once you get used to recursive!), we have to weigh readability and performance. In this case, the cost of the improved readability of the recursive solution is that extra memory it spends. In practice, it's probably not worth it.
+
+However, as mentioned above, compiles like g++ can do a trick called [[tail call elimination|tail-call elimination]]. Using this trick, the final recursive call in `count_down_recursive` can be automatically be re-written by the compiler to use a loop. When re-written as a loop, it is no longer necessary to use extra memory. So, with [[tail call elimination]], we can get the best of both worlds: the readability of the recursive version and the performance of the for-loop version.
+
+In practice, [[tail call elimination]] is a common optimization, but it is not the case that all languages or compilers support it. Plus, tail optimization **doesn't** help with functions like this:
+
+```cpp
+void count_up_recursive(int n) {
+   if (n > 0) {
+      count_up_recursive(n - 1);
+      cout << n << endl;
+   }
+}
+```
+Here, `count_up_recursive` is no longer the final line of the function, and so the [[tail call elimination]] trick does not work.
 ## Recurrence Relations: Recursive Functions in Mathematics
 Recursive functions are commonly used in mathematics. For example, consider the function $S(n)$ defined as follows:
 
