@@ -178,6 +178,5 @@ int main()
     // d(5);
     // say_hello(5);
     // count_down(5);
-    // count_up(5);
-    count_up_down(5);
+    count_up(5);
 }
