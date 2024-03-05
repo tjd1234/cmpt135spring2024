@@ -2,4 +2,5 @@ scratch
 namespace1
 namespace2
 parsing
+exceptions
 exception_destructor
