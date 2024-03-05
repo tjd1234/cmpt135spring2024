@@ -479,7 +479,7 @@ int sum1(const vector<int>& v)
 }
 ```
 
-This works! Unfortunately, the `rest` function is *extremely inefficient*: for every call to `sum1` we end up making a new copy of almost the entire passed-in vector.
+This works! Unfortunately, the `rest` function as it is used here is *extremely inefficient*: for every call to `sum1` we end up making a new copy of almost the entire passed-in vector.
 
 A more efficient approach is to *simulate* `rest` by re-writing `sum1` to accept *begin* and *end* parameters specifying the range of values in `v` that we want summed. Then we can efficiently access any sub-vector:
 
@@ -542,7 +542,7 @@ bool all_even(const vector<int>& v)
 
 Notice that the function is defined using a [[contract]]. This is a good way to define a function precisely, and we will often use [[contract|contracts]] to carefully specify how a function ought to work.
 
-The recursive idea for implementing this function is the same as for the `sum` function: we check if the *first* number is even, and then recursively call `all_even` to check that the *rest* of the numbers are even. As with `sum`, we use a helper function with an extra parameter to keep track of the sub-vector of `v` that is being processed:
+The recursive idea for implementing this function is the same as for `sum`: we check if the *first* number is even, and then recursively call `all_even` to check that the *rest* of the numbers are even. We use a helper function with an extra parameter to keep track of the sub-vector of `v` that is being processed:
 
 ```cpp
 // Pre-condition:
@@ -584,17 +584,17 @@ bool all_even(const vector<int>& v)
 Functions with fewer parameters are quite common when writing recursive functions. Checking if an *entire* vector is all even is probably the most common case, and so `all_even(v)` makes this common case easier, and less error-prone, to use.
 
 ## Why Recursion?
-Many students wonder why we teach recursion. A lot of professional programmers would have a hard time pointing to examples of where they have used recursion outside of school. In practice, *iteration*, i.e. loops, are far more common than recursion. However, in *theory*, recursion is one the most important ideas in all of computer science.
+Many students wonder why we teach recursion. A lot of professional programmers would have a hard time pointing to even a single example of where they have used recursion outside of school. In practice, *iteration*, i.e. loops, are far more common than recursion. 
 
-Some of the benefits to learning recursion are:
+However, in *theory*, recursion is one the most important ideas in all of computer science. Some of the benefits to learning recursion are:
 
-- For a few kinds of algorithms, such as parsers and the (important!) sorting algorithms [[quicksort]] and [[mergesort]], recursion is the most common implementation method. Non-recursive versions of these algorithms are usually harder to understand and implement.
-- There are some programming languages, such as [Haskell](http://en.wikipedia.org/wiki/Haskell_%28programming_language%29) and [Erlang](https://en.wikipedia.org/wiki/Erlang_(programming_language)), that have no loops! In such languages, you must use recursion, or functions that are based on recursion.
-- It is often easier to *reason* about recursive functions than iterative ones. Recursive functions are often mathematical definitions in disguise, and so you can use mathematics to help better understand your function's correctness, performance, or memory usage.
+- For a few kinds of algorithms, such as parsers, recursion is a common and practical technique. Also, the important sorting algorithms [[quicksort]] and [[mergesort]] are naturally recursive, and their recursive implementation is both efficient and quite readable.
+- There are some programming languages, such as [Haskell](http://en.wikipedia.org/wiki/Haskell_%28programming_language%29) and [Erlang](https://en.wikipedia.org/wiki/Erlang_(programming_language)), that have no loops! In such languages, you *must* use recursion, or functions that are based on recursion.
+- It is often easier to *reason* about recursive functions than iterative ones. Recursive functions are often mathematical definitions in disguise, and so you can use mathematics to help understand your function's correctness, performance, or memory usage.
 - The source code for recursive functions is often shorter, simpler, and more elegant than non-recursive functions. This can make your programs more readable, and less likely to have bugs (bugs love to hide in hard-to-read code).
-- Recursion plays a fundamental role in the theoretical study of computation. Recursive functions can be used as the foundation for *all* computation, e.g. *any* loop can be translated into a recursive function that does the same thing.
+- [Recursion plays a fundamental role in the theoretical study of computation](https://en.wikipedia.org/wiki/General_recursive_function). Recursive functions can be used as the foundation for *all* computation, e.g. *any* loop can be translated into a recursive function that does the same thing.
 
-In practice, recursion is probably best thought of as one of many tools a programmer can use to solve programming problems. Use it when it makes sense, and avoid it when it doesn't.
+In practice, recursion is probably best thought of as one of the tools a programmer can use to solve programming problems. Use it when it makes sense, and avoid it when it doesn't.
 
 ## Extra Examples of Recursion
 Here are a few more examples of using recursion:
