@@ -6,16 +6,17 @@
 using namespace std;
 
 //
-// Write a function printvec(v) that uses recursion to
-// print the elements of v, one per line, to cout.
-// v is a vector<int>.
+// Write a function printvec(v) that uses recursion to print the elements of v,
+// one per line, to cout. v is a vector<int>.
 //
 
 // print the elements of v[begin], v[begin+1], ... , v[n - 1]
 void printvec(const vector<int> &v, int begin)
 {
     if (begin == v.size())
+    {
         return; // base case
+    }
     cout << v[begin] << "\n";
     printvec(v, begin + 1);
 }

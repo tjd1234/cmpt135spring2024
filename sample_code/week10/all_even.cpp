@@ -15,17 +15,23 @@ using namespace std;
 //
 bool all_even(const vector<int> &v, int begin)
 {
-    if (begin >= v.size())
+    if (begin == v.size())
     {
         return true;
     }
-    else if (v[begin] % 2 == 0)
+    else // v.size() > 0
     {
-        return all_even(v, begin + 1);
-    }
-    else
-    {
-        return false;
+        return (v[begin] % 2 == 0)  // v[begin] is even
+             && all_even(v, begin + 1);
+
+        // if (v[begin] % 2 != 0)
+        // {
+        //     return false;
+        // }
+        // else // v[begin] is even
+        // {
+        //     return all_even(v, begin + 1);
+        // }
     }
 }
 
