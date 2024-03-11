@@ -1,41 +1,44 @@
 // recursion.cpp
 
+#include <cassert>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-// Without using any loops, write a function that prints
-// "Hello!" forever.
+// 523556
 
-// n is the number of times hello! is printed
-void a(int n)
+// void f(int n)
+// {
+//     if (n <= 5)
+//     {
+//         cout << n << ": hello!\n";
+//         f(n + 1);
+//     }
+// }
+
+// print nothing
+// 1 2 1 2 1
+// 1 2 1 3 1 2 1
+// 1 2 1 3 2 1 2 1 1
+void g(int n)
 {
-    if (n <= 0)
-        return;
-    a(n - 1);
-    a(n - 1);
-    cout << n << ": Hello!\n";
+    if (n > 0)
+    {
+        cout << n << ": hello!\n";
+        g(n - 1); 
+    }
 }
 
-// say("apple", 5)
-void say(const string &s, int n)
-{
-    if (n <= 0)
-        return;
-    cout << s << "\n";
-    say(s, n - 1);
-}
-
-void f(int n)
-{
-    if (n <= 0)
-        return;
-    a(n - 1);
-    a(n - 1);
-    cout << n << ": Hello!\n";
+long int f(long int n) {
+    if (n == 0) return 1;
+    if (n == 1) return 1;
+    return f(n-1) + f(n-2);
 }
 
 int main()
 {
-    say("dog", 3);
+    for(int i = 0; i < 50; i++) {
+        cout << "f(" << i << ") = "<< f(i) << endl;
+    }
 }
