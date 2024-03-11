@@ -6,4 +6,4 @@ You can view the course notes here:
 
 [PowerPoint slides and code used in lectures can be found here](starter_files/).
 
-[Sample exams can be found here](sample/exams).
+[Sample exams can be found here](sample_exams/).
