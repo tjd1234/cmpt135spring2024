@@ -20,7 +20,7 @@ See Canvas for assignment due dates and submission.
 - [Assignment 1](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a1)
 - [Assignment 2](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a2)
 - [Assignment 3](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a3)
-- Assignment 4
+- [Assignment 4](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a4)
 - Assignment 5
 ## Lecture Notes 
 **The timing of each topic is approximate, and may change as we go**. [The example code used in the lectures is usually available here](https://github.com/tjd1234/cmpt135spring2024/tree/main/sample_code).
@@ -66,24 +66,25 @@ Lecture 21: [[Introduction to Exceptions|Exceptions]]
 Lecture 22: [[Recursion]]
 Lecture 23: [[Recursion]]
 ### Week 10
-Lecture 24: [[Calculating large powers]]
-Lecture 25: [[The max function]]
-Lecture 26: [[linear search|Algorithms and linear search]]
+Lecture 24: [[Recursion]]
+Lecture 25: [[Calculating large powers]]
+Lecture 26: [[The max function]]
 ### Week 11
-Lecture 27: [[Basic sorting]]
-Lecture 28: [[basic sorting#Binary Search|Binary search]]
-Lecture 29: [[O-notation]]
+Lecture 27: [[linear search|Algorithms and linear search]]
+Lecture 28: [[Basic sorting]]
+Lecture 29: [[basic sorting#Binary Search|Binary search]]
 ### Week 12
 Lecture 30: [[O-notation]]
-Lecture 31: [[Easy and Hard Problems]]
+Lecture 31: [[O-notation]]
 *Good Friday* (no lectures or labs)
 ### Week  13
 *Easter Monday* (no lectures or labs)
-Lecture 32: [[Using Templates]]
+Lecture 32: [[Easy and Hard Problems]]
 Lecture 33: [[Using Templates]]
+
 ### Week  14
-Lecture 34 (tentative)
-- other C++ features, e.g. regular expressions, smart pointers, move semantics, ...
+Lecture 34: [[Using Templates]]
 Lecture 35 (tentative)
 - other C++ features, e.g. regular expressions, smart pointers, move semantics, ...
-Lecture 36: final exam review
+Lecture 36 (tentative)
+- final exam review

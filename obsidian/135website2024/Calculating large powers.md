@@ -1,8 +1,10 @@
 
 ## A Problem: Sending Information Securely on the Web
-When you send your login password to your bank, what stops hackers from copying it as travels across the internet? Anything you send on the web could be read or copied by many computers you know nothing about.
+When you send your login password to your bank, what stops hackers from copying it as travels across the internet? Anything you send on the web travels through many computers, any one of which could  read or copy your password.
 
-To protect sensitive information like a password, you could **encrypt** it. For example, suppose `password.txt` contains a password that you want to send over the web to your bank. Before sending it, you could encrypt it:
+To protect sensitive information like a password, you could **encrypt** it. That means to scramble it in such a way that only people with the key for **decrypting** it can read it.
+
+For example, suppose `password.txt` contains your bank account password. Before sending it, you could encrypt it using the Linux program `ccencrypt`:
 
 ```shell
 ❯ cat password.txt 
@@ -22,21 +24,21 @@ Enter decryption key: honey
 swordfish
 ```
 
-> If you want to try `ccencrypt`/`ccdecrypt` on your own, you can install it in Ubuntu Linux with the shell command: `sudo apt install ccrypt`
+> If you want to try `ccencrypt`/`ccdecrypt` for yourself, you can install it in Ubuntu Linux with the shell command: `sudo apt install ccrypt`
 
 Modern encryption tools like `ccencrypt` are pretty good: the encrypted password can only practically be read if you have the encryption key (i.e. the password string `honeybee`). In other words, if you only have the encrypted file `password.txt.cpt`, it will be extremely difficult to determine that the password is `swordfish`.
 
 So if an evil hacker gets a copy of your encrypted password, you are probably safe.
 
-> **Careful** If you use an easy-to-guess, or very short, encryption key, then a hacker might be able to guess it. Indeed, if your key is a single English word, then it is relatively easy to guess: a hacker could try a dictionary of all English words to see if any work. 
+> **Careful** If you use an easy-to-guess, or very short, encryption key, then a hacker might be able to figure it out. For instance, if your key is a single English word, then it is relatively easy to guess: a hacker could use a dictionary of all English words to see if any work.
 > 
-> This is why many websites insist that passwords be more than 8 characters long, and include special characters, like digits or punctuations. Such passwords are much harder to guess.
+> This is why many websites insist that passwords include special characters, like digits or punctuations. Such passwords are much harder to guess.
 
 But there is a problem: how do you communicate the *encryption key* to the site you are sending it to so that they can decrypt your password? If you are sending `password.txt` to your bank, how does your bank get the encryption key `honeybee`? You have to send them the key somehow, and if you send it unencrypted then hackers could copy it. If you encrypt the key, then that encryption needs its own key: how do you send *that* key? There is no immediately obvious way around this problem.
 
 The [RSA Cryptosystem](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) solves this problem using a clever idea called [public key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography). Basically, the *bank* makes a carefully constructed **public key** that anyone can use to encrypt a message that only the bank can decrypt it. The bank does the decryption with a **private key** that they don’t share with anyone else. To send `password.txt` to the bank, you use the banks public encryption key to encrypt the file.
 
-We won’t go into the mathematical details of [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) other than to point out that one part of the [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) algorithms requires calculating a large integer power such as $a^{65537}$.
+We won’t go into the mathematical details of [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) other than to point out that one part of the [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) algorithms requires calculating a large integer power such as $a^{65537}$. 
 
 ## Calculating Large Integer Powers Efficiently
 
@@ -54,9 +56,9 @@ There are a few simple cases for calculating powers that can be handled individu
 In the following discussing we assume these cases are taken care of, and so won't worry about them any more.
 
 ## The Obvious Approach (Iterative)
-The "obvious" way to calculate $a^n$ is to multiple $a$ by itself $n-1$ times. For example, to $a^4=a \cdot a \cdot a \cdot a$, and so *three* multiplications are needed.
+The "obvious" way to calculate $a^n$ is to multiple $a$ by itself $n-1$ times. For example, $a^4=a \cdot a \cdot a \cdot a$, and so *three* multiplications are needed.
 
-\Here is how to do iteratively i.e. using a loop:
+\Here is how to do it iteratively i.e. using a loop:
 
 ```cpp
 // Pre-condition: 
@@ -110,12 +112,12 @@ For both the iterative and recursive versions of the obvious approach, we can es
 - $a^3 = a \cdot a \cdot a$ does 2 multiplications
 - $a^4 = a \cdot a \cdot a \cdot a$ does 3 multiplications
 - ...
-- $a^n = a \cdot a \cdot \ldots a \cdot a$ does $n-1$ multiplications (for $n > 1$).
+- $a^n = a \cdot a \cdot \ldots \cdot a \cdot a$ does $n-1$ multiplications (for $n > 1$).
 
-In general, the obvious approach does $n - 1$ multiplications to calculate $a^n$. The number of multiplications is *proportional* to the running time of the functions. For instance, calculating $a^{2n}$ takes about twice as many multiplications, and thus about twice the time, as $a^n$.
+In general, the obvious approach does $n - 1$ multiplications to calculate $a^n$. The time it takes to do the calculation is *proportional* to the number of multiplications. For instance, calculating $a^{2n}$ does $2n-1$ multiplications, and so takes about twice the time as $a^n$.
 
 ## A Faster Algorithm
-The obvious algorithm shows that it is possible to calculate $a^n$ using about $n$ multiplications. But can we do better? Is there an algorithm that does fewer multiplications in general?
+The obvious algorithm shows we can calculate $a^n$ using about $n$ multiplications. But can we do better? Is there an algorithm that does fewer multiplications in general?
 
 It turns out there is. Take a look at these calculations:
 
@@ -130,7 +132,7 @@ These examples show that **repeated squaring** can, at least sometimes, be used 
 
 Repeated squaring lets us quickly calculate $a^n$ when $n$ is a power of 2, but what about other values of $n$?
 
-It turns out there's a trick to make this work with any positive $n$. The idea is distinguish when $n$ is even, and when $n$ is odd. When $n$ is even, we can use the squaring trick; when it's odd, we can do one extra multiplication and then a squaring.
+It turns out there's a trick to make this work with any positive $n$. The idea is distinguish when $n$ is even, and when $n$ is odd. When $n$ is even, we use the squaring trick; when it's odd, we do one extra multiplication and then a squaring.
 
 More precisely, when $n=2k$, to calculate $a^{2k}$, we can square $a^k$ (and recursively calculate $a^k$). When $n=2k+1$, we can't get $a^{2k+1}$ by squaring. However, we can re-arrange it like this: $a^{2k+1} = a \cdot a^{2k}$. So to calculate $a^{2k+1}$ we can square $a^k$ to get $a^{2k}$, and then multiply that by $a$.
 
@@ -183,7 +185,7 @@ int power_recur_fast(int a, int n) {
  5 / 2 == 2
 ```
 ## Counting Multiplications
-How much faster is the "repeated squaring" version than the obvious power algorithm? In other words, how many multiplications does `power_recur_fast` do? It is not obvious from looking at the algorithm, and so lets add some extra code to actually count how many multiplications it does:
+How much faster is the "repeated squaring" version than the obvious power algorithm? In other words, how many multiplications does `power_recur_fast` do? The answer is not clear from looking at the algorithm, and so lets add some extra code to actually count how many multiplications it does:
 
 ```cpp
 int mult_count = 0;
@@ -310,7 +312,7 @@ The output is:
 21121
 21122
 21211
-```
+ ```
 
 Can you see a pattern in these values?
 
@@ -339,9 +341,9 @@ It might be easier to see if you change 1s to 0s and 2s to 1s:
 10100
 ```
 
-These are the [[binary number|binary numbers]] from 1 to 20 (!). In addition to (quickly) calculating powers, we've also apparently created an algorithm that generates the [[binary number|binary numbers]].
+These are the [[binary number|binary numbers]] from 1 to 20 (!). In addition to (quickly) calculating powers, we've also created an algorithm that generates the [[binary number|binary numbers]].
 
-To figure out the number of multiplications, first note that a 0 means 1 multiplication is done, and a 1 means two multiplications are done. If we knew the number of bits in the binary representation of $n$, then we could use that to estimate the number of multiplications done when `power_recur_fast` calculates  $a^n$.
+To figure out the total number of multiplications, first note that a 0 means 1 multiplication is done, and a 1 means two multiplications are done. If we knew the number of bits in the binary representation of $n$, then we could use that to estimate the number of multiplications done when `power_recur_fast` calculates  $a^n$.
 
 A positive integer $n$ has about $\log_2 n$ bits when represented in binary. So, *at worst*, if every bit were a 1, then $2\log_2 n$ multiplications would be done. This is *much* smaller than the $n - 1$ multiplications done by the obvious algorithm.
 
