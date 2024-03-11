@@ -431,10 +431,11 @@ A disadvantage of `f2` is that it's harder to understand. If you were given just
 
 ## Recursion on Vectors (or arrays)
 Suppose we want to sum the numbers in a vector. We can do it recursively like this:
+
 - **Base case**: the empty vector has sum 0, i.e. `sum({})` is 0.
 - **Recursive case**: the sum of all the elements in `v` is `v[0] + sum(rest(v))`; the function `rest(v)` returns a copy of the original vector with its first element chopped off.
 
-This definition is precise enough that we can trace examples by hand. For instance:
+This definition is precise enough to trace examples by hand:
 
 $$
 \begin{align}
@@ -446,7 +447,7 @@ sum(\{8, 1, 4, 2\}) &= 8 + sum(\{1, 4, 2\}) \\
                    &= 15
 \end{align}
 $$
-To implement this in C++, we *could* write the `rest` function like this
+To implement it in C++, we *could* write the `rest` function like this:
 
 ```cpp
 // Returns a new vector w of n - 1 (n == v.size()) such that 

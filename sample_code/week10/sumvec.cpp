@@ -9,29 +9,19 @@ using namespace std;
 // Recursion on vectors
 //
 
-// returns the sum of v[begin], v[begin+1], ... , v[n - 1]
-// n is the size of v
-int sum(const vector<int> &v, int begin)
-{
-    if (begin == v.size()) // base case
-    {
-        return 0;
-    }
-    else // recursive case
-    {
-        return v[begin] + sum(v, begin + 1);
-    }
-}
-
-// returns the sum of v[0], v[1], ... , v[n - 1]
-// n is the size of v
+//
+// Pre-condition:
+//    none
+// Post-condition:
+//    returns the sum of the elements of v
+//
 int sum(const vector<int> &v)
 {
-    return sum(v, 0);
+    // ???
 }
 
 int main()
 {
-    vector<int> v = {2, 1, 6, 4, 3};
-    cout << "sum(v) = " << sum(v) << "\n";
+    vector<int> v = {2, 1, 7};
+    cout << "sum(v) = " << sum(v) << "\n"; // 10
 }
