@@ -4,9 +4,9 @@
 
 [Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth) is a renowned computer scientist whose most famous work is a series of books called [The Art of Computer Programming](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming). In 1962, he wrote a 7-book outline for it, and as of 2024 has not quite finished volume 4.
 
-In these books he gives detailed mathematical analyses of many important algorithms. In Volume 1 (published in 1967), finding the max value among a list of numbers was one of the example problems that Knuth examined. While the algorithm is simple, determining its performance has unexpected depth.
+In these books he gives detailed mathematical analyses of many important algorithms. In Volume 1 (published in 1967), finding the max value among a list of numbers was one of problems that Knuth studied. Let's look at it here. While the algorithm is simple, determining its performance has unexpected depth.
 ## Finding the Max
-Finding the maximum value among a list of numbers is a common and practical problem. The problem can be stated precisely as follows:
+Finding the maximum value among a list of numbers is a common and practical problem. It can be stated precisely:
 
 > **The Max of a List**: Given values $v_0, v_1, \ldots, v_{n-1}$ with $n > 0$, find $i$ such that $v_i \geq v_j$ for all $j$ in $0, 1, \ldots , n-1$. In other words, find the largest value among $v_0, v_1, \ldots, v_{n-1}$.
 
@@ -35,22 +35,23 @@ for i = 1 to n - 1 do
 end
 ```
 
+There is a pre-condition that `v` have at least one element. If `v` is empty, then there is no max to find, and we assume the algorithm throws an exception.
 ## Basic Solution Performance
-When discussing the max-finding algorithm, it is traditional to measure its performance by counting how many *comparisons* it does. All computers, no matter how fast or slow, will do the same number of comparisons when they run this algorithm.
+The max-finding algorithms performance is usually measured by counting how many *comparisons* it does. All computers, no matter how fast or slow, will do the same number of comparisons when they run this algorithm.
 
-By inspecting the algorithm [[pseudocode]], we can see that it does exactly $n-1$ comparisons in *every* case, no matter where the max value happens to be located.
+By inspecting the algorithm's [[pseudocode]], we can see that it does exactly $n-1$ comparisons in *every* case, no matter where the max value happens to be located.
 
 So we say the number of comparisons it does is proportional to $n$, i.e. it's *linear*. Or, in [[O-notation]], we can say this algorithm is $O(n)$.
 
 ## Can Fewer Comparisons be Done?
 Is there a max-finding algorithm that can do fewer than $n-1$ comparisons?
 
-In general, *no*, there's no such algorithm. After setting $v_0$ to be the initial max value, we must check each of the remaining $n-1$ values to see which is the biggest. If we skip even one of those values, then that value might be the max; so at least $n-1$ comparisons are needed.
+In general, *no*, there's no such algorithm. After setting $v_0$ to be the initial max value, we must check each of the remaining $n-1$ values to see which is the biggest. If we skip even one of those values, then that value might have been the max. So at least $n-1$ comparisons are needed.
 
-The max can be found more quickly in some special cases. For example, if we know that $v_0, \ldots, v_{n-1}$ are in ascending sorted order, then $v_{n-1}$ is the max element. But, in our statement of the max problem above, we explicitly said we are *not* assuming anything about the order of the elements, and so, in general, we can't assume the values are sorted.
+The max can be found more quickly in some special cases. For example, if we happen to know that $v_0, \ldots, v_{n-1}$ are in ascending sorted order, then $v_{n-1}$ is the max element. But, in our statement of the max problem above, we explicitly said we are *not* assuming anything about the order of the elements, and so, in general, we can't assume the values are sorted.
 
 ## A C++ Implementation
-The implementation of the max algorithm is fairly straightforward. Notice that we require at least one element in the vector `v`.
+Implementing the max algorithm is fairly straightforward. Notice that pre-condition requires that `v` has at least one element.
 
 ```cpp
 // Pre-condition:
@@ -59,8 +60,6 @@ The implementation of the max algorithm is fairly straightforward. Notice that w
 //    Returns an index value mi such that 0 <= mi < v.size()
 //    and v[mi] >= v[i] for 0 <= i < v.size().
 int index_of_max(const vector<int>& v) {
-    if (v.empty()) cmpt::error("empty vector");
-
     int mi = 0;
 	// note i starts at 1
     for(int i = 1; i < v.size(); i++) {
@@ -77,9 +76,9 @@ int max_for(const vector<int>& v) {
 ```
 
 ## A Recursive Max
-We can implement the max algorithm recursively using these two cases:
+We can implement the max algorithm recursively using these rules:
 
-- **Base case**: if `v` has 1 element, return the that 1 element
+- **Base case**: if `v` has 1 element, return that element
 - **Recursive case**: otherwise, return the max of the first element and the max of the rest of `v`
 
 In C++, we can implement it like this:
@@ -88,10 +87,11 @@ In C++, we can implement it like this:
 int index_of_max_rec(const vector<int>& v, int begin) {
     if (begin >= v.size()) cmpt::error("empty vector");
 
-    if (begin == v.size() - 1) {  // only 1 element, so return it
+    if (begin == v.size() - 1) {  
+        // only 1 element, so return it
         return begin;
     } else {
-        int mi = index_of_max_rec(v, begin + 1);  // recursive call
+        int mi = index_of_max_rec(v, begin + 1);
         if (v[mi] > v[begin]) {
             return mi;
         } else {
@@ -114,8 +114,6 @@ Here's a version that uses a while-loop:
 
 ```cpp
 int index_of_max_while(const vector<int>& v) {
-    if (v.empty()) cmpt::error("empty vector");
-
     int mi = 0;
     int i = 1;
     while (i < v.size()) {
@@ -137,8 +135,6 @@ When `index_of_while(v)` below is called, how many times is each individual stat
 
 ```cpp
 int index_of_while(const vector<int>& v) {
-    if (v.empty()) cmpt::error("empty vector");
-
     int mi = 0;              // 1
     int i = 1;               // 1
     while (i < v.size()) {   // n
@@ -151,7 +147,7 @@ int index_of_while(const vector<int>& v) {
 }
 ```
 
-Most of the counts are not too hard to figure out. But the one with the ??? is not so easy!
+Most of the counts are easy to figure out. But the one with the ??? is not so obvious!
 
 ## Counting mi = i
 How many times is `mi = i` called? Two extreme cases are easy:
@@ -181,14 +177,12 @@ vector<int> rand_vec(int n) {
 srand(time(NULL));
 ```
 
-> If you *don't* set a seed, or use the same seed value every time, then the random numbers will be the *same* each time you run the program. Having the same random numbers each time can be helpful for debugging.
+> If you *don't* set a seed, or use the same seed value every time, then the sequence of random numbers will be the *same* each time you run the program. Having the same random numbers each time can be helpful for debugging.
 
 Now this version of max counts the number of times the line `mi = i` runs:
 
 ```cpp
 int index_of_max_count(const vector<int>& v) {
-    if (v.empty()) cmpt::error("empty vector");
-
     int mi = 0;
     int i = 1;
     int mi_assign_i_count = 0;

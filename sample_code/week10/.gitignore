@@ -1,9 +1,11 @@
-scratch
+all_even
+fib
+moms
+pow
+pow_count
+printvec
 recursion
 recursion_patterns
-fib
+scratch
 sum
 sumvec
-printvec
-moms
-all_even

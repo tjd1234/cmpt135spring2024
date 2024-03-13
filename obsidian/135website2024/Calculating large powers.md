@@ -1,9 +1,9 @@
 ## Sending Information Securely
 Imagine logging into an online bank. You type your password into a box, press "Submit", and then your password is sent from your browser to the bank.
 
-As your password travels through the Internet to your bank, it might stop at various computers along the way. This is normal for the Internet: any information you send on the Internet could be handled by computers you personally know nothing about.
+As your password travels through the Internet to your bank, it passes through various computers along the way. This is normal: any information you send on the Internet could be handled by computers you personally know nothing about.
 
-So what stop an evil hacker from copying your password as it travels across the internet? If they get a copy of your password they can then login to your bank account.
+So what stops an evil hacker from copying your password as it travels across the internet? If they get your password they can then login to your bank account.
 
 To protect sensitive information like passwords, we **encrypt** it. That means to scramble it in such a way that only someone with the **key** for **decrypting** it can read it. If a bad guy gets a copy of the encrypted password, then they will likely have a hard time figuring the actual unencrypted password.
 
@@ -109,6 +109,8 @@ For both the iterative and recursive versions of the basic approach, we can esti
 - $a^n = a \cdot a \cdot \ldots \cdot a \cdot a$ does $n-1$ multiplications (for $n > 1$).
 
 In general, the basic approach does $n - 1$ multiplications to calculate $a^n$. The *time* it takes to do the calculation is *proportional* to the number of multiplications. For instance, calculating $a^{2n}$ does $2n-1$ multiplications, and so takes about twice the time as $a^n$.
+
+To calculate $a^{65537}$ from above, 65536 multiplications are needed.
 ## A Faster Algorithm: Repeated Squaring
 The basic algorithm calculate $a^n$ in about $n$ multiplications. But can we do better? Is there an algorithm that does fewer multiplications in general?
 
@@ -121,15 +123,15 @@ In only 2 multiplications we calculated $a^4$. That's one less than the number o
 
 It gets better. For example, $a^4 \cdot a^4 = a^8$, and so to get $a^8$ only 1 more multiplication is needed, for a total of 3 (instead of 7 for the basic algorithm). Similarly, to get $a^{16}$ we can do $a^8 \cdot a^8 = a^{16}$. This calculates $a^{16}$ in only 4 multiplications (instead of 15 for the basic algorithm).
 
-These examples show that **repeated squaring** can, at least sometimes, be used to calculate $a^n$ using fewer multiplications than the basic algorithm.
+These examples show that **repeated squaring** can, at least when $n$ is a power of 2, calculate $a^n$ using fewer multiplications than the basic algorithm.
 
-While repeated squaring lets us quickly calculate $a^n$ when $n$ is a power of 2, what about other values of $n$?
+But what about when $n$ is *not* a power of 2?
 
-There's a trick to make this work with any positive $n$. The idea is distinguish between even and odd values of $n$. When $n$ is *even*, we use the squaring trick from above; when it's *odd*, we do one extra multiplication, and then a squaring.
+There's a trick to make this work with any positive $n$. The idea is distinguish between even and odd values of $n$. When $n$ is *even*, we use the squaring trick; when it's *odd*, we do one extra multiplication, and then a squaring.
 
 More precisely, when $n$ is even we can write it like $n=2k$ (for some positive integer $k$). To calculate $a^{2k}$ we just square $a^k$ (and recursively calculate $a^k$). When $n$ is odd it has the form $n=2k+1$. To calculate $a^{2k+1}$ we re-arrange it like this: $a^{2k+1} = a \cdot a^{2k}$. So to get $a^{2k+1}$ we square $a^k$ to get $a^{2k}$, and then multiply that by $a$.
 
-Mathematically, the formula is this (assuming $a$ and $n$ are both non-negative integers):
+Mathematically, the formula can be written like this (assuming $a$ and $n$ are both non-negative integers):
 
 $$
 a^n = 
@@ -140,9 +142,15 @@ a^{n/2} \cdot a^{n/2}  & \text{if $n$ is even} \\
 a \cdot a^{n/2} \cdot a^{n/2} & \text{if $n$ is odd}
 \end{cases}
 $$
+We can also write using these recursive rules. To calculate `pow(a, n)`:
+1. If $a=0$ and $n \neq 0$, then return 0 (base case)
+2. If `n = 0`, return 1 (base case)
+3. if $n$ is even, return  `pow(a, n/2) * pow(a, n/2)`
+4. If $n$ is odd, return `a * pow(a, (n-1)/2) * pow(a, (n-1)/2)`
+
+For rules 3 and 4, only one recursive call needs to be made. Its result can be stored and then squared.
 
 Here's a recursive implementation in C++:
-
 ```cpp
 int power_recur_fast(int a, int n) 
 {
@@ -354,10 +362,9 @@ This observation is the key to counting the total number of multiplications. Fir
 
 When you represent a positive integer $n$ in binary, you need about $\log_2 n$ bits. So, *at worst*, if every bit were a 1, then $2\log_2 n$ multiplications are done. This is *much* smaller than the $n - 1$ multiplications done by the basic algorithm.
 
-So we can say that, *in the worst case*, the number of comparisons done by `power_recur_fast` is proportional to $\log_2 n$. This makes it fast enough in practice to calculate large exponents like those needed by the [RSA cryptosystem](http://en.wikipedia.org/wiki/65537_(number)) example at the beginning.
-
-> More precisely, to represent the base-10 number $n$ as an unsigned binary number you need at least $1 + \lfloor \log_2 n \rfloor$ bits. For example, to represent 20 in binary you need at least $1 + \lfloor \log_2 20 \rfloor= 1 + \lfloor 4.32 \rfloor = 1+ 4 = 5$ bits. Indeed, 20 is 10100 in binary.
-
+ > More precisely, to represent the base-10 number $n$ as an unsigned binary number you need at least $1 + \lfloor \log_2 n \rfloor$ bits. For example, to represent 20 in binary you need at least $1 + \lfloor \log_2 20 \rfloor= 1 + \lfloor 4.32 \rfloor = 1+ 4 = 5$ bits. Indeed, 20 in binary is 5 bits: 10100.
+ 
+So, *in the worst case*, the number of multiplications done by `power_recur_fast` is proportional to $\log_2 n$. This makes it fast enough in practice to calculate large exponents like those needed by the [RSA cryptosystem](http://en.wikipedia.org/wiki/65537_(number)) example at the beginning, e.g. it can calculate $a^{65537}$ using approximately $\log_2 65536 \approx 16$ multiplications. This is more than 4000 times faster than the 65536 multiplications done by the basic algorithm!
 ## Note
 This is an interesting algorithm! The performance is not at all obvious at first, nor is the connection to binary numbers.
 
@@ -370,7 +377,7 @@ You may wonder if this is the fastest way to calculate exponents. And the answer
 
 This uses *5 multiplications* in total to calculate $2^{15}$. But the fast recursive algorithm takes 8 multiplications.
 ## Practice Questions
-1. If you were using the basic algorithm in a program, which implementation would you prefer to use: the iterative (loop) one, or the recursive one? Explain your answer.
-2. In the *worst case*, how many multiplications with basic algorithm and the fast algorithm do to calculate $a^{1000000}$, i.e. $a$ to the power of one million?
+1. If you were using the basic algorithm in a program, which implementation would you prefer: the iterative (loop) one, or the recursive one? Explain your answer.
+2. In the *worst case*, how many multiplications will the basic algorithm and the fast algorithm do to calculate $a^{1000000}$, i.e. $a$ to the power of one million?
 3. For `power_recur_fast(a, n)`, it was shown in the notes that in the worst case about $2\log_2 n$ multiplications are needed. But what about the *best* case, when the binary representation of $n$ has just one 1-bit? About how many multiplications are done? And how often does this best case occur for an $n$-bit number?
 4. Using the fast power function as a starting point, write a function called `to_binary_string(int n)` that returns the binary representation of `n` as a string of `0`s and `1`s.
