@@ -1,10 +1,13 @@
+## Sending Information Securely
+Imagine logging into an online bank. You type your password into a box, press "Submit", and then your password is sent from your browser to the bank.
 
-## Sending Information Securely on the Web
-When you send your login password to your bank, what stops hackers from copying it as travels across the internet? Anything you send on the web travels through many computers, any one of which could read or copy your password.
+As your password travels through the Internet to your bank, it might stop at various computers along the way. This is normal for the Internet: any information you send on the Internet could be handled by computers you personally know nothing about.
 
-To protect sensitive information like a password, you could **encrypt** it. That means to scramble it in such a way that only people with the **key** for **decrypting** it can read it.
+So what stop an evil hacker from copying your password as it travels across the internet? If they get a copy of your password they can then login to your bank account.
 
-For example, suppose `password.txt` contains your bank account password. Before sending it, you could encrypt it using the Linux program `ccencrypt`:
+To protect sensitive information like passwords, we **encrypt** it. That means to scramble it in such a way that only someone with the **key** for **decrypting** it can read it. If a bad guy gets a copy of the encrypted password, then they will likely have a hard time figuring the actual unencrypted password.
+
+These days web pages that use `https` automatically encrypt and decrypt information. But is instructive to see how it could be done by hand. For example, suppose `password.txt` contains your bank account password. Before sending it, you can encrypt it using the Linux program `ccencrypt`:
 
 ```shell
 ❯ cat password.txt 
@@ -24,7 +27,7 @@ Enter decryption key: honey
 swordfish
 ```
 
-> If you want to try `ccencrypt`/`ccdecrypt` for yourself, you can install it in Ubuntu Linux with the shell command: `sudo apt install ccrypt`
+> If you want to try `ccencrypt`/`ccdecrypt` yourself, install them in Ubuntu Linux with this shell command: `sudo apt install ccrypt`
 
 Modern encryption tools like `ccencrypt` are pretty good: unless you have the encryption key (i.e. the password string `honeybee`), it's practically impossible to determine the encrypted password. So if an evil hacker gets a copy of your encrypted password, you are probably safe.
 
@@ -32,15 +35,15 @@ Modern encryption tools like `ccencrypt` are pretty good: unless you have the en
 > 
 > This is why many websites insist that passwords include special characters, like digits or punctuations. Such passwords are much harder to guess.
 
-But there is a problem: how do you communicate the *encryption key* to a site so it can decrypt your password? If you send `password.txt` to your bank, how does your bank get the encryption key `honeybee`? You have to send them the key somehow, and if you send it unencrypted then hackers could copy it. But if you encrypt the key, then that encryption needs its own key: how do you send *that* key securely? There is no immediately obvious way around this problem.
+But there is a problem: how do you communicate the *encryption key* to a site so it can decrypt your password? If you send `password.txt` to your bank, how does it get the encryption key `honeybee`? You have to send them the key somehow, and if you send it unencrypted over the web then hackers could copy it. But if you encrypt the key, then that encryption needs its own key: how do you send *that* key securely? There is no immediately obvious way around this problem.
 
 The [RSA Cryptosystem](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) solves this problem using an idea called [public key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography). Basically, the *bank* provides a special **public key** that anyone can use to encrypt a message that only the bank can decrypt. The bank does the decryption with a **private key** that they don’t share with anyone else. To send `password.txt` to the bank, you use the banks public encryption key to encrypt the file.
 
-We won’t go into the mathematical details of [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) other than to point out an intriguing fact: one part of the [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) algorithms requires calculating a large integer power such as $a^{65537}$. For [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) to be practical, this large power must be calculated quickly.
-## Calculating Large Integer Powers Efficiently
+We won’t go into the mathematical details of [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) other than to highlight an intriguing fact: one part of the [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) algorithms requires calculating a large integer power such as $a^{65537}$. For [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) to be practical, this large power must be calculated quickly.
+## Calculating Large Integer Powers
 How can you calculate $a^{65537}$ *efficiently*? For our purposes, we define efficiency to be the number of multiplications needed to calculate the answer.
-## Some Special Cases
-There are a few simple cases for calculating powers that can be handled individually:
+### Some Special Cases
+There are a few cases that can be handled individually:
 
 - $a^0$ is 1 if $a \neq 0$
 - $0^n$ is 0 if $n \neq 0$
@@ -48,10 +51,10 @@ There are a few simple cases for calculating powers that can be handled individu
 - $0^0 = 1$ ([although sometimes it is said to be undefined](https://en.wikipedia.org/wiki/Exponentiation#Zero_to_the_power_of_zero))
 
 In the following discussing we assume these cases are taken care of, and so won't worry about them any more.
-## The Obvious Approach (Iterative)
-The "obvious" way to calculate $a^n$ is to multiple $a$ by itself $n-1$ times. For example, $a^4=a \cdot a \cdot a \cdot a$, for a total of *three* multiplications.
+### The Basic Approach (Iterative)
+The "basic" way to calculate $a^n$ is to multiple $a$ by itself $n-1$ times. For example, $a^4=a \cdot a \cdot a \cdot a$, a total of *three* multiplications.
 
-We can implement this algorithm like this:
+Here's an implementation:
 
 ```cpp
 // Pre-condition: 
@@ -95,9 +98,9 @@ int power_recur(int a, int n) {
 }
 ```
 
-While the source code is shorter than `power_iter`, it's probably a little less efficient since each call to `power_recur` uses extra  time and [[stack memory|call stack]] memory.
-## Performance of the Obvious Approach
-For both the iterative and recursive versions of the obvious approach, we can estimate the efficiency as follows: 
+While the source code is shorter than `power_iter`, it's probably a little less efficient since each call to `power_recur` uses extra time and [[stack memory|call stack]] memory.
+### Performance of the Basic Approach
+For both the iterative and recursive versions of the basic approach, we can estimate the efficiency as follows: 
 
 - $a^2 = a \cdot a$ does 1 multiplication
 - $a^3 = a \cdot a \cdot a$ does 2 multiplications
@@ -105,28 +108,28 @@ For both the iterative and recursive versions of the obvious approach, we can es
 - ...
 - $a^n = a \cdot a \cdot \ldots \cdot a \cdot a$ does $n-1$ multiplications (for $n > 1$).
 
-In general, the obvious approach does $n - 1$ multiplications to calculate $a^n$. The *time* it takes to do the calculation is *proportional* to the number of multiplications. For instance, calculating $a^{2n}$ does $2n-1$ multiplications, and so takes about twice the time as $a^n$.
-## A Faster Algorithm
-The obvious algorithm calculate $a^n$ in about $n$ multiplications. But can we do better? Is there an algorithm that does fewer multiplications in general?
+In general, the basic approach does $n - 1$ multiplications to calculate $a^n$. The *time* it takes to do the calculation is *proportional* to the number of multiplications. For instance, calculating $a^{2n}$ does $2n-1$ multiplications, and so takes about twice the time as $a^n$.
+## A Faster Algorithm: Repeated Squaring
+The basic algorithm calculate $a^n$ in about $n$ multiplications. But can we do better? Is there an algorithm that does fewer multiplications in general?
 
 It turns out there is. Take a look at these calculations:
 
 $a \cdot a = a^2$
 $a^2 \cdot a^2 = a^4$
 
-In only 2 multiplications we got $a^4$. That's one less than the number of multiplications done by the obvious algorithm.
+In only 2 multiplications we calculated $a^4$. That's one less than the number of multiplications done by the basic algorithm.
 
-It gets better. For example, $a^4 \cdot a^4 = a^8$, and so to get $a^8$ only 1 more multiplication is needed, for a total of 3 (instead of 7 for the obvious algorithm). Similarly, to get $a^{16}$ we can use $a^8 \cdot a^8 = a^{16}$. This calculates $a^{16}$ using only 4 multiplications (instead of 15 for the obvious algorithm).
+It gets better. For example, $a^4 \cdot a^4 = a^8$, and so to get $a^8$ only 1 more multiplication is needed, for a total of 3 (instead of 7 for the basic algorithm). Similarly, to get $a^{16}$ we can do $a^8 \cdot a^8 = a^{16}$. This calculates $a^{16}$ in only 4 multiplications (instead of 15 for the basic algorithm).
 
-These examples show that **repeated squaring** can, at least sometimes, be used to calculate $a^n$ using fewer multiplications than the obvious algorithm.
+These examples show that **repeated squaring** can, at least sometimes, be used to calculate $a^n$ using fewer multiplications than the basic algorithm.
 
-Repeated squaring lets us quickly calculate $a^n$ when $n$ is a power of 2, but what about other values of $n$?
+While repeated squaring lets us quickly calculate $a^n$ when $n$ is a power of 2, what about other values of $n$?
 
-It turns out there's a trick to make this work with any positive $n$. The idea is distinguish between even and odd values of $n$. When $n$ is *even*, we use the squaring trick from above; when it's *odd*, we do one extra multiplication and then a squaring.
+There's a trick to make this work with any positive $n$. The idea is distinguish between even and odd values of $n$. When $n$ is *even*, we use the squaring trick from above; when it's *odd*, we do one extra multiplication, and then a squaring.
 
-More precisely, when $n=2k$, to calculate $a^{2k}$, we can square $a^k$ (and recursively calculate $a^k$). When $n=2k+1$, we can't get $a^{2k+1}$ by squaring. However, we can re-arrange it like this: $a^{2k+1} = a \cdot a^{2k}$. So to calculate $a^{2k+1}$ we square $a^k$ to get $a^{2k}$, and then multiply that by $a$.
+More precisely, when $n$ is even we can write it like $n=2k$ (for some positive integer $k$). To calculate $a^{2k}$ we just square $a^k$ (and recursively calculate $a^k$). When $n$ is odd it has the form $n=2k+1$. To calculate $a^{2k+1}$ we re-arrange it like this: $a^{2k+1} = a \cdot a^{2k}$. So to get $a^{2k+1}$ we square $a^k$ to get $a^{2k}$, and then multiply that by $a$.
 
-Mathematically, the formulas is this (assuming $a$ and $n$ are both non-negative integers):
+Mathematically, the formula is this (assuming $a$ and $n$ are both non-negative integers):
 
 $$
 a^n = 
@@ -163,7 +166,7 @@ int power_recur_fast(int a, int n)
 }
 ```
 
-**Be careful**: the expression `n / 2` in `power_recur_fast` is **integer division**. That means it evaluates to an `int`. So `10 / 2` is 5, and `11 / 2` is also 5. `11 / 2` is 5 because C++ always chops off (**truncates**) any digits after the decimal point in the result of `n / 2`. For example:
+**Be careful**: the expression `n / 2` in `power_recur_fast` does **integer division**, and so and digits to the right of the decimal point are chopped off (**truncated**). For example:
 
  ```
 -5 / 2 == -2
@@ -178,8 +181,8 @@ int power_recur_fast(int a, int n)
  4 / 2 == 2
  5 / 2 == 2
 ```
-## Counting Multiplications
-How many multiplications does `power_recur_fast` do? The answer is not obvious from looking at the algorithm, and so lets add some extra code to actually count how many multiplications it does:
+### Counting Multiplications
+How many multiplications does `power_recur_fast` do? The answer is not obvious from looking at the algorithm, and so lets add some code to count multiplications:
 
 ```cpp
 int mult_count = 0;
@@ -252,9 +255,9 @@ And its output:
 2^20, 7 multiplications
 ```
 
-When $n$ is big, the number of multiplications being done is less then for the obvious algorithm (obviously!)
+When $n$ is big, the number of multiplications being done is less then for the basic algorithm.
 
-Is there a pattern? Look at the sequence of multiplications: 0, 2, 3, 4, 4, 5, 5, 6, 5, 6, 6, 7, 6, 7, 7, 8, 6, 7, 7, 8, 7, .... Notice that the numbers don't always increase --- sometimes they go down! The numbers don't seem random (they can't be!), but it is tricky to see what the pattern is.
+Look at the sequence of multiplications: 0, 2, 3, 4, 4, 5, 5, 6, 5, 6, 6, 7, 6, 7, 7, 8, 6, 7, 7, 8, 7, .... Is there a pattern? Notice that the numbers don't always increase --- sometimes they go down! The numbers don't seem random (they can't be!), but it is tricky to see what pattern the follow.
 
 It turns out to be useful to print a message when each part of the if-statement is called:
 
@@ -268,12 +271,15 @@ int power_recur_fast(int a, int n) {
     if (a != 0 && n == 0) return 1;
     if (a == 1) return 1;
 
-    if (n % 2 == 0) {
+    if (n % 2 == 0) 
+    {
        int half = power_recur_fast(a, n / 2);
        mult_count += 1;
        cout << 1;           // print 1
        return half * half;
-    } else {
+    }
+    else 
+    {
        int half = power_recur_fast(a, (n - 1) / 2);
        mult_count += 2;
        cout << 2;          // print 2
@@ -281,7 +287,8 @@ int power_recur_fast(int a, int n) {
     }
 }
 
-void power_test(int a, int n) {
+void power_test(int a, int n) 
+{
     mult_count = 0;
     power_recur_fast(a, n);
 	cout << " " << a << "^" << n << ", " 
@@ -343,26 +350,27 @@ It might be easier to see if you change 1s to 0s and 2s to 1s:
 
 These are the [[binary number|binary numbers]] from 1 to 20 (!). In addition to (quickly) calculating powers, we've also created an algorithm that generates the [[binary number|binary numbers]].
 
-This observation is the key to counting the total number of multiplications. First note that a 0 means 1 multiplication is done, and a 1 means two multiplications are done. If we know the number of bits in the binary representation of $n$, then we can estimate the number of multiplications done when `power_recur_fast` calculates $a^n$.
+This observation is the key to counting the total number of multiplications. First note that a 0 means the algorithm does 1 multiplication, and a 1 means it does two. If we know the number of bits in the binary representation of $n$, then we can estimate the number of multiplications done when `power_recur_fast` calculates $a^n$.
 
-When you represent a positive integer $n$ in binary, you need about $\log_2 n$ bits. So, *at worst*, if every bit were a 1, then $2\log_2 n$ multiplications are done. This is *much* smaller than the $n - 1$ multiplications done by the obvious algorithm.
+When you represent a positive integer $n$ in binary, you need about $\log_2 n$ bits. So, *at worst*, if every bit were a 1, then $2\log_2 n$ multiplications are done. This is *much* smaller than the $n - 1$ multiplications done by the basic algorithm.
 
 So we can say that, *in the worst case*, the number of comparisons done by `power_recur_fast` is proportional to $\log_2 n$. This makes it fast enough in practice to calculate large exponents like those needed by the [RSA cryptosystem](http://en.wikipedia.org/wiki/65537_(number)) example at the beginning.
+
+> More precisely, to represent the base-10 number $n$ as an unsigned binary number you need at least $1 + \lfloor \log_2 n \rfloor$ bits. For example, to represent 20 in binary you need at least $1 + \lfloor \log_2 20 \rfloor= 1 + \lfloor 4.32 \rfloor = 1+ 4 = 5$ bits. Indeed, 20 is 10100 in binary.
 
 ## Note
 This is an interesting algorithm! The performance is not at all obvious at first, nor is the connection to binary numbers.
 
 You may wonder if this is the fastest way to calculate exponents. And the answer is ... no! For *some* exponents even fewer multiplications are possible. For example, consider $2^{15}$:
 
-- you can get $2^{3}$ in 2 multiplications
-- then square it to get $2^{6}$, 1 more multiplication
-- then square it to get $2^{12}$, 1 more multiplication
-- then multiply by $2^{3}`$ from the first step to get $2^{15}$, 1 more multiplication
+- you get $2^{3}$ in 2 multiplications
+- then square it to get $2^{6}$ (1 more multiplication)
+- then square it to get $2^{12}$ (1 more multiplication)
+- then multiply by $2^{3}$ from the first step to get $2^{15}$ (1 more multiplication)
 
 This uses *5 multiplications* in total to calculate $2^{15}$. But the fast recursive algorithm takes 8 multiplications.
-
 ## Practice Questions
-1. If you were using the obvious algorithm in a program, which implementation would you prefer to use: the iterative (loop) one, or the recursive one? Explain your answer.
-2. In the *worst case*, how many multiplications with obvious algorithm and the fast algorithm do to calculate $a^{1000000}$, i.e. $a$ to the power of one million?
+1. If you were using the basic algorithm in a program, which implementation would you prefer to use: the iterative (loop) one, or the recursive one? Explain your answer.
+2. In the *worst case*, how many multiplications with basic algorithm and the fast algorithm do to calculate $a^{1000000}$, i.e. $a$ to the power of one million?
 3. For `power_recur_fast(a, n)`, it was shown in the notes that in the worst case about $2\log_2 n$ multiplications are needed. But what about the *best* case, when the binary representation of $n$ has just one 1-bit? About how many multiplications are done? And how often does this best case occur for an $n$-bit number?
 4. Using the fast power function as a starting point, write a function called `to_binary_string(int n)` that returns the binary representation of `n` as a string of `0`s and `1`s.
