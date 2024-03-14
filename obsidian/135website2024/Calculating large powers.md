@@ -1,11 +1,11 @@
 ## Sending Information Securely
-Imagine logging into an online bank. You type your password into a box, press "Submit", and then your password is sent from your browser to the bank.
+Imagine logging into an online bank. You type your password into a box, press "Submit", your password is sent to the bank across the Internet, and then the bank sends back access to your account.
 
-As your password travels through the Internet to your bank, it passes through various computers along the way. This is normal: any information you send on the Internet could be handled by computers you personally know nothing about.
+As your password travels through the Internet to your bank, it passes through various unknown computers along the way. This is normal: any time you send information  the Internet it is handled by computers you personally know nothing about.
 
 So what stops an evil hacker from copying your password as it travels across the internet? If they get your password they can then login to your bank account.
 
-To protect sensitive information like passwords, we **encrypt** it. That means to scramble it in such a way that only someone with the **key** for **decrypting** it can read it. If a bad guy gets a copy of the encrypted password, then they will likely have a hard time figuring the actual unencrypted password.
+To protect sensitive information like passwords, we **encrypt** it. That means scrambling it in such a way that only someone with the **key** for **decrypting** it can read it. If a bad guy gets a copy of the encrypted password, then they will likely have a hard time figuring the actual unencrypted password.
 
 These days web pages that use `https` automatically encrypt and decrypt information. But is instructive to see how it could be done by hand. For example, suppose `password.txt` contains your bank account password. Before sending it, you can encrypt it using the Linux program `ccencrypt`:
 
@@ -35,11 +35,14 @@ Modern encryption tools like `ccencrypt` are pretty good: unless you have the en
 > 
 > This is why many websites insist that passwords include special characters, like digits or punctuations. Such passwords are much harder to guess.
 
+### Getting the Key
 But there is a problem: how do you communicate the *encryption key* to a site so it can decrypt your password? If you send `password.txt` to your bank, how does it get the encryption key `honeybee`? You have to send them the key somehow, and if you send it unencrypted over the web then hackers could copy it. But if you encrypt the key, then that encryption needs its own key: how do you send *that* key securely? There is no immediately obvious way around this problem.
 
-The [RSA Cryptosystem](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) solves this problem using an idea called [public key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography). Basically, the *bank* provides a special **public key** that anyone can use to encrypt a message that only the bank can decrypt. The bank does the decryption with a **private key** that they don’t share with anyone else. To send `password.txt` to the bank, you use the banks public encryption key to encrypt the file.
+> One way to get the key to the bank is for you to physically deliver it to them, making sure no one sees it as you go to the bank. While that works, it can be slow, and you can only do it if the bank is geographically near you. Plus changing a password requires going back to the bank.
 
-We won’t go into the mathematical details of [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) other than to highlight an intriguing fact: one part of the [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) algorithms requires calculating a large integer power such as $a^{65537}$. For [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) to be practical, this large power must be calculated quickly.
+The [RSA Cryptosystem](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) solves this problem using an idea called [public key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography). Basically, the *bank* provides a special **public key** that anyone can use to *encrypt* a message. But only the bank is able to decrypt it. The bank does the decryption using a **private key** that they don’t share with anyone else.
+
+We won’t go into the details of how [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) works other than to highlight an intriguing fact: one step of the [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) algorithms requires calculating a large integer power, such as $a^{65537}$. For [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) to be practical, this large power must be calculated quickly.
 ## Calculating Large Integer Powers
 How can you calculate $a^{65537}$ *efficiently*? For our purposes, we define efficiency to be the number of multiplications needed to calculate the answer.
 ### Some Special Cases
@@ -82,6 +85,8 @@ int power_iter(int a, int n)
 
 Note the use of [[contract|contracts]] to specify what the function ought to do.
 
+> Note that `power_iter` actually does $n$ multiplications. Where does this extra multiplication from from? It's due to the fact that `pow` is initialized to 1, and to get $a^1$ it multiplies this initial 1 by $a$. So the algorithm calculates $1 \cdot a \cdot a \cdot \ldots \cdot a$. In practice, one extra multiplication doesn't make much difference in performance, so we will not worry about here.
+
 Here's the same [[algorithm]] implemented using [[recursion]]:
 
 ```cpp
@@ -98,7 +103,7 @@ int power_recur(int a, int n) {
 }
 ```
 
-While the source code is shorter than `power_iter`, it's probably a little less efficient since each call to `power_recur` uses extra time and [[stack memory|call stack]] memory.
+While the source code is shorter than `power_iter`, it's probably a little less efficient since each call to `power_recur` is pushed onto [[stack memory|call stack]] memory.
 ### Performance of the Basic Approach
 For both the iterative and recursive versions of the basic approach, we can estimate the efficiency as follows: 
 
@@ -108,11 +113,13 @@ For both the iterative and recursive versions of the basic approach, we can esti
 - ...
 - $a^n = a \cdot a \cdot \ldots \cdot a \cdot a$ does $n-1$ multiplications (for $n > 1$).
 
-In general, the basic approach does $n - 1$ multiplications to calculate $a^n$. The *time* it takes to do the calculation is *proportional* to the number of multiplications. For instance, calculating $a^{2n}$ does $2n-1$ multiplications, and so takes about twice the time as $a^n$.
+In general, the basic approach does $n - 1$ multiplications to calculate $a^n$. 
+
+The *time* it takes to do the calculation is *proportional* to the number of multiplications. For instance, calculating $a^{2n}$ does $2n-1$ multiplications, and so takes about twice the time as $a^n$.
 
 To calculate $a^{65537}$ from above, 65536 multiplications are needed.
 ## A Faster Algorithm: Repeated Squaring
-The basic algorithm calculate $a^n$ in about $n$ multiplications. But can we do better? Is there an algorithm that does fewer multiplications in general?
+The basic algorithm calculate $a^n$ in about $n$ multiplications. Can we do better? Is there an algorithm that does fewer multiplications in general?
 
 It turns out there is. Take a look at these calculations:
 
@@ -125,11 +132,11 @@ It gets better. For example, $a^4 \cdot a^4 = a^8$, and so to get $a^8$ only 1 m
 
 These examples show that **repeated squaring** can, at least when $n$ is a power of 2, calculate $a^n$ using fewer multiplications than the basic algorithm.
 
-But what about when $n$ is *not* a power of 2?
+But what if $n$ is *not* a power of 2?
 
 There's a trick to make this work with any positive $n$. The idea is distinguish between even and odd values of $n$. When $n$ is *even*, we use the squaring trick; when it's *odd*, we do one extra multiplication, and then a squaring.
 
-More precisely, when $n$ is even we can write it like $n=2k$ (for some positive integer $k$). To calculate $a^{2k}$ we just square $a^k$ (and recursively calculate $a^k$). When $n$ is odd it has the form $n=2k+1$. To calculate $a^{2k+1}$ we re-arrange it like this: $a^{2k+1} = a \cdot a^{2k}$. So to get $a^{2k+1}$ we square $a^k$ to get $a^{2k}$, and then multiply that by $a$.
+More precisely, when $n$ is even we can write it like $n=2k$ (for some positive integer $k$). To calculate $a^{2k}$ we just square $a^k$ (and recursively calculate $a^k$). When $n$ is odd it has the form $n=2k+1$. To calculate $a^{2k+1}$ we re-arrange it like this: $a^{2k+1} = a \cdot a^{2k}$. So to get $a^{2k+1}$ we calculate $a$^{2k}$ as in the previous, and multiply the result by $a$.
 
 Mathematically, the formula can be written like this (assuming $a$ and $n$ are both non-negative integers):
 
@@ -142,13 +149,13 @@ a^{n/2} \cdot a^{n/2}  & \text{if $n$ is even} \\
 a \cdot a^{n/2} \cdot a^{n/2} & \text{if $n$ is odd}
 \end{cases}
 $$
-We can also write using these recursive rules. To calculate `pow(a, n)`:
+We can also write this as recursive rules closer in style to programming. To calculate `pow(a, n)`:
 1. If $a=0$ and $n \neq 0$, then return 0 (base case)
-2. If `n = 0`, return 1 (base case)
-3. if $n$ is even, return  `pow(a, n/2) * pow(a, n/2)`
-4. If $n$ is odd, return `a * pow(a, (n-1)/2) * pow(a, (n-1)/2)`
+2. If $n = 0$, return 1 (base case)
+3. else if $n$ is even, return `h * h`, where `h` is `pow(a, n/2)`
+4. else if $n$ is odd, return `a * h * h` where `h` is `pow(a, (n-1)/2)`
 
-For rules 3 and 4, only one recursive call needs to be made. Its result can be stored and then squared.
+For rules 3 and 4, only one recursive is made in each. It would be mistake to call `pow` twice in these rules, as that would take much more time and memory.
 
 Here's a recursive implementation in C++:
 ```cpp
@@ -162,35 +169,21 @@ int power_recur_fast(int a, int n)
     if (a != 0 && n == 0) return 1;
     if (a == 1) return 1;
 
-    int half = power_recur_fast(a, n / 2);
+    
     if (n % 2 == 0) 
     {
+        int half = power_recur_fast(a, n / 2);
         return half * half;
     } 
     else 
     {
+        int half = power_recur_fast(a, (n - 1) / 2);
         return a * half * half;
     }
 }
 ```
-
-**Be careful**: the expression `n / 2` in `power_recur_fast` does **integer division**, and so and digits to the right of the decimal point are chopped off (**truncated**). For example:
-
- ```
--5 / 2 == -2
--4 / 2 == -2
--3 / 2 == -1
--2 / 2 == -1
--1 / 2 == 0
- 0 / 2 == 0
- 1 / 2 == 0
- 2 / 2 == 1
- 3 / 2 == 1
- 4 / 2 == 2
- 5 / 2 == 2
-```
 ### Counting Multiplications
-How many multiplications does `power_recur_fast` do? The answer is not obvious from looking at the algorithm, and so lets add some code to count multiplications:
+How many multiplications does `power_recur_fast` do? The answer is not immediately obvious from looking at the algorithm. So lets add some code to count multiplications:
 
 ```cpp
 int mult_count = 0;
