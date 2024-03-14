@@ -247,6 +247,13 @@ These results are based on random data, so if you were to repeat these trials yo
 
 What's surprising about these numbers is how *small* they are, even with very large vectors. They suggest that for large amounts of randomly-ordered data `mi = i` is executed very few times. This is not obvious from the algorithm!
 
+## Visualization
+
+Here's a array of 400 random numbers with a single max value. The red dots show when `mi` changes.
+
+Click the mouse the to re-generate the array.
+
+<iframe src="https://editor.p5js.org/tjdonaldson/full/KniVoMk-2F" width=410 height=450></iframe>
 ## Practice Questions
 1. Give a definition for the *min* of a list, in the same style as the definition for the max of a list.
 2. Suppose you have a list of $n$ elements in some unknown order. About how many comparisons would you expect to do to calculate *both* the min and max item? What is the answer when written in [[O-notation]]?
