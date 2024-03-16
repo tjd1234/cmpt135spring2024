@@ -1,4 +1,3 @@
-
 Sorting is an important and well-studied topic in computer science. A **sorting algorithm** re-arranges the elements of a vector (or an array, or string, or similar linear data structure) into [[sorted order]], i.e. from smallest to biggest. For simplicity, in these notes we'll stick to sorting a `vector<int>`.
 
 For example, these numbers are in [[sorted order]]:
@@ -41,13 +40,16 @@ void sort_bad(vector<int>& v)
 This might seem like just a different wording of the specification above, but this one is badly wrong. For example, these implementations respect the post-condition of `bad_sort`, but they are not correct sorting algorithms:
 
 ```cpp
-void sort_bad_a(vector<int>& v) {
-   for(int i = 0; i < v.size(); i++) {
+void sort_bad_a(vector<int>& v) 
+{
+   for(int i = 0; i < v.size(); i++) 
+   {
       v[i] = 3;  // set all values of v to 3
    }
 }
 
-void sort_bad_b(vector<int>& v) {
+void sort_bad_b(vector<int>& v) 
+{
    v.clear();  // removes all elements from v
 }
 ```
@@ -115,7 +117,7 @@ void insertion_sort(vector<int>& v) {
      //
      // This loop determines where to insert the key 
      // into the sorted part of v. It does this by 
-     // searching backwards through the  sorted part 
+     // searching backwards through the sorted part 
      // for the first value that is less than, or equal 
      // to, key.
      //
@@ -129,7 +131,8 @@ void insertion_sort(vector<int>& v) {
      // This is a special case that is handled by j >= 0 
      // in the loop condition.
      //
-     while (j >= 0 && v[j] > key) {
+     while (j >= 0 && v[j] > key) 
+     {
         v[j + 1] = v[j];
         --j;
      }
@@ -150,10 +153,13 @@ The following function is helpful for testing:
 ```cpp
 // returns true if v is in ascending sorted order, 
 // and false otherwise
-bool is_sorted(const vector<int>& v) {
+bool is_sorted(const vector<int>& v) 
+{
    // note i starts at 1
-   for(int i = 1; i < v.size(); i++) {
-      if (!(v[i-1] <= v[i])) {
+   for(int i = 1; i < v.size(); i++) 
+   {
+      if (!(v[i-1] <= v[i])) 
+      {
         return false;
       }
    }

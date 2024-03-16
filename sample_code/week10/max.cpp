@@ -59,17 +59,15 @@ int index_of_max_while(const vector<int> &v)
         cmpt::error("empty vector");
     }
 
-    int mi = 0;          // 1 time
-    int i = 1;           // 1 time
-    while (i < v.size()) // n times (approx)
+    int mi = 0;           // 1
+    int i = 1;            // 1
+    while (i < v.size())  // n times
     {
-        if (v[i] > v[mi]) // n - 1 times (approx)
+        if (v[i] > v[mi]) // n - 1 times
         {
-            mi = i; // at worst: n-1 times
-                    // on average:
-                    // at best: 0 times
+            mi = i;       // ???
         }
-        i++; // n times (approx)
+        i++;              // n - 1 time
     }
     return mi; // 1 time
 }
