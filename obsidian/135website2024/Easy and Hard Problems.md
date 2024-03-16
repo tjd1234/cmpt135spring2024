@@ -10,11 +10,11 @@
 | $O(n^3)$      | cubic        | $n^3 + 2n^2 + 22n + 1$    |
 | $O(2^n)$      | exponential  | $3^n + n^4 - 2n^2 + 80$   |
 
-There is another classification that is of great interest in theoretical computer science: **exponential running time or worse**, or **less than exponential running time**. If a problem can only be solved by an algorithm whose worst-case running time order is exponential or worse, we will call such problems **hard**. All other problems that can be solved in less than exponential running time we'll call **easy** problems.
+There is another classification that is of interest in theoretical computer science: **exponential running time or worse**, versus **less than exponential running time**. If a problem can only be solved by an algorithm whose worst-case running time order is exponential (or worse), we will call that problem **hard**. Problems that can be solved in better than exponential running time we'll call **easy** problems.
 
 For example, problems like [[basic sorting|sorting]], [[linear search]], [[binary search]], and finding the min of an array can all be solved in time $O(p(n))$ where $p(n)$ is a *polynomial* in $n$. So they are all *easy* problems.
 
-But some problems are hard, meaning that best algorithms for solving them may take exponential, or worse, time. For example:
+But some problems are hard, meaning that the best algorithms for solving them may take exponential, or worse, time. For example:
 
 - generating all bit-strings of length $n$ takes $O(2^n)$, because there are $2^n$ bit strings of length $n$
 - generating all permutations (i.e. arrangements) of $n$ different numbers is $O(n!)$, because $n$ different numbers can be arranged in exactly $n!=1 \cdot 2 \cdot 3 \cdot \ldots \cdot n$ ways.
@@ -22,29 +22,27 @@ But some problems are hard, meaning that best algorithms for solving them may ta
 > **Permutation sort** One *very* slow way to sort a vector is to generate all permutations of its elements, one at a time, stopping when the elements are all in sorted order. This requires checking $O(n!)$ different permutations in the worst case. 
 
 Interestingly, there is a large group of important and useful problems that no one knows yet whether they are easy or hard. One of those problems is the **Traveling Salesman Problem**.
-
 ## The Traveling Salesman Problem
-**The Traveling Salesman Problem (TSP)** is a famous problem that is easy to state and has many applications.
+**The Traveling Salesman Problem (TSP)** is a famous computational problem that is easy to state and has many applications.
 
-Here's the problem: given a list of cities positioned on a map (so you know the distance between any two cities), what is the *shortest* (in terms of total length) tour that visits all the cities, starting and ending at the same city?
+Given a list of cities positioned on a map (so you know the distance between any two cities), what is the *shortest* (in terms of total length) tour that visits all the cities, starting and ending at the same city?
 
-For example, suppose the cities are named $c_1, c_2, \ldots, c_n$. If you start at $c_1$, then you might visit $c_4$ next, and then maybe $c_2$, and so on. Eventually you come all the way back to $c_1$.
+For example, suppose the cities are named $c_1, c_2, \ldots, c_n$. If you start at $c_1$, then you might visit $c_4$ next, and then maybe $c_2$, and so on. Eventually you come back to $c_1$.
 
 Each arrangement of $c_1, c_2, \ldots, c_n$ corresponds to a different tour, and the TSP asks which of these tours has the *shortest* total length.
 
-The "obvious" brute-force solution to the TSP is to generate all possible tours and then choose the shortest. But there are $O(n!)$ tours, so a brute-force algorithm would have to examine (more than!) an exponential number of tours.
+The "obvious" brute-force solution to the TSP generates all possible tours and then chooses the shortest. But there are $O(n!)$ tours, so a brute-force algorithm would have to examine (more than!) an exponential number of tours.
 
-The TSP is a well-studied problem, and there are algorithms that can solve instances of it more efficiently than brute-force. But, so far, no one has discovered an algorithm that can solve *every* TSP instance in polynomial time (or less). In other words, it is unknown if the TSP is an easy or hard problem.
+There are algorithms that can solve particular instances more efficiently than brute-force. But, so far, no one has discovered an algorithm that can solve *every* TSP instance in polynomial time (or less). In other words, it is unknown if the TSP is an easy or hard problem.
 
-Since it has not been proven that a polynomial time algorithm *doesn't* exist for solving the TSP, there is the possibility that one day someone (maybe you!) could find such an algorithm. But beware: the TSP is a well-studied problem, and most computer scientists believe that no such algorithm exists, and that the best that can be done are either approximation algorithms that can get get *close* to the best solution (but can't guarantee it's the best), or algorithms that are fast only in certain special cases.
+Since it has not been proven that a polynomial time algorithm *doesn't* exist for solving the TSP, there is the possibility that one day someone (maybe you!) could find such an algorithm. But beware: the TSP is a well-studied problem, and most computer scientists believe that no such algorithm exists, and that the best that can be done are either approximation algorithms that can get *close* to the best solution (but can't guarantee it's the best), or algorithms that are good only in certain special cases.
 
 > **Note** The TSP has a rich history. This [TSP Website](http://www.math.uwaterloo.ca/tsp/) discusses the problem in depth, and has many interesting examples, including lists of the best-known TSP tours for various problems (like visiting the capitals of all US states).
 
 ## NP-Completeness
-The TSP is a member of an unusual set of algorithmic problems known as [[NP-complete problem|NP-complete problems]]. Here are a couple of other [[NP-complete problem|NP-complete problems]].
+The TSP is a member of a set of algorithmic problems known as [[NP-complete problem|NP-complete problems]]. Here are a couple of other [[NP-complete problem|NP-complete problems]].
 
 ## [Logical satisfiability (SAT)](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem)
-
 Given a logical expression such as "((not p) or (not q)) and r", find true/false values for p, q, and r that make the expression true (i.e. that *satisfy* it). It is not hard to imagine an algorithm that tries all possible true/false values for the expression to see which, if any, make it true. But that brute-force approach doesn't work well in practice because you can easily run into expressions with *hundreds* or even *thousands* of variables, and trying all true/false values for all $n$ variables takes $O(2^n)$ time.
 
 There are efficient *practical* algorithms, called [SAT solvers](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem#Algorithms_for_solving_SAT>), that can quickly satisfy many large logical expressions. This turns out to be quite useful in applications such as scheduling.
@@ -52,7 +50,6 @@ There are efficient *practical* algorithms, called [SAT solvers](https://en.wiki
 But there is no known SAT-solving algorithm that runs in less than exponential time for *all* logical expressions. All known general-purpose SAT algorithms run in $O(2^n)$ (or worse!) in the worst case.
 
 ## [The Number Partition Problem](https://en.wikipedia.org/wiki/Partition_problem)
-
 Given a set of $n$ integers, can you arrange them into two groups such that the sum of the numbers in each group is the same (or as close as possible)?
 
 For example, suppose you and a friend are carrying a bunch of grocery bags from shopping. How can you divide the bags between yourselves so that you each carry the same weight (or as close as possible to the same weight)?
@@ -60,9 +57,7 @@ For example, suppose you and a friend are carrying a bunch of grocery bags from 
 Like SAT, efficient algorithms are known for solving *some* instances of this problem, but in general there is no known algorithm that always runs in less than exponential time for *all* instances. But no one has proven that such an algorithm doesn't exist.
 
 ## NP-Complete Problems
-[[NP-complete problem|NP-complete problems]] are a subset of hard problems that have an amazing property: if any *one* NP-complete program is easy, then they are *all* easy. In other words, if you can find a worst-case polynomial time algorithm for *one* NP-complete problem, then there must be worst-case polynomial-time algorithms for *all* NP-complete problems.
-
-You only need to come up with a single polynomial-time algorithm for *one* NP-complete problem --- any one! --- and you will have automatically found a polynomial-time algorithm for *all* of them. 
+[[NP-complete problem|NP-complete problems]] are a subset of hard problems that have an amazing property: if any *one* NP-complete program is easy, then *all* NP-complete problems are easy. In other words, if you can find a worst-case polynomial time algorithm for *any one* NP-complete problem, then there must be worst-case polynomial-time algorithms for *all* NP-complete problems.
 
 Currently, no one knows if *any* NP-complete problem has a polynomial-time worse-case solution.
 
@@ -71,11 +66,11 @@ Most computer scientists believe that *no* NP-complete problem is easy. There ar
 However, no one has been able to *prove* that NP-complete problems are not easy. Many computer scientists consider this to be the most important unsolved problem in all of theoretical computer science. It is often referred to as the **P=NP problem**.
 
 ## Undecidable Problems
-We know that NP-complete problems can be solved, we just don't know how efficiently. But there are also computational problems for which it has been proved that no algorithm at all *exists* for solving them! Such problems are called **undecidable problems**.
+We know that NP-complete problems can be solved, we just don't know how efficiently in the worst case. But there are also computational problems for which it has been proved that no algorithm at all *exists* for solving them! Such problems are called **undecidable problems**.
 
 For example, suppose you want to write an **infinite-loop checker**. This is a program that takes the source code of another program as input, and returns "yes" if there's an input for the program that causes it to go into an [[infinite loop]], and "no" otherwise. Such a program could be useful for debugging programs.
 
-It turns out that there is no such a program. It's not just that it would be *hard* to write, or that such a program would run very inefficiently --- it can be proven that such a program *does not exist*.
+It turns out that there is no such a program. It's not just that it would be *hard* to write, or that such a program would run very inefficiently --- such a program *does not exist*.
 
 > [Here is a good short video](https://www.youtube.com/watch?v=92WHN-pAFCs) that demonstrates the essential idea of why an infinite-loop checking program doesn't exist.
 
@@ -83,7 +78,9 @@ This particular example undecidability is known as [the halting problem](https:/
 
 ![[Alan_Turing.png]]
 
-As part of his proof, he also developed the notion of what are now called [Turing Machines](https://en.wikipedia.org/wiki/Turing_machine), which to this day are still one of the standard theoretical models of computation.
+As part of his proof, he also developed the notion of what are now called [Turing Machines](https://en.wikipedia.org/wiki/Turing_machine). To this day are still one of the standard theoretical models of computation.
+
+> In addition, Turing is often considered to be one of the founding fathers of artificial intelligence, due to his early work on chess-playing and is description of the famous [Turing test](https://en.wikipedia.org/wiki/Turing_test).
 
 For more examples of undecidable problems, [check out this list](https://en.wikipedia.org/wiki/List_of_undecidable_problems).
 

@@ -1,5 +1,5 @@
 
-## A Bit if History: Donald Knuth and the Art of Computer Programming
+## A Bit of History: Donald Knuth and the Art of Computer Programming
 ![[Donald-Ervin-Knuth.jpg]]
 
 [Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth) is a renowned computer scientist whose most famous work is a series of books called [The Art of Computer Programming](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming). In 1962, he wrote a 7-book outline for it, and as of 2024 has not quite finished book 4.

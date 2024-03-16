@@ -18,10 +18,10 @@ We've written this algorithm in [[pseudocode]] instead of C++ to make it more re
 ## Measuring Running Time
 Since we are interested in how quickly [[algorithm|algorithms]] run, you might think that we would use real time --- such as seconds or microseconds --- to measure performance. We certainly judge real-world software as being fast or slow by how much time it takes.
 
-But real time is difficult to measure for programs because different computers run at different speeds, and may be doing other things at the same time (e.g. playing a video, receiving email, etc). To fairly compare two programs, we'd have to make sure they are run in the same conditions, i.e. on *exactly* the same computer, with *exactly* the same software, etc. That is easier said than done.
+But real time is difficult to measure for programs because different computers run at different speeds. They may have different CPUs, different amounts of memory, or just be doing other things at the same time (e.g. playing a video, receiving email, etc). To fairly compare two programs, we'd have to make sure they are run in the same conditions, on *exactly* the same computer, with *exactly* the same software, etc. That is easier said than done.
 
 ## Key Operations
-So, to avoid these problems, computer scientists will often estimate an [[algorithm]]'s running time by measuring the *work* it does. And this work is estimated by *counting* how many times it executes a chosen [[key operation]]. A [[key operation]] is typically the most frequently executed instruction in an [[algorithm]]. The main advantage of this approach is that it is independent of hardware and software details, and it can even be applied to [[algorithm|algorithms]] written in [[pseudocode]] on paper.
+So, to avoid these problems, computer scientists will often estimate an [[algorithm]]'s running time by measuring the *work* it does. And this work is estimated by *counting* how many times it executes a chosen [[key operation]]. A [[key operation]] is typically the most frequently executed instruction in an [[algorithm]]. The main advantage of this approach is that it is independent of hardware and software details, and it can even be applied to [[algorithm|algorithms]] written in [[pseudocode]].
 
 It's important to choose a sensible [[key operation]] that reflects the work the algorithm does. It should give us a pretty good estimate of the algorithms running time. For example, in [[linear search]] above, there are a couple of reasonable choices for the [[key operation]]:
 
@@ -32,20 +32,20 @@ It's important to choose a sensible [[key operation]] that reflects the work the
 Usually, item **comparisons**, i.e. calls to $=$ or $\leq$, are the [[key operation]] for sorting and searching algorithms.
 
 An example of a **bad** choice of [[key operation]] for linear search would be the number of times `return` is called. `return` is called exactly once, no matter how big $n$ is. This is not helpful because the running-time of linear search gets longer when $n$ is big, but the number of times `return` is called never changes.
-
 ## Algorithm Running Time
 We will refer to the key instruction count in an [[algorithm]] as its **running time**. Keep in mind that even though we call this *time*, it is not actual time --- it is just a count of how many times the key instruction is executed.
 
-Care must be taken when comparing the running times of [[algorithm|algorithms]] with different key operations. For example, comparing two strings may take longer than comparing two integers, and so 1000 string comparisons may take longer than 1000 integer comparisons. It's like comparing money: if you have $1000 Canadian and $1000 American, it's incorrect to say that you have $2000 in total.
+Care must be taken when comparing the running times of [[algorithm|algorithms]] with different key operations. For example, comparing two strings may take longer than comparing two integers, and so 1000 string comparisons may take longer than 1000 integer comparisons. 
+
+> It's bit like comparing money: if you have $1000 Canadian and $1000 American, it's incorrect to say that you have $2000 in total.
 
 We should also be clear if we are talking about the **best case**, **average case**, or **worst case** running time. In practice, the average case and worst case running times are usually the most useful.
-
 ## O-Notation
 Getting precise instruction counts of even simple [[algorithm|algorithms]] is often difficult, and the mathematical expressions can be complicated. Simple [[key operation|key operations]], such as comparisons or additions, can be done so quickly on most computers that there is often little practical difference between [[algorithm|algorithms]] that do, say, $5n + 1000$ or $n$ operations.
 
 For these reasons we often simplify algorithm instruction counts using *approximations*. **O-notation** (also known as **big O-notation**, **order notation**, or **asymptotic notation**) is a mathematically respectable way of approximating expressions.
 
-Roughly, O-notation says that the **order** of a mathematical expression is its biggest term. Constants and low-order terms can be ignored. For example, we say that the expression $2n$ is in $O(n)$, and that $25n^7 -4n^3 + 20$ is in $O(n^7)$.
+Roughly speaking, O-notation says that the **order** of a mathematical expression is its biggest term. Constants and low-order terms can be ignored. For example, we say that the expression $2n$ is in $O(n)$, and that $25n^7 -4n^3 + 20$ is in $O(n^7)$.
 
 Intuitively, $O(n)$ is the *set* of all mathematical expressions of a single variable $n$ whose highest-order term is $n$, or lower. Similarly, $O(n^3)$ is the set of all expressions whose highest order term is $n^3$, or lower; thus $O(n)$ is a *subset* of $O(n^3)$.
 

@@ -4,13 +4,15 @@
 Here are two implementations of a function for swapping variable values:
 
 ```cpp
-void swap(int& a, int& b) {
+void swap(int& a, int& b) 
+{
     int temp = a;
     a = b;
     b = temp;
 }
 
-void swap(string& a, string& b) {
+void swap(string& a, string& b) 
+{
     string temp = a;
     a = b;
     b = temp;
@@ -22,7 +24,8 @@ The only difference between them is that the first uses the type `int`, and the 
 
 ```cpp
 template <typename T>
-void swap(T& a, T& b) {
+void swap(T& a, T& b) 
+{
     T temp = a;
     a = b;
     b = temp;
@@ -69,10 +72,12 @@ Here is a templated function that returns the min value of a vector of a type `T
 
 ```cpp
 template<typename T>
-T min_of(const vector<T>& v) {
+T min_of(const vector<T>& v) 
+{
     assert(v.size() > 0);
     T min = v[0];
-    for(int i = 1; i < v.size(); i++) {
+    for(int i = 1; i < v.size(); i++) 
+    {
         min = min_of(min, v[i]);
     }
     return min;
@@ -157,19 +162,22 @@ public:
     // return a constant reference to the top element
     // - reference means it is not copied (so it's efficient)
     // - constant means it cannot be modified (so it's safe)
-    const T& peek() const {
+    const T& peek() const 
+    {
         assert(!is_empty());
         return v.back();
     }
 
     // remove and return the top element
-    T pop() {
+    T pop() 
+    {
         T top = peek();
         v.pop_back();
         return top;
     }
 
-    void print() const {
+    void print() const 
+    {
         if (is_empty()) {
             cout << "empty stack";
         } else {
@@ -177,7 +185,8 @@ public:
         }
     }
 
-    void println() {
+    void println() 
+    {
         print();
         cout << "\n";
     }
@@ -192,7 +201,8 @@ public:
 // The print method in Stack<T> is more efficient because it doesn't 
 // need to make a copy of the stack.
 template<typename T>
-void print(Stack<T> s) {
+void print(Stack<T> s) 
+{
     if (s.is_empty()) {
         cout << "empty stack";
     } else {
@@ -204,7 +214,8 @@ void print(Stack<T> s) {
 }
 
 template<typename T>
-void println(const Stack<T>& s) {
+void println(const Stack<T>& s) 
+{
     print(s);
     cout << "\n";
 }

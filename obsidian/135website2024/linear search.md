@@ -21,9 +21,9 @@ Linear search is a fundamental algorithm with many applications, and it appears 
 
 Linear search solves this problem:
 
-> Given $v_0, v_1, \ldots, v_{n-1}$ and a target $x$, find $i$ such that $v_i = x$. If there is no such $v_i$, then return -1 (or somehow signal "not found").
+> Given $v_0, v_1, \ldots, v_{n-1}$ and a target $x$, find $i$ such that $v_i = x$. If there is no such $i$, then return -1 (or somehow signal "not found").
 
-You can think of $v_0, v_1, \ldots, v_{n-1}$ as being numbers, but they could also be strings, or vectors, or structures. Any data type for which `==` (equality) is defined will work.
+$v_0, v_1, \ldots, v_{n-1}$ could be numbers, strings, vectors, structures --- any data type for which `==` (equality) is defined.
 
 Here's a [[pseudocode]] description of the linear search algorithm:
 
@@ -53,7 +53,7 @@ int linear_search1(const vector<int>& v, int x)
 ```
 
 ## Searching in Different Orders
-`linear_search1` always searches the vector from *left to right*. If you have some idea where in $v$ that $x$ might be, then searching in a different order might be faster. For example, suppose your looking for the `.` character in a file name. It's usually near the right-end of the file name, and so searching from *right to left* is probably faster.
+`linear_search1` always searches the vector from *left to right*. But if you have some idea where in $v$ that $x$ might be, then searching in a different order might be faster. For example, suppose you're looking for the `.` character in a file name. It's usually near the right-end of the file name, and so searching from *right to left* is probably faster.
 
 Expanding on this idea, there are a number of other ways you could do linear search that might be useful in particular situations. For example:
 
@@ -62,7 +62,7 @@ Expanding on this idea, there are a number of other ways you could do linear sea
 If we know nothing about the location of $x$ in $v$, then it's fine to stick with plain left-to-right linear search.
 
 ## Locating an Item: Another Version of Linear Search
-Suppose you know for a fact that `x` is in `v`, and you want to find *where* in `v` it is. `linear_search1` can answer that question, but there is a slightly faster method:
+Suppose you know for a fact that `x` is in `v`, but you don't know where. `linear_search1` above can answer that question. But here's a slightly faster function:
 
 ```cpp
 // Pre-condition:
@@ -77,27 +77,31 @@ int location_of(const vector<int>& v, int x)
 }
 ```
 
-The [[pre-condition]] is essential here: this function only promises to work correctly if $x$ is in $v$. If $x$ is not in $v$, then it will loop forever.
+The [[pre-condition]] is essential here: this function only promises to work correctly if $x$ is in $v$. If $x$ is not in $v$, then loops forever.
 
-`location_of` is a little faster than `linear_search1` because it does only *one* comparison, `v[i] != x`, on each iteration of the loop. In contrast, `linear_search1` does *two comparisons per iteration: `v[i] != x` and `i < v.size()`.
+`location_of` is a little faster than `linear_search1` because on each each iteration of the loop it does only *one* comparison, `v[i] != x`. In contrast, `linear_search1` does *two comparisons per iteration: `v[i] != x` and `i < v.size()`.
 
 ## A Faster General Purpose Linear Search?
-Using `location_of`, we can create a somewhat faster version of linear search. The trick is to replace the last element of $v$ with $x$, thus guaranteeing that $x$ is in $v$. This $x$ at the end is called a **sentinel value**.
+Using `location_of`, we can create a slightly faster version of linear search. The trick is to replace the last element of $v$ with $x$, thus guaranteeing that $x$ is in $v$. This $x$ at the end is called a **sentinel value**.
 
 Once we know for sure that $x$ is in $v$, we can use `location_of` to find it. If the $x$ it finds is the one at the end, then we know $x$ is *not* equal to any of $v_0, v_1, \ldots, v_{n-1}$:
 
 ```cpp
 // v is *not* const so that the end value can be 
-// temporarily modified by the algorithm.
+// temporarily modified by the algorithm
 int linear_search2(vector<int> &v, int x)
 {
     int n = v.size();
-    if (n == 0) {
+ 
+    // handle the cases when v has <= 1 element
+    if (n == 0) 
+    {
         return -1;
     }
     if (n == 1)
     {
-        if (v[0] == x) {
+        if (v[0] == x) 
+        {
             return 0;
         }
         else
@@ -108,13 +112,14 @@ int linear_search2(vector<int> &v, int x)
 
     // n >= 2 at this point
 
-    // first check if x is the last element
+    // first check if x is the last element; if so, immediately
+    // return n - 1
     if (v[n - 1] == x)
     {
         return n - 1;
     }
     
-    // at this point we know v[n-1] != x
+    // at this point we know n >=2 and v[n-1] != x
     int last = v[n - 1];       // save the last element
     v[n - 1] = x;              // set the last element to x
                                
@@ -134,13 +139,14 @@ int linear_search2(vector<int> &v, int x)
 
 This is longer and more complicated, but it works! And in some cases it may be faster than regular linear search. However, on many computers the improvement may be so slight that it's not worth the extra effort.
 
-Another issue with this version is that it requires modifying the vector, and that might not always be possible.
+Another issue with this version is that it requires modifying the vector, and in some applications that might not be possible.
 
 ## Linear Search on Sub-vectors
 A useful way to generalize linear search is to let it search a range of sequential values:
 
 ```cpp
 // linear search on the range [begin, end)
+// i.e. check if one or more of v[begin] to v[end-1] equals x
 int linear_search3(const vector<int>& v, int x, int begin, int end) 
 {
     for(int i = begin; i < end; ++i) 
@@ -193,7 +199,7 @@ int linear_search4(const vector<int>& v, int x, int begin, int end)
     } 
     else 
     { 
-        return linear_search4(v, x, begin + 1, end);
+        return linear_search4(v, x, begin + 1, end); // tail recursive
     }
 }
 
@@ -262,7 +268,7 @@ So the total number of comparisons done by linear search is $\frac{1}{2}$ (# of 
 
 Assuming random data, this expression says linear search does $\frac{3}{4}n$ comparisons *on average*. Experiments show that this is a pretty accurate count of the number of comparisons that linear search actually does under those conditions.
 
-One final comment: many programmers estimate the average case for linear search to instead be the simpler expression $\frac{n}{2}$. But $\frac{3}{4}n$ is more accurate under our assumptions because the worst-case of $n$ comparisons occurs in *two different ways*: when $x$ is the last element, and when its not in the vector at all. So $n$ comparisons occurs about twice as frequently as any other number of comparisons.
+Many programmers estimate the average case for linear search to instead be the simpler expression $\frac{n}{2}$. But $\frac{3}{4}n$ is more accurate under our assumptions because the worst-case of $n$ comparisons occurs in *two different ways*: when $x$ is the last element, and also when its not in the vector at all. So $n$ comparisons occurs about twice as frequently as any other number of comparisons, which skews the total number of comparisons to $\frac{3}{4}n$.
 
 ## Optional: More Detailed Linear Search Average Case
 Here is another, more detailed, derivation of the number of comparisons done by linear search in the average case.
