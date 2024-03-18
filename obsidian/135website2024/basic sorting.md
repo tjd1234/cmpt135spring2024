@@ -12,8 +12,7 @@ These are not:
 2, 4, 1, 6, 2, 7, 10   // unsorted
 ```
 
-Notice that finding the *min* and *max* value of a sorted list is easy: the first
-value is the min, and the last value is the max. 
+Finding the *min* and *max* value of a sorted list is easy: the first value is the min, and the last value is the max. 
 
 *Hundreds* of different sorting algorithms have been created. Most of them can be described by this specification (written as a [[contract]]):
 
@@ -25,6 +24,24 @@ value is the min, and the last value is the max.
 //    order, i.e. v[0] <= v[1] <= ... <= v[n-1].
 void sort(vector<int>& v)
 ```
+
+Note that this modifies `v`. So we call this an **in-place** sorting algorithm. You can use it to make an function that doesn't modify the vector:
+
+```cpp
+// Pre-condition:
+//     none
+// Post-condition:
+//    Returns a sorted copy of v. 
+vector<int> sorted_copy(vector<int> v) 
+{
+    // v was passed by value, so it is a copy
+    // of the original vector
+    sort(v);
+    return v;
+}
+```
+Of course, `sorted_copy` takes more memory since it stores both the original vector and its sorted copy.
+
 ### A Bad Specification of Sorting
 Consider this *incorrect* specification of sorting:
 
@@ -58,29 +75,23 @@ Clearly these are not what we mean by sorting, but `sort_bad_a` and `sort_bad_b`
 
 The problem with `sort-bad` is that it misses the requirement that the elements must be *re-arranged*, i.e. the elements must be **permuted**. `bad_sort` does not rule out adding, removing, or changing values in the vector.
 ## Linear Insertion Sort
-[[insertion sort|Linear insertions sort]], or just [[insertion sort]], is a relatively simple sorting algorithm that uses an algorithm you are probably already familiar with: many people use it to sort their cards when playing card games. In practice, it is often used for sorting small amounts of data. But for larger amounts of data, it is too slow and other, more efficient algorithms, are needed.
+[[insertion sort|Linear insertions sort]], or just [[insertion sort]], is a relatively simple sorting algorithm. In practice it is often used for sorting small amounts of data. For larger amounts of data, it is too slow and so other, more efficient, algorithms are used.
 
 Suppose we want to arrange these values into ascending order using [[insertion sort]]:
-
 ```
 5  6  1  2  4
 ```
-
-Insertion sort divides the list into a *sorted* part and an *unsorted* part. Initially, there only the first element is in the sorted part:
-
+Insertion sort divides the list into a *sorted* part and an *unsorted* part. Initially, only the first element is in the sorted part:
 ```
 sorted    unsorted
      5 |  6  1  2  4
 ```
-
 The `|` is an imaginary line that shows where the sorted/unsorted parts begin and end.
 
 Insertion sort then repeats the following until the unsorted part is empty:
-
 - Take the *first* element of unsorted and insert it into its correct position in sorted (so that the sorted part is always in [[sorted order|ascending sorted order]]).
 
 Lets trace this on our sample data:
-
 ```
 5  |  6  1  2  4
 
@@ -92,12 +103,10 @@ Lets trace this on our sample data:
 
 1  2  4  5  6  | 
 ```
-
 Note that finding the correct insertion point requires searching through the sorted part. Typically, we use a variation of [[linear search]] to do this, hence the name *linear* insertion sort. It's also possible to do the insertion using [[binary search]], in which case the [[algorithm]] is called [[binary insertion sort]].
 
 ## Implementation of Linear Insertion Sort
 Here's an implementation of insertion sort:
-
 ```cpp
 void insertion_sort(vector<int>& v) 
 {
@@ -145,11 +154,9 @@ void insertion_sort(vector<int>& v)
    }
 }
 ```
-
 While insertion sort is conceptually simple, the details can be tricky to get right and so you should test it carefully on a variety of different inputs.
  
 The following function is helpful for testing:
-
 ```cpp
 // returns true if v is in ascending sorted order, 
 // and false otherwise
@@ -168,7 +175,6 @@ bool is_sorted(const vector<int>& v)
 ```
 
 Here is a test function:
-
 ```cpp
 bool insertion_sort_ok(vector<int> v)
 {
@@ -201,12 +207,11 @@ void test_insertion_sort()
 ```
 
 ## The Performance of Linear Insertion Sort
-How fast is insertion sort? Not very, it turns out. To estimate it's performance, note that it will do at most $n-1$ insertions since each insertion guarantees one more element is in the sorted part. Each insertion requires doing a [[linear search]] to find out where it is inserted. 
+How fast is insertion sort? Not very, it turns out. To estimate it's performance, note that it will do at most $n-1$ insertions since each insertion removes one item from the sorted. Each insertion also requires doing a [[linear search]] to find out where it is inserted. 
 
-Getting an exact count of how many comparisons (the standard measure of sort efficiency) are done is a little tricky, and so we will answer a simpler question: in the *worst-case*, how many comparisons does insertion sort do?
+How many comparisons does insertion sort do in the *worst case*? We consider the worst case because it is both useful in practice, and the math is not too complicated.
 
 Suppose that the [[linear search]] part of insertion sort always does the worst-case number of comparisons, i.e. it always searches to the end of the sorted part of the list. If we are sorting 5 numbers, it would go like this:
-
 ```
 a | b c d e     the 1st element, a, is already in correct position
 a b | c d e     1 comparison  to determine where to insert b
@@ -214,10 +219,9 @@ a b c | d e     2 comparisons to determine where to insert c
 a b c d | e     3 comparisons to determine where to insert d
 a b c d e |     4 comparisons to determine where to insert e
 ```
-
 In total, $0 + 1 + 2 + 3 + 4 = 10$ comparisons are needed in the worst case (in some cases fewer comparisons might be necessary). In general, in the worst case insertion sort does $0 + 1 + 2 + ... + n - 1 = \frac{n(n-1)}{2}$ comparisons to sort $n$ objects. The expression $\frac{n(n-1)}{2} = \frac{1}{2}n^2 - \frac{1}{2}n$ is *quadratic*. When $n$ is big, the low-order term $\frac{1}{2}n$ doesn't make much difference and so we'll ignore it. Thus, when $n$ is big, insertion sort does on the order of $n^2$ comparisons.
 
-This analysis only considers *comparisons*: it ignores the work done when inserting new elements. So lets consider how many numbers are *moved* by insertion sort. Again, to make the analysis easier, we will only consider the worst case when all of the sorted part of the vector moves up one position. When there are $k$ numbers in the sorted part, the next insertion must move all $k$ of those numbers. As shown above, the sorted part of the vector increases by 1 after every insertion, so the total number of data moves is $1+2+3+\ldots +(n-1) = \frac{n(n-1)}{2}$, which is approximately $n^2$. So, when $n$ is big, insertion sort does about $n^2$ data moves in the worst case.
+This analysis only considers *comparisons*: it ignores the work done when inserting new elements. So lets consider how many numbers are *moved* by insertion sort. Again, to make the analysis easier, we consider the worst case when all of the sorted part of the vector moves up one position. When there are $k$ numbers in the sorted part, the next insertion must move all $k$ of those numbers. As shown above, the sorted part of the vector increases by 1 after every insertion, so the total number of data moves is $1+2+3+\ldots +(n-1) = \frac{n(n-1)}{2}$, which is approximately $n^2$. So, when $n$ is big, insertion sort does about $n^2$ data moves in the worst case.
 
 Whether you count comparisons or data moves (or both), the result is the same: in the worst case, linear insertion sort does about $n^2$ work to sort $n$ items. In practice, this turns out to be quite slow when $n$ is large, and so insertion sort should only be used for sorting a small number of items (maybe a few thousand, depending upon the speed of your computer).
 
@@ -225,33 +229,26 @@ Whether you count comparisons or data moves (or both), the result is the same: i
 [[mergesort]] is a sorting algorithm that is much more efficient than [[insertion sort]], and variants of it are often used in practice as good general-purposes sorting algorithm.
 
 Suppose you want to sort these 8 elements using [[mergesort]]:
-
 ```
 4 8 2 1 3 7 6 5
 ```
-
 You first divide the numbers into a left part and a right part, where the parts are equal in size (or as close to equal in size as possible):
-
 ```
         |
   left  |  right
 4 8 2 1 | 3 7 6 5        split data into equals halves
         |
 ```
-
 Second, *recursively* sort the left part and then *recursively* sort the right part to get this:
-
 ```
         |
   left  |  right
 1 2 4 8 | 3 5 6 7      recursivel sort each half
         |
 ```
-
 The two parts are sorted, but the entire vector is not sorted. So now we [[Merging|merge]] the parts into a single sorted vector.
 
 [[Merging|merging]] is the process of combining two sorted vectors into one sorted vector. Importantly, it can be done more efficiently then sorting. The basic technique is as follows. Create two pointers, `a` and `b`, initialized to point to the beginning of each half like this:
-
 ```
         |
   left  |  right
@@ -260,7 +257,6 @@ The two parts are sorted, but the entire vector is not sorted. So now we [[Mergi
 |         |
 a         b
 ```
-
 Also, create a result vector big enough to hold both halves:
 
 ```
@@ -273,9 +269,7 @@ a         b
 
 result: { }
 ```
-
 To merge `left` and `right`, compare the elements that `a` and `b` point to, and append a copy of the *smaller* to the end of `result`. Then, increment the appropriate pointer to point to the next element. For example, in the above diagram 1 is less than 3, so 1 is appended to `result` and `a` is incremented:
-
 ```
   left  |  right
 1 2 4 8 | 3 5 6 7
@@ -285,9 +279,7 @@ To merge `left` and `right`, compare the elements that `a` and `b` point to, and
 
 result: { 1 }
 ```
-
 Next, 2 is smaller than 3, so 2 is appended to `result` and `a` is incremented:
-
 ```
   left  |  right
 1 2 4 8 | 3 5 6 7
@@ -296,9 +288,7 @@ Next, 2 is smaller than 3, so 2 is appended to `result` and `a` is incremented:
     a     b
 result: { 1, 2 }
 ```
-
 Next, 3 is less than 4, so 3 is appended to `result` and `b` is incremented:
-
 ```
   left  |  right
 1 2 4 8 | 3 5 6 7
@@ -308,9 +298,7 @@ Next, 3 is less than 4, so 3 is appended to `result` and `b` is incremented:
 
 result: { 1, 2, 3 }
 ```
-
 The merge continues in the same way until all the elements in left and right have been appended to `result`:
-
 ```
   left  |  right
 1 2 4 8 | 3 5 6 7
@@ -356,11 +344,9 @@ result: { 1, 2, 3, 4, 5, 6, 7 }
 
 result: { 1, 2, 3, 4, 5, 6, 7, 9 }
 ```
-
 Now the entire vector is sorted.
 
 Here's [[pseudocode]] for [[mergesort]]:
-
 ```
 mergesort(v)    // v has n elements
    if v is size 0 or 1, then return  // base case
@@ -377,9 +363,7 @@ mergesort(v)    // v has n elements
    // combine the 2 parts
    v = merge(left, right)              
 ```
-
 Here is a C++ implementation of mergesort. It uses a helper function called `slice` to get copies of the left and right part of the vector:
-
 ```cpp
 // Pre-condition:
 //    is_sorted(v)
@@ -518,10 +502,8 @@ void quicksort(vector<int>& v)
 ```
 
 Like [[mergesort]], [[quicksort]] splits the vector it's sorting into two parts, and then recursively sorts them. But, instead of merging the results, [[quicksort]] splits the vector using *partitioning*, which moves all the "small" elements to the left, and all the "big" elements to the right. So once the two halves of the vector are sorted, the entire vector is sorted! If the results of the partitioning are two nearly-equal halves, then [[quicksort]] runs extremely quickly --- typically faster than [[mergesort]]. However, in rare cases when multiple bad partitions (where one side is much bigger than the other) occur, it can slow to a crawl, running at about the same speed as [[insertion sort]].
-
 ## Binary Search
 Sorted data is extremely valuable. A good demonstration of this is the amazing performance of [[binary search]], an [[algorithm]] that finds the location of an element in a sorted vector:
-
 ```cpp
 // Pre-condition: 
 //    v is in ascending sorted order, i.e.
@@ -530,10 +512,9 @@ Sorted data is extremely valuable. A good demonstration of this is the amazing p
 //    returns an index i such that v[i] == x
 int binary_search(int x, const vector<int>& v)
 ```
-
 The [[pre-condition]] is essential: binary search only works on data that is in ascending [[sorted order]].
 
-To find an element `x` in vector `v`, first looks in the *middle* of the vector. There are three possible cases:
+To find an element `x` in vector `v`, first looks at the *middle-most* of the vector. There are three possible cases:
 
 1. **The middle element is equal to `x`**. In this case `x` has been found and binary search immediately returns the position of `x`.
 2. **`x` is smaller than the middle element**. In this case, *if* `x` is in the vector it's among the values to the *left* of the middle element, and so binary search is run on this *left* half.
@@ -542,42 +523,33 @@ To find an element `x` in vector `v`, first looks in the *middle* of the vector.
 What makes this so efficient is that each comparison discards *half* of the remaining elements. In contrast, each linear search comparison discards only 1 element.
 
 For example, suppose we're searching this sorted vector:
-
 ```
 4, 5, 8, 11, 15, 20, 21
 ```
-
 Does it contain 6? Binary search proceeds like this:
-
 ```
 4, 5, 8, 11, 15, 20, 21
           ^
           |
       check the middle-most element
 ```
-
 Since 11 is not 6, we know that *if* 6 is in the vector, it must be to the left of 11. Thus we can discard all the elements from 11 to 21:
-
 ```
 4, 5, 8
    ^
    |
  check the middle-most element
 ```
-
 Since 5 is not 11, we know that *if* 6 is among these numbers it must be to the right of 5. Thus we can discard 4 and 5:
-
 ```
 8
 ^
 |
 check the middle-most element
 ```
-
 After checking that 8 is not equal to 6, we are done: we've proven that 6 is *not* in the list of numbers. And it only took *3* comparisons to do this. In contrast, [[linear search]] would have checked that *all* the numbers are not equal to 3, and so would have done *7* comparisons.
 
 Here's an implementation:
-
 ```cpp
 // Pre-condition: 
 //   v[begin] to v[end - 1] is in ascending sorted order
@@ -616,19 +588,15 @@ int binary_search(int x, const vector<int>& v)
   return binary_search(x, v, 0, v.size());
 }
 ```
-
-The [[algorithm]] is rather subtle at points, and it is notoriously easy to code it incorrectly. For example, this line is easy to get wrong:
-
+The [[algorithm]] is subtle at points, and it is notoriously easy to code it incorrectly. For example, this line is easy to get wrong:
 ```cpp
 int mid = (begin + end) / 2;
 ```
-
 It calculates the mid-point of a range. You can derive this as follows. The length of the range is $end - begin$, and half of that is $\frac{end - begin}{2}$. Since the range starts at $begin$, the mid-point is $begin + \frac{end - begin}{2}$, which simplifies to $\frac{end + begin}{2}$.
 
 If $end - begin$ happens to be odd, then $\frac{end + begin}{2}$ ends with .5, and we simply chop that off (e.g. 34.5 becomes 34). This is not obviously the right thing to do, but if you test it with a few actual values by hand, and write some good tests, you can be pretty confident that it's correct.
 
 Here's a recursive version of [[binary search]]:
-
 ```cpp
 int binary_search_rec(int x, const vector<int>& v, 
                       int begin, int end) 
@@ -664,11 +632,9 @@ int binary_search_rec(int x, const vector<int>& v)
   return binary_search_rec(x, v, 0, v.size());
 }
 ```
-
 The code is similar in length and complexity to the non-recursive version, and is quite efficient (especially if [[tail call elimination]] is applied).
 
 Binary search has a lot of little details that are easier to get wrong, and so it is important to test it carefully:
-
 ```cpp
 void binary_search_test() 
 {
@@ -688,14 +654,11 @@ void binary_search_test()
    cout << "all binary_search tests passed\n";
 }
 ```
-
 How fast is [[binary search]]? Blazingly fast, as it turns out: for an n-element vector, it needs to check, at most, $\log_2 n$ different values. So, for instance, on a million-element vector [[binary search]] will never do *at most* 20 comparisons (because $\log_2 1000000 \approx 20$).
 
 While [[binary search]] is extremely efficient for searching large amounts of data, it comes with a high price: the vector must be in [[sorted order]]. The problem with sorting is that the fastest general-purpose sorting algorithms are slower than *linear* search. Thus sorting a vector and then calling [[binary search]] is usually slower than just calling [[linear search]]. However, sorting the data once followed by *multiple* binary searches may be faster than lots of linear searches.
 
 > **Did you know that you can drive your car a mile without using only a drop of gas?** Just start at the top of a mile-long hill and roll down. Of course, the hard part is getting your car up there in the first place! Binary search suffers from a similar problem.
-
-
 ## Why is Binary Search so Fast?
 Every time [[binary search]] iterates through its main loop one time, it discards *half* of all the elements of `v`. So if `v` initially has n elements, the number of possible elements that could be equal to `x` decreases in size like this: $n$, $\frac{n}{2}$, $\frac{n}{4}$, $\frac{n}{8}$, ..., $\frac{n}{2^i}$.
 
@@ -729,7 +692,6 @@ This result shows that [[binary search]] does about $\log_2 n$ comparisons *in t
 | 1000000 | 20                |
 
 > **Fact** The base-2 logarithm $\log_2 n$ of a positive integer $n$ is the least number of bits needed to represent $n$ in binary.
-
 ## Practice Questions
 1. Given an example of a vector with 5 elements that is in [[sorted order]], and after you reverse it is still in [[sorted order]].
 2. State the basic [[pre-condition]] and [[post-condition]] for sorting.

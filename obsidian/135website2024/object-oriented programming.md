@@ -295,15 +295,15 @@ struct Point
 - If your class *doesn't* define a [[default constructor]] or [[copy constructor]], then C++ *automatically* creates an *implicit* default constructor that does nothing, and an *implicit* [[copy constructor]] that copies the member variables in the class.
 - Many standard functions and containers, such as `vector<T>`, require that the `class`/`struct` `T` has, at least, a [[default constructor]] and a [[copy constructor]].
 ## Destructors
-A [[destructor]] is a special method in a `class`/`struct` that is *automatically* called when its object is de-allocated. A programmer *cannot* call a [[destructor]] manually: [[destructor|destructors]] are always called automatically.
+A [[destructor]] is a special method in a `class`/`struct` that is *automatically* called when its object is de-allocated. A programmer should almost never call a [[destructor]] manually.
+
+> There are no cases in these notes where a destructor should be called manually. But in real-life program there may be times when it is necessary. For example, [placement new](https://en.cppreference.com/w/cpp/language/new) is a variation of the standard `new` where you need to call a destructor explicitly. However, we are not using that feature anywhere in these notes.
 
 While a class can have as many *constructors* as it needs, a class has exactly *one* [[destructor]]. The name of a [[destructor]] is *always* the name of the class with a `~` at the start. [[destructor|Destructors]] *never* have input parameters. For example, for a class called `Printer`, it's destructor would be called `~Printer()`.
 
 [[destructor|Destructors]] and [[constructor|constructors]] go together: when you create an object you must call a [[constructor]] to allocate it, and when the object is deleted, it's [[destructor]] is called to de-allocate it.
 
-A [[destructor]] contains code you want to run when the object is deleted. Typically, this is "clean up" code, e.g. code that calls `delete`/`delete[]` on variables that were `new`-ed in the [[constructor]]. Together, [[constructor|constructors]] and [[destructor|destructors]] are a good to manage [[free store memory]]: the [[constructor]] calls `new`, and the [[destructor]] always remembers to call `delete`/`delete[]`. This helps prevent [[memory leak]]s and [[dangling pointer|dangling pointers]].
-
-As mentioned at the start, an important fact about [[destructor]]s is that they *can't* be called explicitly by the programmer. This prevents the programmer from calling them at the wrong time, or forgetting to call them at all. 
+A [[destructor]] contains code you want to run when the object is deleted. Typically, this is "clean up" code, e.g. code that calls `delete`/`delete[]` on variables that were `new`-ed in the [[constructor]]. Together, [[constructor|constructors]] and [[destructor|destructors]] are a good way to manage [[free store memory]]: the [[constructor]] calls `new`, and the [[destructor]] always remembers to call `delete`/`delete[]`. This helps prevent [[memory leak]]s and [[dangling pointer|dangling pointers]].
 
 Here's an example of a class with a [[destructor]]:
 

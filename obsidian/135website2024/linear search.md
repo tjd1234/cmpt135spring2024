@@ -1,31 +1,32 @@
 ## Algorithms
-Intuitively, an [[algorithm]] is a precise step-by-step description of a process.  For example:
+Intuitively, an [[algorithm]] is a precise step-by-step description of a process. Some examples of algorithms are:
 
-- the procedure you learned in elementary school for adding numbers is an algorithm
-- [selection sort](https://en.wikipedia.org/wiki/Selection_sort) is a sorting algorithm that re-arranges the elements of a vector to be in order from smallest to biggest
-- [Bresenham's line-drawing algorithm](https://en.wikipedia.org/wiki/Bresenham's_line_algorithm) draws a good-looking straight line between two pixels on a computer monitor
-- neural networks use an algorithm called [backpropagation](https://en.wikipedia.org/wiki/Backpropagation>) to update their weights (i.e. to learn)
+- the procedure you learned in elementary school for adding numbers;
+- [selection sort](https://en.wikipedia.org/wiki/Selection_sort), an algorithm that arranges the elements of a vector/array in order from smallest to biggest;
+- [Bresenham's line-drawing algorithm](https://en.wikipedia.org/wiki/Bresenham's_line_algorithm) draws a good-looking straight line between two pixels on a computer monitor;
+- [backpropagation](https://en.wikipedia.org/wiki/Backpropagation>), an algorithm used by neural networks to update their weights (i.e. to learn).
 
 A **program** can be thought of as an *implementation of an algorithm*.
 
-In computer science, we usually first design an algorithm "on paper", and then implement it in code. By studying algorithms on paper we can often understand useful things about them, such as:
+In computer science, we often first design an algorithm "on paper", and then implement it in code. Studying algorithms on paper can help us understand things like:
 
-- whether or not they are correct, or for what inputs they work on
-- how much work they do (i.e. how fast they are)
-- how much memory they use
-- how complicated they are
-- how secure they are
+- whether or not the algorithm is correct, or for what inputs it works on
+- how much work it does (i.e. how quickly it runs)
+- how much memory it uses
+- how complicated it is
+- how secure it is
+- ...
 
 ## Linear Search
 Linear search is a fundamental algorithm with many applications, and it appears in many different forms. Here we will study it from a fairly abstract point of view.
 
 Linear search solves this problem:
 
-> Given $v_0, v_1, \ldots, v_{n-1}$ and a target $x$, find $i$ such that $v_i = x$. If there is no such $i$, then return -1 (or somehow signal "not found").
+> Given $v_0, v_1, \ldots, v_{n-1}$ and a target $x$, find $i$, where $0 \leq i < n$, such that $v_i = x$. If there is no such $i$, then return -1 (or somehow signal "not found").
 
-$v_0, v_1, \ldots, v_{n-1}$ could be numbers, strings, vectors, structures --- any data type for which `==` (equality) is defined.
+$v_0, v_1, \ldots, v_{n-1}$ could be numbers, strings, vectors, structures --- any data type that can be compared with `==` (equality).
 
-Here's a [[pseudocode]] description of the linear search algorithm:
+Here's a [[pseudocode]] description of a linear search algorithm:
 
 - Step 1: Does $v_0 = x$? If so, stop and return 0.
 - Step 2: Does $v_1 = x$? If so, stop and return 1.
@@ -53,13 +54,15 @@ int linear_search1(const vector<int>& v, int x)
 ```
 
 ## Searching in Different Orders
-`linear_search1` always searches the vector from *left to right*. But if you have some idea where in $v$ that $x$ might be, then searching in a different order might be faster. For example, suppose you're looking for the `.` character in a file name. It's usually near the right-end of the file name, and so searching from *right to left* is probably faster.
+`linear_search1` always searches the vector from *left to right*, and if you know nothing about the data being searched then that's as a good a way to do linear as any. 
+
+But if you have some idea where in $v$ that $x$ might be, then searching in a different order might be faster in some cases. For example, suppose you're looking for the `.` character in a file name. It's usually near the right-end of the file name, and so searching from *right to left* is probably faster.
 
 Expanding on this idea, there are a number of other ways you could do linear search that might be useful in particular situations. For example:
 
 ![[linearSearches_medium.png]]
 
-If we know nothing about the location of $x$ in $v$, then it's fine to stick with plain left-to-right linear search.
+What matters for linear search is that each element of the vector/array is checked once. Ideally, you want to check the elements in order from most likely to be $x$ to least likely to be $x$.
 
 ## Locating an Item: Another Version of Linear Search
 Suppose you know for a fact that `x` is in `v`, but you don't know where. `linear_search1` above can answer that question. But here's a slightly faster function:
@@ -77,7 +80,7 @@ int location_of(const vector<int>& v, int x)
 }
 ```
 
-The [[pre-condition]] is essential here: this function only promises to work correctly if $x$ is in $v$. If $x$ is not in $v$, then loops forever.
+The [[pre-condition]] is essential here: the function only works correctly if $x$ is in $v$. If $x$ is not in $v$, then it loops forever.
 
 `location_of` is a little faster than `linear_search1` because on each each iteration of the loop it does only *one* comparison, `v[i] != x`. In contrast, `linear_search1` does *two comparisons per iteration: `v[i] != x` and `i < v.size()`.
 
@@ -139,7 +142,7 @@ int linear_search2(vector<int> &v, int x)
 
 This is longer and more complicated, but it works! And in some cases it may be faster than regular linear search. However, on many computers the improvement may be so slight that it's not worth the extra effort.
 
-Another issue with this version is that it requires modifying the vector, and in some applications that might not be possible.
+Another issue with this version is that it requires modifying the vector, and in some situations that might not be possible.
 
 ## Linear Search on Sub-vectors
 A useful way to generalize linear search is to let it search a range of sequential values:
@@ -167,7 +170,7 @@ Thus, `linear_search3` searches the sub-range `v[begin]`, `[begin + 1]`, ... , `
 
 A feature of asymmetric range `[begin, end)` is that the number of elements in the range is exactly `end` - `begin`.
 
-We can now implement regular linear search in one line:
+We can implement regular linear search in one line:
 
 ```cpp
 int linear_search3(const vector<int>& v, int x) 
@@ -209,12 +212,12 @@ int linear_search4(const vector<int>& v)
 }
 ```
 
-Performance-wise, recursive linear search is likely not as efficient as linear search implemented with a loop due to all the function calls it must do, and all the parameters it must save on the [[stack memory|call stack]]. Since this function is tail recursive, some compilers might be able to optimize-away the [[recursion]] in this case using [[tail call elimination]].
+Performance-wise, recursive linear search sis likely not as efficient as linear search implemented with a loop due to all the function calls it must do, and all the parameters it must save on the [[stack memory|call stack]]. Since this function is tail recursive, some compilers might be able to optimize-away the [[recursion]] in this case using [[tail call elimination]].
 
 ## Linear Search Performance
-How fast is linear search? The speed of any program depends in on things like:
+How fast is linear search? The speed of any program depends on things like:
 
-- the speed of your computer, how much memory it has, how many CPUs it has, etc.
+- the speed of your computer, how much memory it has, how fast your CPU is, etc.
 - the quality of the code generated by your compiler, i.e. some compilers, or compiler options, produce faster/slower code than others
 - the details of how you implement the code, e.g. recursive linear search is usually slower than a loop version
 - the version of your operating system
@@ -223,7 +226,7 @@ How fast is linear search? The speed of any program depends in on things like:
 
 To avoid these complications, computer scientists typically measure algorithm performance by counting how many [[key operation|key operations]] it does. The number of [[key operation|key operations]] is independent of the particular software/hardware involved.
 
-For linear search the most common [[key operation]] is  `==`. So the question "how fast is linear search?" becomes "how many times does linear search execute `==` ?".
+The [[key operation]] should be chosen so that it's count is proportional to the running time of the algorithm. For linear search the most common [[key operation]] is  `==`. So the question "how fast is linear search?" becomes "how many times does linear search execute `==` ?".
 
 ## Counting == in Linear Search
 The number of times `==` is executed depends upon `x` (the value being searched for) and the input vector:
@@ -234,15 +237,13 @@ The number of times `==` is executed depends upon `x` (the value being searched 
 - ...
 - $n$ times if the vector's last element is `x`, or the size of the vector is $n$ and `x` is not in it
 
-For simplicity, we are assuming the items in the vector are unique, i.e. no duplicates.
+For simplicity, we will assume the items in the vector are unique, i.e. no duplicates.
 
-In the **best case**, when `v` is empty, linear search does 0 comparisons. Empty vectors are probably not searched very often in practice, so this result is not very useful.
+In the **best case**, when `v` is empty, linear search does 0 comparisons. Empty vectors are probably not searched often in practice, so this result is not very useful.
 
-A slightly more useful best case is 1 comparison, when `x` is the first element of `v`. Assuming randomly ordered unique numbers in `v`, if `x` is in `v` then there is a $\frac{1}{n}$ chance `x` it is the first element. Thus, the best case does *not* occur very often and you shouldn't count on it.
+A slightly more useful best case is 1 comparison, when `x` is the first element of `v`. Assuming randomly ordered unique numbers in `v`, if `x` is in `v` then there is a $\frac{1}{n}$ chance `x` is the first element. Thus, the best case does *not* occur very often and you shouldn't count on it.
 
 In practice, the **worst case** is often more helpful, i.e. what is the greatest number of comparisons that linear search might do?
-
-Keep in mind this maxim: 
 
 > Hope for the best, but plan for the worst!
 
@@ -253,22 +254,22 @@ In the worst case, linear search does $n$ comparisons (where $n$ is the size of 
 ## Average Case Performance
 The best and worst cases are extremes. Both may occur infrequently. So it is natural to ask what is the expected *average* number of comparisons done by linear search.
 
-We can work out the answer by considering these two cases:
+We can work out the answer by considering two cases:
 
 - **Case 1**: `x` is in `v`
 - **Case 2**: `x` is not in `v`
 
 Assuming each case occurs 50% of the time, the total number of comparisons will be the average of the two cases, e.g. $\frac{1}{2}$ (# of comparisons in case 1) + $\frac{1}{2}$ (# of comparisons in case 2).
 
-So, how many comparisons are done in each case? For case 1, it is reasonable to estimate that about $\frac{n}{2}$ comparisons are done on average, e.g. sometimes `x` is near the beginning of the vector, sometimes it is near the end. If the elements in `v` are randomly ordered, then over multiple searches these cases balance out, and we end up doing, an average, about $\frac{n}{2}$ comparisons per search.
+So, how many comparisons are done in each case? For case 1, it is reasonable to estimate that about $\frac{n}{2}$ comparisons are done on average, e.g. sometimes `x` is near the beginning of the vector, sometimes it is near the end. If the elements in `v` are randomly ordered, then over multiple searches `x` is near the beginning of the vector as often as it is near the end, and so these cases balance out. We end up doing, an average, about $\frac{n}{2}$ comparisons per search.
 
 For case 2, when `x` is *not* in `v`, then `n` comparisons are always done.
 
-So the total number of comparisons done by linear search is $\frac{1}{2}$ (# of comparisons in case 1) + $\frac{1}{2}$ (# of comparisons in case 1). This is: $\frac{1}{2}\cdot\frac{n}{2} + \frac{1}{2}n = \frac{n}{4} + \frac{2n}{4} = \frac{3n}{4}$.
+So the total number of comparisons done by linear search is $\frac{1}{2}$ (# of comparisons in case 1) + $\frac{1}{2}$ (# of comparisons in case 1). This is: $\frac{1}{2}\cdot\frac{n}{2} + \frac{1}{2}n = \frac{n}{4} + \frac{2n}{4} = \frac{3n}{4} = \frac{3}{4}n$.
 
-Assuming random data, this expression says linear search does $\frac{3}{4}n$ comparisons *on average*. Experiments show that this is a pretty accurate count of the number of comparisons that linear search actually does under those conditions.
+Assuming random data and the assumptions above, this says linear search does $\frac{3}{4}n$ comparisons *on average*. 
 
-Many programmers estimate the average case for linear search to instead be the simpler expression $\frac{n}{2}$. But $\frac{3}{4}n$ is more accurate under our assumptions because the worst-case of $n$ comparisons occurs in *two different ways*: when $x$ is the last element, and also when its not in the vector at all. So $n$ comparisons occurs about twice as frequently as any other number of comparisons, which skews the total number of comparisons to $\frac{3}{4}n$.
+Many programmers estimate the average case for linear search to instead be $\frac{n}{2}$. But $\frac{3}{4}n$ is a little more accurate under our assumptions because the worst-case of $n$ comparisons occurs in *two different ways*: when $x$ is the last element, and also when its not in the vector at all. So $n$ comparisons occurs about twice as frequently as any other number of comparisons, which skews the total number of comparisons to $\frac{3}{4}n$.
 
 ## Optional: More Detailed Linear Search Average Case
 Here is another, more detailed, derivation of the number of comparisons done by linear search in the average case.
