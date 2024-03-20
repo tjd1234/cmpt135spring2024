@@ -25,7 +25,7 @@ Finding the *min* and *max* value of a sorted list is easy: the first value is t
 void sort(vector<int>& v)
 ```
 
-Note that this modifies `v`. So we call this an **in-place** sorting algorithm. You can use it to make an function that doesn't modify the vector:
+Note that this modifies `v`. It's called an **in-place** sorting algorithm. You can use it to make an function that doesn't modify the vector:
 
 ```cpp
 // Pre-condition:
@@ -44,7 +44,6 @@ Of course, `sorted_copy` takes more memory since it stores both the original vec
 
 ### A Bad Specification of Sorting
 Consider this *incorrect* specification of sorting:
-
 ```cpp
 // Pre-condition:
 //     none
@@ -53,9 +52,7 @@ Consider this *incorrect* specification of sorting:
 //    v[0] <= v[1] <= ... <= v[n-1]
 void sort_bad(vector<int>& v)
 ```
-
 This might sound equivalent to the specification above, but this one is wrong. For example, these implementations fit the post-condition of `bad_sort`, but they are not correct sorting algorithms:
-
 ```cpp
 void sort_bad_a(vector<int>& v) 
 {
@@ -70,8 +67,7 @@ void sort_bad_b(vector<int>& v)
    v.clear();  // removes all elements from v
 }
 ```
-
-Clearly these are not what we mean by sorting, but `sort_bad_a` and `sort_bad_b` both satisfy the specification of `sort_bad`. 
+Clearly these are not what we mean by sorting. But `sort_bad_a` and `sort_bad_b` both satisfy the specification of `sort_bad`. 
 
 The problem with `sort-bad` is that it misses the requirement that the elements must be *re-arranged*, i.e. the elements must be **permuted**. `bad_sort` does not rule out adding, removing, or changing values in the vector.
 ## Linear Insertion Sort
@@ -104,7 +100,6 @@ Lets trace this on our sample data:
 1  2  4  5  6  | 
 ```
 Note that finding the correct insertion point requires searching through the sorted part. Typically, we use a variation of [[linear search]] to do this, hence the name *linear* insertion sort. It's also possible to do the insertion using [[binary search]], in which case the [[algorithm]] is called [[binary insertion sort]].
-
 ## Implementation of Linear Insertion Sort
 Here's an implementation of insertion sort:
 ```cpp
@@ -173,7 +168,6 @@ bool is_sorted(const vector<int>& v)
    return true;
 }
 ```
-
 Here is a test function:
 ```cpp
 bool insertion_sort_ok(vector<int> v)
@@ -207,7 +201,9 @@ void test_insertion_sort()
 ```
 
 ## The Performance of Linear Insertion Sort
-How fast is insertion sort? Not very, it turns out. To estimate it's performance, note that it will do at most $n-1$ insertions since each insertion removes one item from the sorted. Each insertion also requires doing a [[linear search]] to find out where it is inserted. 
+How fast is insertion sort? Not very, it turns out. 
+
+To estimate it's performance, note that it will do at most $n-1$ insertions since each insertion removes one item from the sorted. Each insertion also requires doing a [[linear search]] to find out where it is inserted. 
 
 How many comparisons does insertion sort do in the *worst case*? We consider the worst case because it is both useful in practice, and the math is not too complicated.
 
@@ -258,7 +254,6 @@ The two parts are sorted, but the entire vector is not sorted. So now we [[Mergi
 a         b
 ```
 Also, create a result vector big enough to hold both halves:
-
 ```
         |
   left  |  right
@@ -269,7 +264,7 @@ a         b
 
 result: { }
 ```
-To merge `left` and `right`, compare the elements that `a` and `b` point to, and append a copy of the *smaller* to the end of `result`. Then, increment the appropriate pointer to point to the next element. For example, in the above diagram 1 is less than 3, so 1 is appended to `result` and `a` is incremented:
+To merge `left` and `right`, compare the elements that `a` and `b` point to, and append a copy of the *smaller* to the end of `result`. Then, increment the pointer to point to the next element. For example, in the above diagram 1 is less than 3, so 1 is appended to `result` and `a` is incremented:
 ```
   left  |  right
 1 2 4 8 | 3 5 6 7
@@ -349,20 +344,19 @@ Now the entire vector is sorted.
 Here's [[pseudocode]] for [[mergesort]]:
 ```
 mergesort(v)    // v has n elements
-   if v is size 0 or 1, then return  // base case
+   if v is size 0 or 1, then return // base case
 
-   // split v into 2 equal parts
-   half = n / 2
+   
+   h = n / 2                        // split v into 2 equal parts
    left = {v[0], v[1], ..., v[half-1]}
-   right = {v[half], v[half+1], ..., v[n-1]}
+   right = {v[h], v[h+1], ..., v[n-1]}
 
-   // recursively sort the 2 parts
-   left = mergesort(left)
+   left = mergesort(left)           // recursively sort the 2 parts
    right = mergesort(right)
    
-   // combine the 2 parts
-   v = merge(left, right)              
+   v = merge(left, right)           // combine the 2 parts
 ```
+
 Here is a C++ implementation of mergesort. It uses a helper function called `slice` to get copies of the left and right part of the vector:
 ```cpp
 // Pre-condition:
@@ -551,31 +545,32 @@ After checking that 8 is not equal to 6, we are done: we've proven that 6 is *no
 
 Here's an implementation:
 ```cpp
-// Pre-condition: 
+// Pre-condition:
 //   v[begin] to v[end - 1] is in ascending sorted order
-// Post-condition: 
-//   returns an index i such that v[i] == x and 
-//   begin <= i < end; 
+// Post-condition:
+//   returns an index i such that v[i] == x and
+//   begin <= i < end;
 //   if x is not found, -1 is returned
-int binary_search(int x, const vector<int>& v, 
-                  int begin, int end) 
+int binary_search(int x, const vector<int> &v,
+                  int begin, int end)
 {
-  while (begin < end) 
-  {
-    int mid = (begin + end) / 2;
-    if (v[mid] == x) // found x!
+    while (begin < end)
     {
-      return mid;
-    } else if (x < v[mid]) 
-    {
-      end = mid;
-    } 
-    else // x > v[mid]
-    { 
-      begin = mid + 1;
+        int mid = (begin + end) / 2;
+        if (v[mid] == x) // found x!
+        {
+            return mid;
+        }
+        else if (x < v[mid])
+        {
+            end = mid;
+        }
+        else // x > v[mid]
+        {
+            begin = mid + 1;
+        }
     }
-  }
-  return -1; // x not found
+    return -1; // x not found
 }
 
 // Pre-condition:
@@ -583,43 +578,44 @@ int binary_search(int x, const vector<int>& v,
 // Post-condition:
 //    returns an index i such that v[i] == x; if x is
 //    not in v, -1 is returned
-int binary_search(int x, const vector<int>& v) 
+int binary_search(int x, const vector<int> &v)
 {
-  return binary_search(x, v, 0, v.size());
+    return binary_search(x, v, 0, v.size());
 }
 ```
-The [[algorithm]] is subtle at points, and it is notoriously easy to code it incorrectly. For example, this line is easy to get wrong:
+The [[algorithm]] is notoriously easy to code incorrectly. For example, this line is easy to get wrong:
 ```cpp
 int mid = (begin + end) / 2;
 ```
-It calculates the mid-point of a range. You can derive this as follows. The length of the range is $end - begin$, and half of that is $\frac{end - begin}{2}$. Since the range starts at $begin$, the mid-point is $begin + \frac{end - begin}{2}$, which simplifies to $\frac{end + begin}{2}$.
+It calculates the mid-point of a range. You can derive it as follows. The length of the range is $end - begin$, and half of that is $\frac{end - begin}{2}$. Since the range starts at $begin$, the mid-point is $begin + \frac{end - begin}{2}$, which simplifies to $\frac{end + begin}{2}$.
 
 If $end - begin$ happens to be odd, then $\frac{end + begin}{2}$ ends with .5, and we simply chop that off (e.g. 34.5 becomes 34). This is not obviously the right thing to do, but if you test it with a few actual values by hand, and write some good tests, you can be pretty confident that it's correct.
 
 Here's a recursive version of [[binary search]]:
 ```cpp
-int binary_search_rec(int x, const vector<int>& v, 
-                      int begin, int end) 
+int binary_search_rec(int x, const vector<int> &v,
+                      int begin, int end)
 {
-   int n = end - begin;
+    int n = end - begin;
 
-   // if the sub-vector being searched is empty, 
-   // then x is not in it
-   if (n <= 0) return -1; // x not found
-  
-   int mid = (begin + end) / 2;
-   if (x == v[mid]) 
-   {
-     return mid;
-   } 
-   else if (x < v[mid]) 
-   {
-     return binary_search_rec(x, v, begin, mid);
-   } 
-   else 
-   { 
-     return binary_search_rec(x, v, mid + 1, end);
-   }
+    // if the sub-vector being searched is empty,
+    // then x is not in it
+    if (n <= 0)
+        return -1; // x not found
+
+    int mid = (begin + end) / 2;
+    if (x == v[mid])
+    {
+        return mid;
+    }
+    else if (x < v[mid])
+    {
+        return binary_search_rec(x, v, begin, mid);
+    }
+    else
+    {
+        return binary_search_rec(x, v, mid + 1, end);
+    }
 }
 
 // Pre-condition:
@@ -660,7 +656,7 @@ While [[binary search]] is extremely efficient for searching large amounts of da
 
 > **Did you know that you can drive your car a mile without using only a drop of gas?** Just start at the top of a mile-long hill and roll down. Of course, the hard part is getting your car up there in the first place! Binary search suffers from a similar problem.
 ## Why is Binary Search so Fast?
-Every time [[binary search]] iterates through its main loop one time, it discards *half* of all the elements of `v`. So if `v` initially has n elements, the number of possible elements that could be equal to `x` decreases in size like this: $n$, $\frac{n}{2}$, $\frac{n}{4}$, $\frac{n}{8}$, ..., $\frac{n}{2^i}$.
+Every time [[binary search]] iterates once through its  loop, it discards *half* of all the elements of `v`. So if `v` initially has n elements, the number of possible elements that could be equal to `x` decreases in size like this: $n$, $\frac{n}{2}$, $\frac{n}{4}$, $\frac{n}{8}$, ..., $\frac{n}{2^i}$.
 
 Eventually, $2^i$ is bigger than $n$, meaning there are no more elements to consider. We want to know the *first* value of $i$ that makes $\frac{n}{2^i} < 1$. That is, we want to solve for $i$ in this inequality:
 
