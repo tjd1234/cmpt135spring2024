@@ -1,5 +1,7 @@
-scratch
-pow
-pow_count
-max
+binary_search
+insertion_sort
+is_sorted
 linear_search
+mergesort
+scratch
+shuffle

@@ -10,7 +10,7 @@ using namespace std;
 //    none
 // Post-condition:
 //    Returns the smallest i >= 0 such that v[i] == x; or, if
-//    x is not anywhere in v, then -1 is returned.
+//    x is not anywhere in v, then returns -1.
 int linear_search1(const vector<int> &v, int x)
 {
     for (int i = 0; i < v.size(); i++)
@@ -44,6 +44,10 @@ void test_linear_search1()
     cout << " ... test_linear_search1 done: all tests passed\n";
 }
 
+//
+// This version demonstrates using linear search to find a char
+// in a string.
+//
 // Pre-condition:
 //    none
 // Post-condition:
@@ -113,9 +117,13 @@ void test_reverse_linear_search()
     cout << " ... test_reverse_linear_search done: all tests passed\n";
 }
 
-// Pre-condition:
+//
+// A variation of linear search that works just when the value x is in the
+// vector.
+//
+// Pre-condition: 
 //    x is in v (i.e. there exists some i such that v[i] == x)
-// Post-condition:
+// Post-condition: 
 //    returns the smallest i >= 0 such that v[i] == x
 int location_of(const vector<int> &v, int x)
 {
@@ -125,7 +133,20 @@ int location_of(const vector<int> &v, int x)
     return i;
 }
 
-// v is *cannot* be const because the end value is temporarily modified by the
+int linear_search1(const vector<int> &v, int x)
+{
+    for (int i = 0; i < v.size(); i++)
+    {
+        if (x == v[i])
+            return i;
+    }
+    return -1;
+}
+
+//
+// A sometimes slightly faster version of linear search that uses location_of.
+//
+// v *cannot* be const because the end value is temporarily modified by the
 // algorithm.
 int linear_search2(vector<int> &v, int x)
 {
@@ -229,7 +250,7 @@ int linear_search4(const vector<int> &v, int x, int begin, int end)
     else
     {
         // note that it's begin + 1
-        return linear_search4(v, x, begin + 1, end);
+        return linear_search4(v, x, begin + 1, end); // tail recursive
     }
 }
 
@@ -260,13 +281,83 @@ void test_linear_search4()
     cout << " ... test_linear_search4 done: all tests passed\n";
 }
 
+// Pre-condition:
+//    v is in sorted order, i.e.
+//    v[0] <= v[1] <= ... <= v[v.size() - 1]
+// Post-condition:
+//    Inserts x into v such that v remains in sorted order.
+void insert_before(vector<int> &v, int x)
+{
+    v.push_back(x);
+    int i = v.size() - 1;
+    while (i > 0 && v[i - 1] > x)
+    {
+        swap(v[i - 1], v[i]);
+        i--;
+    }
+}
+
+ostream &operator<<(ostream &os, const vector<int> &v)
+{
+    os << "{";
+    for (int i = 0; i < v.size(); i++)
+    {
+        os << v[i];
+        if (i < v.size() - 1)
+            os << ", ";
+    }
+    os << "}";
+    return os;
+}
+
+void test_insert_before()
+{
+    cout << "Calling test_insert_before ...\n";
+    vector<int> v;
+    vector<int> result = {3};
+    insert_before(v, 3);
+    assert(v == result);
+
+    // {3}
+    insert_before(v, 0);
+    result = {0, 3};
+    assert(v == result);
+
+    // {0, 3}
+    insert_before(v, 5);
+    result = {0, 3, 5};
+    assert(v == result);
+
+    cout << " ... test_insert_before done: all tests passed\n";
+}
+
+//
+// Using insert_before we can create an algorithm call "insertion sort". It
+// works by creating a new vector and inserting each element of the original
+// vector into the new vector in sorted order using insert_before.
+//
+// This is not the most efficient way to implement insertion sort. Faster is to
+// move elements around in the original vector as needed without making a copy.
+// See the file insertion_sort.cpp for an example of that.
+//
+vector<int> insertion_sort(const vector<int> &v)
+{
+    vector<int> result;
+    for (int i = 0; i < v.size(); i++)
+    {
+        insert_before(result, v[i]);
+    }
+    return result;
+}
+
 int main()
 {
-    test_linear_search1();
-    test_linear_search1a();
-    test_reverse_linear_search();
-    test_linear_search2();
-    test_linear_search3();
-    test_linear_search3();
-    test_linear_search4();
+    // test_linear_search1();
+    // test_linear_search1a();
+    // test_reverse_linear_search();
+    // test_linear_search2();
+    // test_linear_search3();
+    // test_linear_search3();
+    // test_linear_search4();
+    test_insert_before();
 }
