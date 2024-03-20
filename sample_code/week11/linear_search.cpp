@@ -337,8 +337,8 @@ void test_insert_before()
 // vector into the new vector in sorted order using insert_before.
 //
 // This is not the most efficient way to implement insertion sort. Faster is to
-// move elements around in the original vector as needed without making a copy.
-// See the file insertion_sort.cpp for an example of that.
+// do the insertion directly in the original vector without making a copy. See
+// the file insertion_sort.cpp for an example of that.
 //
 vector<int> insertion_sort(const vector<int> &v)
 {
