@@ -508,13 +508,13 @@ int binary_search(int x, const vector<int>& v)
 ```
 The [[pre-condition]] is essential: binary search only works on data that is in ascending [[sorted order]].
 
-To find an element `x` in vector `v`, first looks at the *middle-most* of the vector. There are three possible cases:
+When searching for an element `x` in vector `v`, binary search first looks at the *middle-most* element of the vector. There are three possible cases:
 
-1. **The middle element is equal to `x`**. In this case `x` has been found and binary search immediately returns the position of `x`.
-2. **`x` is smaller than the middle element**. In this case, *if* `x` is in the vector it's among the values to the *left* of the middle element, and so binary search is run on this *left* half.
-3. **`x` is bigger than the middle element**. In this case, *if* `x` is in the vector it's among the values to the *right* of the middle element, and so binary search is run on this *right* half.
+1. **`x` equals the middle-most element**. In this case `x` has been found and binary search immediately returns the position of `x`.
+2. **`x` is smaller than the middle-most element**. In this case, *if* `x` is in the vector it must be among the values to the *left* of the middle element, and so binary search is run on this *left* half.
+3. **`x` is bigger than the middle-most element**. In this case, *if* `x` is in the vector it's among the values to the *right* of the middle element, and so binary search is run on this *right* half.
 
-What makes this so efficient is that each comparison discards *half* of the remaining elements. In contrast, each linear search comparison discards only 1 element.
+What makes this so efficient is that each time a middle-most element is checked,  *half* of the remaining elements are discarded. In contrast, each comparison step in linear search discards only 1 element.
 
 For example, suppose we're searching this sorted vector:
 ```
@@ -628,7 +628,7 @@ int binary_search_rec(int x, const vector<int>& v)
   return binary_search_rec(x, v, 0, v.size());
 }
 ```
-The code is similar in length and complexity to the non-recursive version, and is quite efficient (especially if [[tail call elimination]] is applied).
+The code is similar in length and complexity to the non-recursive version, and is quite efficient (especially if [[tail call elimination]] is used).
 
 Binary search has a lot of little details that are easier to get wrong, and so it is important to test it carefully:
 ```cpp
@@ -647,6 +647,15 @@ void binary_search_test()
    assert(binary_search(7, two) == 1);
    assert(binary_search(10, two) == -1);
 
+   vector<int> v = {1, 5, 7, 8, 10, 13, 14, 20, 25};
+   assert(binary_search(8, v) == 3);
+   assert(binary_search(10, v) == 4);
+   assert(binary_search(13, v) == 5);
+
+   assert(binary_search(2, v) == -1);
+   assert(binary_search(9, v) == -1);
+   assert(binary_search(21, v) == -1);
+
    cout << "all binary_search tests passed\n";
 }
 ```
@@ -656,7 +665,7 @@ While [[binary search]] is extremely efficient for searching large amounts of da
 
 > **Did you know that you can drive your car a mile without using only a drop of gas?** Just start at the top of a mile-long hill and roll down. Of course, the hard part is getting your car up there in the first place! Binary search suffers from a similar problem.
 ## Why is Binary Search so Fast?
-Every time [[binary search]] iterates once through its  loop, it discards *half* of all the elements of `v`. So if `v` initially has n elements, the number of possible elements that could be equal to `x` decreases in size like this: $n$, $\frac{n}{2}$, $\frac{n}{4}$, $\frac{n}{8}$, ..., $\frac{n}{2^i}$.
+Every time [[binary search]] iterates once through its loop, it discards *half* of all the elements of `v`. So if `v` initially has n elements, the number of possible elements that could be equal to `x` decreases in size like this: $n$, $\frac{n}{2}$, $\frac{n}{4}$, $\frac{n}{8}$, ..., $\frac{n}{2^i}$.
 
 Eventually, $2^i$ is bigger than $n$, meaning there are no more elements to consider. We want to know the *first* value of $i$ that makes $\frac{n}{2^i} < 1$. That is, we want to solve for $i$ in this inequality:
 

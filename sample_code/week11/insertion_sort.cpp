@@ -108,8 +108,8 @@ void interactive_test()
     }
 
     // re-arrange them into sorted order
-    insertion_sort(words);
-    // std::sort(begin(words), end(words)); // standard C++ sort for comparison
+    // insertion_sort(words);
+    std::sort(begin(words), end(words)); // standard C++ sort for comparison
 
     // write them to cout
     for (string w : words)
@@ -124,7 +124,4 @@ int main()
     interactive_test();
 }
 
-//
-// Takes ~27s on my desktop computer to sort ospd_shuffled.txt using
-// insertion_sort.
-//
+

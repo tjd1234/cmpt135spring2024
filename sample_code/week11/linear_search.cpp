@@ -133,7 +133,7 @@ int location_of(const vector<int> &v, int x)
     return i;
 }
 
-int linear_search1(const vector<int> &v, int x)
+int linear_search1b(const vector<int> &v, int x)
 {
     for (int i = 0; i < v.size(); i++)
     {
