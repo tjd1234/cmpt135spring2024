@@ -546,41 +546,33 @@ After checking that 8 is not equal to 6, we are done: we've proven that 6 is *no
 Here's an implementation:
 ```cpp
 // Pre-condition:
-//   v[begin] to v[end - 1] is in ascending sorted order
-// Post-condition:
-//   returns an index i such that v[i] == x and
-//   begin <= i < end;
-//   if x is not found, -1 is returned
-int binary_search(int x, const vector<int> &v,
-                  int begin, int end)
-{
-    while (begin < end)
-    {
-        int mid = (begin + end) / 2;
-        if (v[mid] == x) // found x!
-        {
-            return mid;
-        }
-        else if (x < v[mid])
-        {
-            end = mid;
-        }
-        else // x > v[mid]
-        {
-            begin = mid + 1;
-        }
-    }
-    return -1; // x not found
-}
-
-// Pre-condition:
 //    v is in ascending sorted order
 // Post-condition:
 //    returns an index i such that v[i] == x; if x is
 //    not in v, -1 is returned
 int binary_search(int x, const vector<int> &v)
 {
-    return binary_search(x, v, 0, v.size());
+    int begin = 0;
+    int end = v.size();
+
+    while (begin < end)
+    {
+        int mid = (begin + end) / 2;
+        if (v[mid] == x)
+        {
+            return mid;
+        }
+        else if (v[mid] < x)
+        {
+            begin = mid + 1;
+        }
+        else // v[mid] > x
+        {
+            end = mid;
+        }
+    }
+
+    return -1;  // x not found
 }
 ```
 The [[algorithm]] is notoriously easy to code incorrectly. For example, this line is easy to get wrong:
