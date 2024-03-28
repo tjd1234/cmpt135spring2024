@@ -21,7 +21,7 @@ See Canvas for assignment due dates and submission.
 - [Assignment 2](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a2)
 - [Assignment 3](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a3)
 - [Assignment 4](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a4)
-- Assignment 5
+- [Assignment 5](https://github.com/tjd1234/cmpt135spring2024/tree/main/assignments/a5)
 ## Lecture Notes 
 **The timing of each topic is approximate, and may change as we go**. [The example code used in the lectures is usually available here](https://github.com/tjd1234/cmpt135spring2024/tree/main/sample_code).
 
