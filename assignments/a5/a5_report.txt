@@ -1,0 +1,30 @@
+Assignment 5 Report
+===================
+
+Description of Computers Playing Strategy
+-----------------------------------------
+
+(Describe the strategy your computer player uses. Include a discussion of how
+well it plays, if there are any known weaknesses, and any other relevant
+information.)
+
+
+Extra Features
+--------------
+
+(Describe all extra features your program has that were not required by the
+assignment; if there are no extra features, then say that.)
+
+
+Known Bugs and Limitations
+--------------------------
+
+(If your program is perfect and unlimited, then say so!)
+
+
+Acknowledgements of All Help
+----------------------------
+
+(Cite all websites, books, people, etc. that you got help from, including what
+sort of help you got. Each citation should be about 1 to 2 lines long.)
+
