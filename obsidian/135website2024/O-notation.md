@@ -1,10 +1,9 @@
 
-**O-notation**, also known as **asymptotic notation**, or **order notation**, is a mathematical tool that is useful when discussing [[algorithm]] performance. It is commonly used both in the theoretical analysis of [[algorithm|algorithms]], and in practical programming for estimating running-times.
-
+**O-notation**, also known as **asymptotic notation**, or **order notation**, is a mathematical notation for discussing [[algorithm]] performance. It is commonly used both in the theoretical analysis of [[algorithm|algorithms]], and in practical programming for estimating running-times.
 ## Algorithms and Input
-To analyze [[algorithm|algorithms]] mathematically, we will make a number of simplifying assumptions. First, we assume that an [[algorithm]] $A$ takes an input of size $n$. Typically, this input is a sequence, such as an array or vector or string, with $n$ elements.  We assume $A$ runs for a *finite* amount of time, i.e. that it eventually stops and returns a result.
+To analyze [[algorithm|algorithms]] mathematically, we usually make simplifying assumptions. First, we assume that we are considering an [[algorithm]] $A$ takes input of size $n$. Typically, this input is a sequence, such as an array or vector or string, with $n$ elements. We assume $A$ runs for a *finite* amount of time, i.e. that it eventually stops and returns a result.
 
-For example, [[linear search]] takes $n$ elements and a target value $x$ as input, and returns the index location of an element that equals $x$; if $x$ is not in the list, -1 is returned:
+For example, [[linear search]] is an algorithm that takes $n$ elements and a target value $x$ as input, and returns the index location of an element that equals $x$. If $x$ is not in the list, -1 is returned. We might write in [[pseudocode]] like this:
 
 1. linear_search({$a_1$, $a_2$, $\ldots$, $a_n$}, $x$)
 2. $i \leftarrow 1$
@@ -13,17 +12,15 @@ For example, [[linear search]] takes $n$ elements and a target value $x$ as inpu
 5. $i \leftarrow i + 1$
 6. go to step 3
 
-We've written this algorithm in [[pseudocode]] instead of C++ to make it more readable. The line numbers make it easy to refer to individual lines.
-
+It's usually more readable to use [[pseudocode]] instead of C++. The line numbers make it easy to refer to specific lines.
 ## Measuring Running Time
 Since we are interested in how quickly [[algorithm|algorithms]] run, you might think that we would use real time --- such as seconds or microseconds --- to measure performance. We certainly judge real-world software as being fast or slow by how much time it takes.
 
-But real time is difficult to measure for programs because different computers run at different speeds. They may have different CPUs, different amounts of memory, or just be doing other things at the same time (e.g. playing a video, receiving email, etc). To fairly compare two programs, we'd have to make sure they are run in the same conditions, on *exactly* the same computer, with *exactly* the same software, etc. That is easier said than done.
-
+But real time is difficult to measure for programs because different computers run at different speeds. They may have different CPUs, different amounts of memory, or just be doing other things at the same time (e.g. playing a video, receiving email, etc). To fairly compare programs, we'd have to make sure they are run in the same conditions, on *exactly* the same computer, with *exactly* the same software, etc. That is easier said than done.
 ## Key Operations
 So, to avoid these problems, computer scientists will often estimate an [[algorithm]]'s running time by measuring the *work* it does. And this work is estimated by *counting* how many times it executes a chosen [[key operation]]. A [[key operation]] is typically the most frequently executed instruction in an [[algorithm]]. The main advantage of this approach is that it is independent of hardware and software details, and it can even be applied to [[algorithm|algorithms]] written in [[pseudocode]].
 
-It's important to choose a sensible [[key operation]] that reflects the work the algorithm does. It should give us a pretty good estimate of the algorithms running time. For example, in [[linear search]] above, there are a couple of reasonable choices for the [[key operation]]:
+It's important to choose a sensible [[key operation]] that reflects the work the algorithm does. It should give us a good estimate of the algorithms running time. For example, in [[linear search]] above, there are a couple of reasonable choices for the [[key operation]]:
 
 - item comparison using $=$
 - item accesses, i.e. a call to $a_i$ corresponds accessing an element of an array or vector
@@ -41,30 +38,37 @@ Care must be taken when comparing the running times of [[algorithm|algorithms]] 
 
 We should also be clear if we are talking about the **best case**, **average case**, or **worst case** running time. In practice, the average case and worst case running times are usually the most useful.
 ## O-Notation
-Getting precise instruction counts of even simple [[algorithm|algorithms]] is often difficult, and the mathematical expressions can be complicated. Simple [[key operation|key operations]], such as comparisons or additions, can be done so quickly on most computers that there is often little practical difference between [[algorithm|algorithms]] that do, say, $5n + 1000$ or $n$ operations.
+Getting precise instruction counts of even simple [[algorithm|algorithms]] is often difficult, and the mathematical expressions can be complicated. Further, simple [[key operation|key operations]], such as comparisons or additions, can be done so quickly on most computers that there is often little practical difference between [[algorithm|algorithms]] that do, say, $5n + 1000$ or $n$ operations.
 
-For these reasons we often simplify algorithm instruction counts using *approximations*. **O-notation** (also known as **big O-notation**, **order notation**, or **asymptotic notation**) is a mathematically respectable way of approximating expressions.
+For these reasons we often *approximate* algorithm instruction counts by ignoring everything except their high-order term.
 
-Roughly speaking, O-notation says that the **order** of a mathematical expression is its biggest term. Constants and low-order terms can be ignored. For example, we say that the expression $2n$ is in $O(n)$, and that $25n^7 -4n^3 + 20$ is in $O(n^7)$.
+Roughly speaking, **O-notation** says that the **order** of a mathematical expression is its biggest term, with constants and low-order terms ignored. For example, we say that the expression $2n-5$ is in $O(n)$, and that $25n^7 -4n^3 + 20$ is in $O(n^7)$.
+
+When adding O-notation expressions, the result is, intuitively-speaking, the *max* of the expressions. For example, $O(\log n) + O(n)$ is $O(n)$, and $O(n) + O(n^2) + O(n^3)$ is $O(n^3)$.
+
+It's easy to determine the high-order term of polynomials. For example, all of these expressions are in $O(n^2)$:
+- $n^2$
+- $n^2+100$
+- $n^2-100$
+- $n + 2n^2$
+- $\frac{1}{2}n^2 - 500n + 700$
+
+If you say that a particular [[algorithm]] runs in $O(n^2)$ time, then that means the [[key operation]] count can be described by some expression from $O(n^2)$ (but we don't know which one).
 
 Intuitively, $O(n)$ is the *set* of all mathematical expressions of a single variable $n$ whose highest-order term is $n$, or lower. Similarly, $O(n^3)$ is the set of all expressions whose highest order term is $n^3$, or lower; thus $O(n)$ is a *subset* of $O(n^3)$.
 
-The expression $45n - 80$ is in both $O(n)$ and in $O(n^3)$. We say that $O(n)$ is **tighter** than $O(n^3)$.  In practice, we usually want to know the *tightest* O-notation description for an expression since saying something like "$2n$ is $O(n^{3})$" is true but unhelpful.
+The expression $45n - 80$ is in both $O(n)$ and in $O(n^3)$. We say that $O(n)$ is **tighter** than $O(n^3)$.  In practice, we usually want to know the *tightest* O-notation description for an expression since saying something like "$2n$ is $O(n^{3})$" is true but not as informative as saying "$2n$ is $O(n)$".
 
-It's easy to determine the high-order term of polynomials. For example, all of these expressions are in $O(n^2)$: 
-- $n^2$, $n^2+100$
-- $n^2-100$, $2n^2+n$
-- $\frac{1}{2}n^2 - 500n + 700$.
-
-If you say that a particular [[algorithm]] runs in $O(n^2)$ time, then that means the [[key operation]] count can be described by some expression from $O(n^2)$ (but we don't know which one).
+Here's one more intuitive way for think about O-notation: it is like *less than or equal* but for functions. For instance, if you say $f(n)$ is $O(g(n))$, it is, intuitively, like saying "$f(n)$ if less than, or equal to, $g(n)$ for the key instruction". Or: "$f(n)$ is, at most, $g(n)$".
 
 Here is a more precise definition of O-notation:
 
 > **Definition of O-notation.** [[Algorithm]] $A$ is order $f(n)$, written $O(f(n))$, if there exist fixed constants $k$ and $n_0$ such that $A$ requires no more than $kf(n)$ key operations to process an input of size $n \geq n_0$.
 
-Using this definition, we can rigorously prove all the basic facts about O-notation. We will not go into the details of such proofs in this course, but instead focus on gaining intuition for the underlying concepts.
-
+This definition lets us rigorously prove all the basic facts about O-notation alluded to above. We won't go into the proofs in this course.
 ## O-notation Applied to Algorithms
+In practice, these are the most common O-notation expressions that you should know:
+
 | O-expression  | Name         | Example                   |
 |---------------|--------------|---------------------------|
 | $O(1)$        | constant     | $1, 10, 34, 3538, \ldots$ |
@@ -74,15 +78,13 @@ Using this definition, we can rigorously prove all the basic facts about O-notat
 | $O(n^2)$      | quadratic    | $7n^2 - 4n + 22$          |
 | $O(n^3)$      | cubic        | $n^3 + 2n^2 + 22n + 1$    |
 | $O(2^n)$      | exponential  | $3^n + n^4 - 2n^2 + 80$   |
+For example:
 
-We use the O-notation categories in the above table to describe the running
-times of algorithms. For example:
-
-- Finding the minimum value in an *unordered* vector of $n$ elements using the standard algorithm takes $n-1$ comparisons, and $n-1$ is in $O(n)$. So we say that the standard min-finding algorithm does $O(n)$ comparisons, or just that it is $O(n)$.
-- Finding the minimum value in a *sorted* vector is easy: it is the first element of  the list. No matter how big $n$ is, returning the first element takes a fixed amount of work. So we say that finding the min of an $n$-element vector requires $O(1)$ work, i.e. it is a *constant  time* algorithm whose performance doesn't depend on $n$.
+- Finding the minimum value in an *unordered* vector of $n$ elements using the standard algorithm always does $n-1$ comparisons, and $n-1$ is in $O(n)$. So we say that the standard min-finding algorithm does $O(n)$ comparisons, or just that it is $O(n)$.
+- Finding the minimum value in a *sorted* vector is easy: it is the first element of  the list. No matter how big $n$ is, returning the first element takes a fixed amount of work. So we say that finding the min of a sorted $n$-element vector requires at most $O(1)$ work, i.e. it is a *constant  time* algorithm whose performance doesn't depend on $n$.
 - [[linear search]] does $O(n)$ comparisons in the average/worst case, and so we say it is a **linear**-time [[algorithm]]. In the best case, linear search does only 1 comparison, and so in that case, it is $O(1)$, i.e. constant time.
-- [[Insertion sort]] does $O(n^2)$ comparisons in the worst-case and average-case, and so it is a **quadratic**-time [[algorithm]]. In the best case (e.g. when the data is already sorted), [[insertion sort]] only does $O(n)$ comparisons, and so it is linear, i.e. $O(n)$ in that case. 
-- [[Quicksort]]  does $O(n \log n)$ comparisons in the average case, but degrades to $O(n^2)$ in the worst case. The worst-case occurs very rarely, and so many programmers --- perhaps unwisely --- treat it as if it did $O(n\log n)$ comparisons in all cases.
+- [[Insertion sort]] does $O(n^2)$ comparisons in the worst-case and average-case, and so it is a **quadratic**-time [[algorithm]]. In the best case (e.g. when the data is already sorted), [[insertion sort]] only does $O(n)$ comparisons, and so it is linear, i.e. $O(n)$ in that case.
+- [[Quicksort]] does $O(n \log n)$ comparisons in the average case, but degrades to $O(n^2)$ in the worst case. The worst-case occurs very rarely, and so many programmers --- perhaps unwisely --- treat it as if it did $O(n\log n)$ comparisons in all cases.
  - Another important sorting algorithm is [[mergesort]] is also $O(n \log n)$ comparisons in *all* cases, even the worst case. However, compared to [[quicksort]], [[mergesort]] uses about twice as much memory, and is usually a little slower on average.
 - [[Binary search]] does $O(\log\,n)$ comparisons in the worst-case and average-case (in the best case it does only 1 comparison). Thus it is a **logarithmic** [[algorithm]]. This is not quite as good as $O(1)$, but in practice logarithmic algorithms are often extremely fast.
 
@@ -91,7 +93,7 @@ times of algorithms. For example:
 ## Two or More Algorithms in a Row
 Real-world programs often do multiple functions calls in a row. For example, if `f(n)` does $O(n^3)$ operations in the worst case, and `g(n)` does $O(n\log n)$ operations in its worst case, then how many operations does calling `f(n)` followed immediately by `g(n)` do in the worst case?
 
-We can figure this out as follows. Since `f(n)` is $O(n^3)$, that means there is a polynomial with a highest-order term of $n^3$ that describes the running time of `f(n)`. Since O-notation lets us ignore constants and low-order terms, we can assume `f(n)` does $n^3$ operations. Similarly, since `g(n)` does $O(n\log n)$ comparisons, we can treat it as if it does $n \log n$ operations.
+Since `f(n)` is $O(n^3)$, that means there is a polynomial with a highest-order term of $n^3$ that describes the running time of `f(n)`. Since O-notation lets us ignore constants and low-order terms, we can assume `f(n)` does $n^3$ operations. Similarly, since `g(n)` does $O(n\log n)$ comparisons, we can treat it as if it does $n \log n$ operations.
 
 So if we run `f(n)` and then `g(n)`, that's about $n^3 + n \log n$ operations in total. Since $n^3$ is the high-order term of *that* expression, and O-notation lets us ignore constants and lower-order terms, we can say the sequence of two function calls does $O(n^3)$ [[key operation|key operations]] in total.
 

@@ -348,8 +348,8 @@ mergesort(v)    // v has n elements
 
    
    h = n / 2                        // split v into 2 equal parts
-   left = {v[0], v[1], ..., v[half-1]}
-   right = {v[h], v[h+1], ..., v[n-1]}
+   left = { v[0], v[1], ..., v[h-1] }
+   right = { v[h], v[h+1], ..., v[n-1] }
 
    left = mergesort(left)           // recursively sort the 2 parts
    right = mergesort(right)
@@ -422,9 +422,9 @@ void mergesort(vector<int> &v)
     if (v.size() <= 1)
         return; // base case
 
-    int mid = v.size() / 2;
-    vector<int> left = slice(v, 0, mid);
-    vector<int> right = slice(v, mid, v.size());
+    int h = v.size() / 2;
+    vector<int> left = slice(v, 0, h);
+    vector<int> right = slice(v, h, v.size());
     mergesort(left);
     mergesort(right);
     v = merge(left, right);

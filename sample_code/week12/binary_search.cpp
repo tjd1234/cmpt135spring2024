@@ -1,144 +1,266 @@
 // binary_search.cpp
 
 #include <cassert>
+#include <cstdio>
+#include <ctime>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
+//
 // Pre-condition:
-//   v[begin] to v[end - 1] is in ascending sorted order
+//   v.size() >= 0
 // Post-condition:
-//   returns an index i such that v[i] == x and
-//   begin <= i < end;
-//   if x is not found, -1 is returned
-int binary_search_loop(int x, const vector<int> &v,
-                       int begin, int end)
+//   returns true if v is sorted in ascending order,
+//   and false otherwise
+//
+bool is_sorted(const vector<string> &v)
 {
+    for (int i = 1; i < v.size(); i++)
+    {
+        if (v[i - 1] > v[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+// int binary_search(const vector<string> &v, const string &x)
+// {
+//     assert(is_sorted(v));
+
+//     int begin = 0;
+//     int end = v.size();
+//     while (begin < end)
+//     {
+//         int mid = (begin + end) / 2;
+//         if (v[mid] == x)
+//         {
+//             return mid;
+//         }
+//         else if (v[mid] < x)
+//         {
+//             begin = mid + 1;
+//         }
+//         else // v[mid] > x
+//         {
+//             end = mid;
+//         }
+//     }
+//     return -1;
+// }
+
+//
+// Pre-condition:
+//   v is ascending sorted order
+//   v[0] <= v[1] <= ... <= v[v.size() - 1]
+// Post-condition:
+//   returns an index i such that v[i] == x; if x is
+//   not in v, -1 is returned
+//
+int binary_search(const vector<string> &v, const string &x)
+{
+    int begin = 0;
+    int end = v.size();
     while (begin < end)
     {
         int mid = (begin + end) / 2;
-        if (v[mid] == x)
-        { // found x!
-            return mid;
+        if (v[mid] < x)
+        {
+            begin = mid + 1;
         }
         else if (x < v[mid])
         {
             end = mid;
         }
-        else // x > v[mid]
+        else // v[mid] == x
         {
-            begin = mid + 1;
+            return mid;
         }
     }
-    return -1; // x not found
+    return -1;
 }
 
+void binary_search_test()
+{
+    cout << "Calling binary_search_test() ... \n";
+    vector<string> v;
+    assert(binary_search(v, "a") == -1);
+
+    v = {"moo"};
+    assert(binary_search(v, "a") == -1);
+    assert(binary_search(v, "moo") == 0);
+    assert(binary_search(v, "z") == -1);
+
+    v = {"bat", "moo"};
+    assert(binary_search(v, "a") == -1);
+    assert(binary_search(v, "bat") == 0);
+    assert(binary_search(v, "cat") == -1);
+    assert(binary_search(v, "moo") == 1);
+    assert(binary_search(v, "z") == -1);
+
+    v = {"bat", "moo", "zoo"};
+    assert(binary_search(v, "a") == -1);
+    assert(binary_search(v, "bat") == 0);
+    assert(binary_search(v, "cat") == -1);
+    assert(binary_search(v, "moo") == 1);
+    assert(binary_search(v, "sip") == -1);
+    assert(binary_search(v, "zoo") == 2);
+    assert(binary_search(v, "zookeeper") == -1);
+
+    cout << "... binary_search_test() done.\n";
+}
+
+//
 // Pre-condition:
-//    v is in ascending sorted order
+//   none
 // Post-condition:
-//    returns an index i such that v[i] == x; if x is
-//    not in v, -1 is returned
-int binary_search_loop(int x, const vector<int> &v)
+//   returns an index i such that v[i] == x; if x is
+//   not in v, -1 is returned
+//
+int linear_search(const vector<string> &v, const string &x)
 {
-    return binary_search_loop(x, v, 0, v.size());
-}
-
-void test_binary_search_loop()
-{
-    cout << "calling test_binary_search_loop() ...\n";
-    vector<int> v;
-    assert(binary_search_loop(0, v) == -1);
-
-    v = {1};
-    assert(binary_search_loop(0, v) == -1);
-    assert(binary_search_loop(1, v) == 0);
-    assert(binary_search_loop(2, v) == -1);
-
-    v = {1, 3};
-    assert(binary_search_loop(0, v) == -1);
-    assert(binary_search_loop(1, v) == 0);
-    assert(binary_search_loop(2, v) == -1);
-    assert(binary_search_loop(3, v) == 1);
-    assert(binary_search_loop(4, v) == -1);
-
-    v = {1, 3, 5};
-    assert(binary_search_loop(0, v) == -1);
-    assert(binary_search_loop(1, v) == 0);
-    assert(binary_search_loop(2, v) == -1);
-    assert(binary_search_loop(3, v) == 1);
-    assert(binary_search_loop(4, v) == -1);
-    assert(binary_search_loop(5, v) == 2);
-
-    cout << "... test_binary_search_loop() done: all tests passed\n";
-}
-
-int binary_search_rec(int x, const vector<int> &v,
-                      int begin, int end)
-{
-    int n = end - begin;
-
-    // if the sub-vector being searched is empty,
-    // then x is not in it
-    if (n <= 0)
-        return -1; // x not found
-
-    int mid = (begin + end) / 2;
-    if (x == v[mid])
+    for (int i = 0; i < v.size(); i++)
     {
-        return mid;
+        if (v[i] == x)
+        {
+            return i;
+        }
     }
-    else if (x < v[mid])
-    {
-        return binary_search_rec(x, v, begin, mid);
-    }
-    else
-    {
-        return binary_search_rec(x, v, mid + 1, end);
-    }
+    return -1;
 }
 
-// Pre-condition:
-//    v is in ascending sorted order
-// Post-condition:
-//    returns an index i such that v[i] == x;
-//    if x is not in v, -1 is returned
-int binary_search_rec(int x, const vector<int> &v)
+void linear_search_test()
 {
-    return binary_search_rec(x, v, 0, v.size());
+    cout << "Calling linear_search_test() ... \n";
+    vector<string> v;
+    assert(linear_search(v, "a") == -1);
+
+    v = {"moo"};
+    assert(linear_search(v, "a") == -1);
+    assert(linear_search(v, "moo") == 0);
+    assert(linear_search(v, "z") == -1);
+
+    v = {"bat", "moo"};
+    assert(linear_search(v, "a") == -1);
+    assert(linear_search(v, "bat") == 0);
+    assert(linear_search(v, "cat") == -1);
+    assert(linear_search(v, "moo") == 1);
+    assert(linear_search(v, "z") == -1);
+
+    v = {"bat", "moo", "zoo"};
+    assert(linear_search(v, "a") == -1);
+    assert(linear_search(v, "bat") == 0);
+    assert(linear_search(v, "cat") == -1);
+    assert(linear_search(v, "moo") == 1);
+    assert(linear_search(v, "sip") == -1);
+    assert(linear_search(v, "zoo") == 2);
+    assert(linear_search(v, "zookeeper") == -1);
+
+    cout << "... linear_search_test() done.\n";
 }
 
-void test_binary_search_rec()
+string quote(const string &s)
 {
-    cout << "calling test_binary_search_rec() ...\n";
-    vector<int> v = {};
-    assert(binary_search_rec(0, v) == -1);
-
-    v = {1};
-    assert(binary_search_rec(0, v) == -1);
-    assert(binary_search_rec(1, v) == 0);
-    assert(binary_search_rec(2, v) == -1);
-
-    v = {1, 3};
-    assert(binary_search_rec(0, v) == -1);
-    assert(binary_search_rec(1, v) == 0);
-    assert(binary_search_rec(2, v) == -1);
-    assert(binary_search_rec(3, v) == 1);
-    assert(binary_search_rec(4, v) == -1);
-
-    v = {1, 3, 5};
-    assert(binary_search_rec(0, v) == -1);
-    assert(binary_search_rec(1, v) == 0);
-    assert(binary_search_rec(2, v) == -1);
-    assert(binary_search_rec(3, v) == 1);
-    assert(binary_search_rec(4, v) == -1);
-    assert(binary_search_rec(5, v) == 2);
-
-    cout << "... test_binary_search_rec() done: all tests passed\n";
+    return "\"" + s + "\"";
 }
+
+vector<string> load_dictionary(const string &filename)
+{
+    ifstream infile(filename);
+    vector<string> dict;
+    string w;
+    while (infile >> w)
+    {
+        dict.push_back(w);
+    }
+    const int n = dict.size();
+    cout << n << " words loaded from " << filename << "\n";
+    cout << "From " << quote(dict[0]) << " to " << quote(dict[n / 2]) << " to " << quote(dict[n - 1]) << "\n";
+    return dict;
+}
+
+//
+// Checking words with binary search ...
+// Binary search: 0.017649s
+//
+// Checking words with linear search ...
+// Linear search: 33.204s
+//
+// So binary search is about 1800 times faster than linear search.
+//
+void test_all()
+{
+    cout << "Calling linear and binary search on all words ...\n";
+    vector<string> dictionary = load_dictionary("ospd.txt");
+    clock_t start;
+    clock_t end;
+
+    // binary search
+    cout << "\nChecking words with binary search ..." << endl;
+    start = clock();
+    for(const string& w : dictionary)
+    {
+        binary_search(dictionary, w);
+    }
+    end = clock();
+    double binary_dur_in_sec = (end - start) / (double)CLOCKS_PER_SEC;
+    cout << "Binary search: " << binary_dur_in_sec << "s" << endl;
+
+    // linear search
+    cout << "\nChecking words with linear search ..." << endl;
+    start = clock();
+    for(const string& w : dictionary)
+    {
+        linear_search(dictionary, w);
+    }
+    end = clock();
+    double linear_dur_in_sec = (end - start) / (double)CLOCKS_PER_SEC;
+    cout << "Linear search: " << linear_dur_in_sec << "s" << endl;
+}
+
+void interactive_test()
+{
+    vector<string> dictionary = load_dictionary("ospd.txt");
+
+    // interactive command line
+    clock_t start;
+    clock_t end;
+    cout << fixed << setprecision(6);
+    for (;;)
+    {
+        // get word
+        cout << "--> ";
+        string word;
+        cin >> word;
+
+        // binary search
+        start = clock();
+        int binary_index = binary_search(dictionary, word);
+        end = clock();
+        double binary_dur_in_sec = (end - start) / (double)CLOCKS_PER_SEC;
+
+        cout << "binary search: " << binary_dur_in_sec << "s at index " << binary_index << "\n";
+
+        // linear search
+        start = clock();
+        int linear_index = linear_search(dictionary, word);
+        end = clock();
+        double linear_dur_in_sec = (end - start) / (double)CLOCKS_PER_SEC;
+
+        cout << "linear search: " << linear_dur_in_sec << "s at index " << linear_index << "\n";
+        cout << endl;
+    } // for
+} // interactive_test
 
 int main()
 {
-    test_binary_search_loop();
-    test_binary_search_rec();
+    binary_search_test();
+    linear_search_test();
+    test_all();
+    // interactive_test();
 }

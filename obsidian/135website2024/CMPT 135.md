@@ -73,8 +73,8 @@ Lecture 26: [[The max function]]
 Lecture 27: [[linear search|Algorithms and linear search]]
 Lecture 28: [[Basic sorting]]
 ### Week 12
-Lecture 29: [[basic sorting#Binary Search|Binary search]]
-Lecture 30: [[O-notation]]
+Lecture 29: [[Basic sorting]]
+Lecture 30: [[basic sorting#Binary Search|Binary search]]
 *Good Friday* (no lectures or labs)
 ### Week  13
 *Easter Monday* (no lectures or labs)
@@ -83,5 +83,4 @@ Lecture 32: [[Easy and Hard Problems]]
 ### Week  14
 Lecture 33: [[Using Templates]]
 Lecture 34: [[Using Templates]]
-Lecture 35 (tentative)
-- final exam review
+Lecture 35 (tentative): final exam review
