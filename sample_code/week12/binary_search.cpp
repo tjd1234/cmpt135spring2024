@@ -29,28 +29,28 @@ bool is_sorted(const vector<string> &v)
     return true;
 }
 
-int binary_search(const vector<string> &v, const string &x)
-{
-    int begin = 0;
-    int end = v.size();
-    while (begin < end)
-    {
-        int mid = (begin + end) / 2;
-        if (v[mid] == x)
-        {
-            return mid;
-        }
-        else if (v[mid] < x)
-        {
-            begin = mid + 1;
-        }
-        else // v[mid] > x
-        {
-            end = mid;
-        }
-    }
-    return -1;
-}
+// int binary_search(const vector<string> &v, const string &x)
+// {
+//     int begin = 0;
+//     int end = v.size();
+//     while (begin < end)
+//     {
+//         int mid = (begin + end) / 2;
+//         if (v[mid] == x)
+//         {
+//             return mid;
+//         }
+//         else if (v[mid] < x)
+//         {
+//             begin = mid + 1;
+//         }
+//         else // v[mid] > x
+//         {
+//             end = mid;
+//         }
+//     }
+//     return -1;
+// }
 
 //
 // Pre-condition:
@@ -191,7 +191,7 @@ vector<string> load_dictionary(const string &filename)
 //
 // So binary search is about 1800 times faster than linear search.
 //
-void test_all()
+void time_test_all()
 {
     cout << "Calling linear and binary search on all words ...\n";
     vector<string> dictionary = load_dictionary("ospd.txt");
@@ -259,6 +259,6 @@ int main()
 {
     binary_search_test();
     linear_search_test();
-    test_all();
+    time_test_all();
     // interactive_test();
 }

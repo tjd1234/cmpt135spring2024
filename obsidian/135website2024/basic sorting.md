@@ -656,6 +656,42 @@ How fast is [[binary search]]? Blazingly fast, as it turns out: for an n-element
 While [[binary search]] is extremely efficient for searching large amounts of data, it comes with a high price: the vector must be in [[sorted order]]. The problem with sorting is that the fastest general-purpose sorting algorithms are slower than *linear* search. Thus sorting a vector and then calling [[binary search]] is usually slower than just calling [[linear search]]. However, sorting the data once followed by *multiple* binary searches may be faster than lots of linear searches.
 
 > **Did you know that you can drive your car a mile without using only a drop of gas?** Just start at the top of a mile-long hill and roll down. Of course, the hard part is getting your car up there in the first place! Binary search suffers from a similar problem.
+
+## A Binary Search Performance Trick
+The loop-based binary search algorithm above first checks if the target element is equal to the middle element of the vector. So for most elements it does two or three comparisons: first a comparison for equality, and then one or two more comparisons to check if the target is less than or greater than the middle. It does 2-3 comparisons each time through the loop.
+
+A little more efficient is to first check if the target is less than, or equal to, the middle, and only after that check if it is equal. For about half the elements in the vector this will need only one comparison, and two comparisons for the other half the values that are checked. So overall this 1-2 comparisons each time through the loop.
+
+The only difference in the code is that the order of the if-statement conditions has changed:
+
+```cpp
+int binary_search(const vector<string> &v, const string &x)
+{
+    int begin = 0;
+    int end = v.size();
+
+    while (begin < end)
+    {
+        int mid = (begin + end) / 2;
+        if (v[mid] < x)
+        {
+            begin = mid + 1;
+        }
+        else if (x < v[mid])
+        {
+            end = mid;
+        }
+        else // v[mid] == x
+        {
+            return mid;
+        }
+    }
+    
+    return -1;
+}
+```
+Experiments show that this version can make a noticeable difference in performance.
+
 ## Why is Binary Search so Fast?
 Every time [[binary search]] iterates once through its loop, it discards *half* of all the elements of `v`. So if `v` initially has n elements, the number of possible elements that could be equal to `x` decreases in size like this: $n$, $\frac{n}{2}$, $\frac{n}{4}$, $\frac{n}{8}$, ..., $\frac{n}{2^i}$.
 
@@ -689,6 +725,24 @@ This result shows that [[binary search]] does about $\log_2 n$ comparisons *in t
 | 1000000 | 20                |
 
 > **Fact** The base-2 logarithm $\log_2 n$ of a positive integer $n$ is the least number of bits needed to represent $n$ in binary.
+
+## Experiment: Binary Search vs Linear Search
+Lets create an experiment to test that binary search really is more efficient than linear search. It will work like this:
+- Read a list of about 80,000 words from the file [[opsd.txt]] into a `vector<string>`.
+- Time how long overall it takes to go through each word in the list and then find it using **linear search**.
+- Time how long overall it takes to go through each word in the list and then find it using **binary search**.
+
+If binary search is indeed faster than linear search, we expect that the binary search time will be smaller than the linear search time.
+
+Here are the results from a run on one computer:
+
+- Binary search: 0.0176s
+- Linear search: 33.2s
+
+In this one example, binary search runs more than 1800 times faster than linear search.
+
+> It's always a good to check theory against practice. In theory we might make assumptions that are incorrect, or too simple, and end up with results that don't match reality.
+
 ## Practice Questions
 1. Given an example of a vector with 5 elements that is in [[sorted order]], and after you reverse it is still in [[sorted order]].
 2. State the basic [[pre-condition]] and [[post-condition]] for sorting.
@@ -713,3 +767,4 @@ This result shows that [[binary search]] does about $\log_2 n$ comparisons *in t
 	1. The statement `int mid = (begin + end) / 2` could fail in some cases. How?
 	2. On each iteration or recursive call, *two* comparisons are usually done: `x == v[mid]` and also `x < v[mid]`. How could you get rid of one of these comparisons?
 	3. If the `x` occurs more than once in `v`, our [[binary search]] makes no promises about which `x` index it returns. 
+14. A shortcoming of the experiment of binary search against linear search is that it only tests for targets that are in the vector. Modify the experiment so it also tests for targets not in the vector. What are the results? Do they change the conclusion about linear search versus binary search?
