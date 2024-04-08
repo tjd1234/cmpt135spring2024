@@ -1,7 +1,6 @@
 [[generic function|Template Functions]], also known as [[generic function|generic functions]], are C++ functions where  *types* are allowed to vary.
-
 ## A Generic Swap Function
-Here are two implementations of a function for swapping variable values:
+Here are two functions that swap variable values:
 
 ```cpp
 void swap(int& a, int& b) 
@@ -20,7 +19,9 @@ void swap(string& a, string& b)
 
 ```
 
-The only difference between them is that the first uses the type `int`, and the second uses the type `string`. Using a templates, we can write a single swap function that works with both `int`s and `string`s:
+The only difference between them is that the first uses the type `int`, and the second uses the type `string`.
+
+Using a templates, we can write a single swap function that works with both types:
 
 ```cpp
 template <typename T>
@@ -32,11 +33,11 @@ void swap(T& a, T& b)
 }
 ```
 
-The line `template<typename T>` indicates that the function that follows uses `T` to stand for some type. In this particular example, `T` can be any type that works with `opedrator=`, i.e. the assignment operator is used in the body of the function.
+The line `template<typename T>` indicates that the function that follows uses `T` to stand for some type. In this example, `T` can be any type that works with `opedrator=`, i.e. the assignment operator is used in the body of the function.
 
-> **Note** You can usually write `template<class T>` instead of `template<typename T>`. 
+> **Note** In most cases you can also write `template<class T>` instead of `template<typename T>`.  
 
-While we don't know exactly what type `T` is, we do know that `a`, `b`, and `temp` are all of the same type . C++ checks at compile-time that these variables all have the same type.
+While we don't know exactly what type `T` is, we do know that `a`, `b`, and `temp` are all of the *same* type, and C++ checks this at compile-time.
 
 The exact value of `T` is determined by the compiler at the point `swap` is called. For example:
 
@@ -50,9 +51,9 @@ string t = "rabbit";
 swap(s, t);         // line 2
 ```
 
-In line 1, `x` and `y` are both of type `int`, and so when the compiler sees the statement `swap(x, y)`, the variable `T` in the definition of `swap` is assigned the value `int`. Similarly, in line 2, `s` and `t` are both of type `string`, and so when the compiler  sees `swap(s, t)` it knows to assign `string` to `T` in the swap function.
+In line 1, `x` and `y` are both of type `int`, and so when the compiler sees `swap(x, y)`, the variable `T` in the definition of `swap` is assigned `int`. Similarly, in line 2, `s` and `t` are both of type `string`, and so when the compiler  sees `swap(s, t)` it knows to assign `string` to `T` in the `swap` function.
 
-Note that `swap(x, t)` would *not* compile. The compiler would catch that error because `x` and `t` are of different types, and `swap` requires that they both be of the same type.
+Note that `swap(x, t)` would *not* compile. The compiler would report an error because `x` and `t` are of different types, and `swap` requires that they both be of the same type.
 
 ## A Generic Min Function
 Here is a template function that returns the smaller of two values:
@@ -66,7 +67,7 @@ T min_of(const T& a, const T& b)
 }
 ```
 
-Notice that the return type is `T`, as well as the input variables `a` and `b`. `T` is any type that has both a copy constructor and `operator<`. So it works with numbers and strings, and any programmer-defined class that has a copy constructor and `operator<`.
+Notice that the return type is `T`, as well as the input variables `a` and `b`. `T` is any type that has both a copy constructor and `operator<`.
 
 Here is a templated function that returns the min value of a vector of a type `T`:
 
@@ -84,7 +85,7 @@ T min_of(const vector<T>& v)
 }
 ```
 
-The input variable `v` is of type `vector<T>`, i.e. it's a vector of values of type `T`. From looking at the code in the body of `min_of`, we see that `T` must have `operator=`,  `operator<` (because it calls `min_of(a, b)`), and a copy constructor (because it returns a copy of the min).
+The input variable `v` is of type `vector<T>`, i.e. it's a vector of values of type `T`. From looking at the code in the body of `min_of`, we see that `T` must have `operator=`, `operator<` (because it calls `min_of(a, b)`), and a copy constructor (because it returns a copy of the min).
 
 The exact value of the type `T` isn't known until `min_of` is called. For example:
 
@@ -97,7 +98,8 @@ cout << min_of(nums) // "all"
      << "\n";
 
 vector<vector<int>> vv = {
-    {4}, {1, 2, 3}, {5, 6}, {2}};
+    {4}, {1, 2, 3}, {5, 6}, {2}
+};
 
 cout << vv // {{4}, {1, 2, 3}, {5, 6}, {2}}
      << "\n";
@@ -105,9 +107,9 @@ cout << min_of(vv) // {1, 2, 3}
      << "\n";
 ```
 
-When `min_of(nums)` is called, the `T` in `min_of(const vector<T>& v)` is set to `double` because that's the type of the values in `nums`. The `T` in `min_of(const T& a, const T& b)` also has it's `T` set to `double`. The compiler automatically infers the value for `T` and checks that it supports all the necessary operations on it.
+When `min_of(nums)` is called, the `T` in `min_of(const vector<T>& v)` is set to `double` because that's the type of the values in `nums`. The `T` in `min_of(const T& a, const T& b)` also has it's `T` set to `double`. The compiler automatically *infers* the value for `T` and checks that it supports all the necessary operations on it.
 
-Notice that `vv` is a vector of vector. C++ defines a standard `operator<` and `operator=` for vectors, and so we can call `min_of` on a `vector<vector<int>>`.
+Notice that `vv` is a vector of vectors. C++ defines a standard `operator<` and `operator=` for vectors, and so we can call `min_of` on a `vector<vector<int>>`.
 
 Finally, for the above code to work we also need to define a generic `operator<<`:
 
@@ -178,9 +180,12 @@ public:
 
     void print() const 
     {
-        if (is_empty()) {
+        if (is_empty()) 
+        {
             cout << "empty stack";
-        } else {
+        } 
+        else 
+        {
             for(const T& x : v) cout << x << " ";
         }
     }
@@ -239,7 +244,7 @@ int main() {
 ```
 
 ## Advanced C++ Templates
-We've only scratched the surface of templates: they are one of the most-used features of modern C++ libraries. The C++ standard library uses templates throughout, and a number of changes to the base C++ language have been made over the years to better support programming with templates.
+We've only scratched the surface of templates. The C++ standard library uses templates throughout, and a number of changes to the base C++ language have been made over the years to better support programming with templates.
 
 While *using* templates is often easy, *implementing* template code requires a lot of care. Writing general-purpose code that works with *any* type of data that makes sense requires good knowledge of the exact rules of C++.
 
