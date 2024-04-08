@@ -101,6 +101,42 @@ In general, when we run two [[algorithm|algorithms]] in a row one after the othe
 
 So, overall, from the point of view of O-notation, a sequence of operations is only as fast as its slowest individual operation.
 
+## Examples
+**Example 1.** Suppose `v` is a vector of `n` items, and you sort it and then reverse it:
+
+```
+sort(v)
+reverse(v)
+```
+In O-notation, what is the worst-case performance of this code?
+
+If `sort(v)` is, say, insertion sort, then the total work is $O(n^2)$ , then the code does $O(n^2) + O(n)$ work in total (reversing `v` can be done in worst-case $O(n)$ time). When adding O-notation expressions, the intuitive idea is to "take the biggest". So $O(n^2) + O(n)$ is $O(n^2)$.
+
+If `sort(v)` is instead mergesort, then it does $O(n \log n)$ comparisons. The overall code than does $O(n \log n) + O(n)$ work, or $O(n \log n)$ work.
+
+This shows that the two lines of code is dominated by the run-time of `sort`. So if you want to make this code faster when `n` is big, improving the speed of `sort` is probably your best bet.
+
+**Example 2.** Assuming `v` is a vector of `n` items, how much work does this code do?
+
+```
+mergesort(v)
+for i = 1 to 1000 do
+	x = some target value
+	binary_search(v, x)  // look for x in v
+end
+```
+Mergesort does $O(n \log n)$ work, and binary search does $O(\log n)$ work (we assume getting the target value `x` is insignificant). But binary search is done 1000 times, and so the overall work is $O(n \log n) + 1000 \cdot O(\log n)$. So, in terms of O-notation, the overall work done can be written $O(n \log n)$. O-notation throws away constant like 1000.
+
+Of course, in practice, a piece of code that runs 1000 times faster or slower than another one could be a big deal and make all the difference in practice. But O-notation is a theoretical tool, and it is only accurate when $n$ is big enough. If a piece of code is $O(n \log n)$, then that means that, when $n$ is big enough, the code runs in no more than about $n \log n$ time. The "when $n$ is big enough" is essential: it is what lets O-notation throw away constants. Since $n$ can be arbitrarily large, it will eventually get bigger than any constant value.
+
+**Example 3**. Algorithm A takes 3 seconds in the worst case to process 5000 items. How long will it take, in the worst case, for A to process 10,000 items?
+
+- If A is $O(n)$, then processing 10,000 items will take about $2 \cdot 3 = 6$ seconds. That's because when you double $n$, the running time doubles because it is linear.
+- If A is $O(n^2)$, then processing 10,000 items will take about $4 \cdot 3 = 12$ seconds. When you double `n`, then running time becomes $(2n)^2 = 4n^2$, i.e. 4 times as much as for $n$. items.
+- If A is $O(n^3)$, then processing 10,000 items will take about $8 \cdot 3 = 12$ seconds. When you double `n`, then running time becomes $(2n)^3 = 8n^2$, i.e. 8 times as much as for $n$. items.
+- If A is $O(2^n)$, then processing 10,000 items will take about $3^2 = 9$ seconds. When you double `n`, then running time becomes $2^{2n} = (2^n)^2$, i.e. square of the time it takes for $n$. items.
+- If A is $O(1)$, then processing 10,000 items will take about 3 seconds. Since A is $O(1)$, that means its running time does *not* depend on $n$, and we can assume that it is the same for any value of $n$. For instance, if A finds the min of an already-sorted array, then it will do this the same amount of time no matter how many elements are in the array.
+
 ## Practice Questions
 1. Besides run-time performance, what are three other kinds of questions that computer scientists may be interested in asking about an [[algorithm]]?
 2. When analyzing [[algorithm|algorithms]], why do we usually write them in [[pseudocode]] instead of an actual programming language?

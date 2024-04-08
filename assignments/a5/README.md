@@ -10,8 +10,8 @@ either an *X* or an *O* in an empty square. *Order* wins if they make 5 *X*s or
 *O*s in a line (horizontally, vertically, or diagonally), and *Chaos* wins if
 they can prevent this.
 
-An unusual feature of this game is that both players can choose to play either
-an *X*s or and *O* on their turn.
+An unusual feature of this game is that, on each turn, players choose to play
+either an *X* or and *O*.
 
 For this assignment, your task is to implement *Order and Chaos* allowing a
 human player to play against the computer.
