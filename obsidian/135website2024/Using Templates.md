@@ -90,6 +90,7 @@ The input variable `v` is of type `vector<T>`, i.e. it's a vector of values of t
 The exact value of the type `T` isn't known until `min_of` is called. For example:
 
 ```cpp
+vector<int> nums = {2, 7, -5, 0};
 cout << min_of(nums) // -5
      << "\n";
 
@@ -157,7 +158,8 @@ public:
     bool is_empty() const { return v.size() == 0; }
 
 	// put a copy of x on top of the stack
-    void push(const T& x) {
+    void push(const T& x) 
+    {
         v.push_back(x);
     }
 
