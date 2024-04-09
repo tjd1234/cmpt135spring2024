@@ -37,7 +37,7 @@ The line `template<typename T>` indicates that the function that follows uses `T
 
 > **Note** In most cases you can also write `template<class T>` instead of `template<typename T>`.  
 
-While we don't know exactly what type `T` is, we do know that `a`, `b`, and `temp` are all of the *same* type, and C++ checks this at compile-time.
+While we don't know exactly what type `T` is, we do know that `a`, `b`, and `temp` are all of the *same* type, and C++ checks this at compile-time. Furthermore, we also know that type `T` must work with the assignment operator `=`. For example, if `T` is a programmer-defined class, then `operator=` must be defined for it so that `T` can can be used with `swap`.
 
 The exact value of `T` is determined by the compiler at the point `swap` is called. For example:
 
@@ -67,7 +67,7 @@ T min_of(const T& a, const T& b)
 }
 ```
 
-Notice that the return type is `T`, as well as the input variables `a` and `b`. `T` is any type that has both a copy constructor and `operator<`.
+Notice that the return type is `T`, as well as the input variables `a` and `b`. `T` is any type that has both `operator<` and can be copied (i.e. has a copy constructor). We know that type `T` must be copyable because the `return` statements return a copy of either `a` or `b`.
 
 Here is a templated function that returns the min value of a vector of a type `T`:
 
@@ -133,7 +133,7 @@ ostream &operator<<(ostream &os, const vector<T> &v)
 This requires that the type `T` has `operator<<` defined for it.
 
 ## Class Templates
-Another use of templates is to implement **generic containers**. For example, `vector<T>` is a generic container, and all the methods in it work with almost any type `T`. C++ provides many pre-made generic containers (such as `vector<T>`), and you can also write your own. For example, here is an implementation of a generic [[stack data structure]]:
+Another use of templates is to implement **generic containers**. For example, `vector<T>` is a generic container that works with almost any type `T`. With tempaltes, you can write your own generic containers. For example, here is an implementation of a generic [[stack data structure]]:
 
 ```cpp
 #include <iostream>
@@ -245,6 +245,23 @@ int main() {
 } // main
 ```
 
+## Constraints on Template Types
+In the C++ templates we've discussed here, the type `T` is declared by the statement `template <typename T>`. Importantly, this declaration does *not* list any constraints on `T`. Instead, the constraints are implicitly defined within the function/class, and it is up to the programmer to read the code of the function/class to find exactly what these are. While examining code like this is not a problem for the compiler, it can be difficult for people, and so the constraints on type `T` are not always obvious. Furthermore, error message for C++ template types can be difficult to understand because the error is usually only reported at the place in the code where `T` is missing some feature.
+
+To deal with these template problems, C++20 has added **concepts**. Concepts are explicit constraints on templates that are listed with the `template` statement. For example:
+
+```cpp
+template <typename T>
+requires std::integral<T> || std::floating_point<T>
+
+double average(vector<T> const &vec) {
+    double sum = std::accumulate(vec.begin(), vec.end(), 0.0);  
+    return sum / vec.size();
+}
+```
+The `requires` statement here says that type `T` must support either `integral` or `floating_point` operations, which makes sense for a function like `average`. Not only does this make the code more readable, it should result in better error message when `T` is not a valid type.
+
+As of Spring 2024, many C++ compilers to *not* yet support concepts. 
 ## Advanced C++ Templates
 We've only scratched the surface of templates. The C++ standard library uses templates throughout, and a number of changes to the base C++ language have been made over the years to better support programming with templates.
 
