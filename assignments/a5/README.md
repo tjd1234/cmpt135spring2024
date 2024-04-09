@@ -88,8 +88,8 @@ If you do work with a partner, keep this in mind:
 
 ### Report: 5 marks
 - **4 marks**: The "Assignment 5 Report" in [a5_report.txt](a5_report.txt) is
-  complete and appended to the end of the file [a5.cpp](a5.cpp). 1 mark for
-  filling in each section; trivial efforts might not get full marks.
+  complete and appended, in comments, to the end of the file [a5.cpp](a5.cpp). 1
+  mark for filling in each section; trivial efforts might not get full marks.
 - **1 mark**: the report is neatly formatted, uses full sentences, good grammar,
   and correct spelling.
 
@@ -151,7 +151,7 @@ helps you with this assignment, then cite their help in the report at the end.
 
 On Canvas, please submit just the file [a5.cpp](a5.cpp) with your answers in it.
 Don't submit anything else. Remember to append your
-[a5_report.txt](a5_report.txt) to the end of the file.
+[a5_report.txt](a5_report.txt), in comments, to the end of the file.
 
 The marker will compile your [a5.cpp](a5.cpp) using 
 [the standard course makefile](makefile). 
