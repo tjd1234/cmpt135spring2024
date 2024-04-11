@@ -41,6 +41,7 @@ void demo() {
 C++ has many other object-oriented features that we didn't discuss in this course. For example:
 - **Constructor delegation** is technique that lets you call other constructors in the [[initialization list|initializer list]] of a constructor. 
 - **Friend functions** are functions (not methods!) that are allowed to access the private parts of an object.
+- **Protected visibility** is like private, but inheriting classes are allowed to access the protected parts.
 - **Multiple inheritance** is when a class inherits from two, or more, other classes at the same time. This can be useful in some cases, but it presents the problem of what to do when the classes being inherited from happen to have different implementations for a method with the same name.
 ## Type Inference
 The `auto` keyword can be used to infer the types of variables in some situations. For example:

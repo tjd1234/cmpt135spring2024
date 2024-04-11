@@ -82,5 +82,5 @@ Lecture 31: [[O-notation]]
 Lecture 32: [[Easy and Hard Problems]]
 ### Week  14
 Lecture 33: [[Using Templates]]
-Lecture 34: [[Using Templates]], [[Top 10 Undiscussed Features of C++]]
-Lecture 35 (tentative): final exam review
+Lecture 34: Not on final exam: [[Top 10 Undiscussed Features of C++]]
+Lecture 35: final exam review
