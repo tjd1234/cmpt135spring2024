@@ -66,7 +66,7 @@ Lecture 21: [[Introduction to Exceptions|Exceptions]]
 Lecture 22: [[Recursion]]
 Lecture 23: [[Recursion]]
 ### Week 10
-Lecture 24: [[Recursion]]
+Lecture 24: [[Recursion]]; [[Tracing Recursive Functions]]
 Lecture 25: [[Calculating large powers]]
 Lecture 26: [[The max function]]
 ### Week 11
