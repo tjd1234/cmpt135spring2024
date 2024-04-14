@@ -152,4 +152,4 @@ While it is certainly possible to trace `g(n)` as we did in the previous example
 
 So instead we will trace `g(3)` using a **recursion tree**. A recursion tree is a kind of a **call graph** that visual which function calls call which functions. You can use call graphs in any program, but they are particularly useful for tracing recursive functions.
 
-[This PDF contains a step-by-step guide to tracing `g(3)` using a recursion  tree](recursionTrace.PDF) (and also [the original PowerPoint file](recursionTrace/ppt)). At least once, go through the slides carefully, and check your understanding at each step.
+[This PDF contains a step-by-step guide to tracing `g(3)` using a recursion  tree](recursionTrace.PDF) (and also [the original PowerPoint file](https://github.com/tjd1234/cmpt135spring2024/blob/main/sample_code/week9/recursionTrace.pptx)). At least once, go through the slides carefully, and check your understanding at each step.
